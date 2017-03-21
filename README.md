@@ -1,6 +1,6 @@
-==============================================
 		Arquitectura de la aplicación
 ==============================================
+
 Se ha iniciado el repositorio con npm init
 
 Se han instalado las siguientes dependencias:
@@ -14,3 +14,18 @@ Se han instalado las siguientes dependencias:
 * __webpack__ : Librería para poder utilizar webpack
 * __babel-core, babel-preset-react, babel-preset-es2015, babel-loader__ : Librerías usadas para realizar la transpilación
 * __nodemon__ : Librería que monitoriza cambios en la aplicación y reinicia el servidor
+
+	Scripts de servicio:
+	--------------------
+	
+	Para lanzar webpack en modo watch utilizaremos el siguiente comando
+	
+		+ npm run build:dev
+	
+	Para lanzar webpack en modo normal utilizaremos el siguiente comando
+	
+		+ npm run build
+	
+	Para lanzar el servidor en la dirección de localhost y puerto 3000 utilizaremos el siguiente comando
+	
+		+ npm run build
