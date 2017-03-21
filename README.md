@@ -20,12 +20,17 @@ Se han instalado las siguientes dependencias:
 	
 	Para lanzar webpack en modo watch utilizaremos el siguiente comando
 	
-		+ npm run build:dev
+		$ npm run build:dev
 	
 	Para lanzar webpack en modo normal utilizaremos el siguiente comando
 	
-		+ npm run build
+		$ npm run build
 	
 	Para lanzar el servidor en la dirección de localhost y puerto 3000 utilizaremos el siguiente comando
 	
-		+ npm run build
+		$ npm run build
+
+	Para lanzar el servidor de MySql
+	--------------------------------
+
+		$ sudo /usr/local/mysql/support-files/mysql.server start
