@@ -1,0 +1,35 @@
+{
+  "name": "portal_licencias",
+  "version": "1.0.0",
+  "description": "Portal web de licencias de RedBorder",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon --use_strict index.js",
+    "build:dev": "webpack -w",
+    "build": "webpack",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.redborder.lan:dsenas/Portal_Licencias.git"
+  },
+  "author": "David Señas",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "express": "^4.15.2",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
+    "react-router": "^4.0.0",
+    "react-tap-event-plugin": "^2.0.1",
+    "validator": "^7.0.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.24.0",
+    "babel-loader": "^6.4.1",
+    "babel-preset-es2015": "^6.24.0",
+    "babel-preset-react": "^6.23.0",
+    "nodemon": "^1.11.0",
+    "webpack": "^2.2.1"
+  }
+}
