@@ -47,6 +47,9 @@ Se han instalado las siguientes dependencias:
 * __babel-core, babel-preset-react, babel-preset-es2015, babel-loader__ : Librerías usadas para realizar la transpilación
 * __nodemon__ : Librería que monitoriza cambios en la aplicación y reinicia el servidor
 * __node-uuid__ : Librería para generar uuid aleatorios que identifiquen a los usuarios en la base de datos
+* __password-hash__ : Librería para encriptacion de contraseñas. 
+* __mocha, expect__ : Librerías para los test con mocha.
+
 
 	Scripts de servicio:
 	--------------------
@@ -69,7 +72,7 @@ Se han instalado las siguientes dependencias:
 		$ sudo /usr/local/mysql/support-files/mysql.server start
 
 
-Conexion a la base de datos medianta Sequelize
+Conexion a la base de datos mediante Sequelize
 ==============================================
 
 En el fichero models/models.js se realiza la configuracion de sequelize segun variables de entorno, exporta los modelos y se harán las realaciones entre ellos.
@@ -96,3 +99,8 @@ Existe un fichero llamado user_controlled el cual tiene definida las siguientes 
 				-rol: Rol del usuario a crear
 				-done: Funcion que hará de CallBack, en el primer parámetro devuelve el error y en el segundo el usuario creado.
 			Dentro de la función se hace uso de la librería node-uuid para generar un uuid aleatorio y asisgnarselo a dicho usuario.
+
+		2) FindUserByEmail, encargada de buscar un usuario con un email dado.
+			Esta función acepta como parámetros los siguientes campos:
+				-email: Email del usuario a buscar
+				-done: Funcion de CallBack que devolverá error en el primer parámetro o la lista de usuarios con ese email en el segundo. (Debe ser un único usuario ya que email es unico)

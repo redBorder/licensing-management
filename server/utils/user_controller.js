@@ -7,12 +7,11 @@ module.exports.NewUser = (name, email, password, rol, done) => {
 	const NewUser = models.User.build({
 		  id: v4(), //Generate uuid automatically
 		  name: name,
-		  email: email, 
+		  email: email.toLowerCase(), 
 		  hashed_password: passwordHash.generate(password),
 		  rol: rol
 		})
 		NewUser.save().then(function(NewUser) {
-			console.log("User saved correctly");
 		  	done(null, NewUser)
 			}, function (err) { 
          	console.log('An error occurred while save the user:', err);
@@ -26,7 +25,7 @@ module.exports.FindUserByEmail = (email, done) => {
 			email: email
 		}
 	}).then(function(Users){
-		return done(null, Users);
+		return done(null, Users[0]);
 	}, function(err){
 		return done(err);
 	})

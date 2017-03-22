@@ -18,9 +18,7 @@ models.connect(models.MODE_TEST, function(err, sequelize){
 							console.log(err)
 						}
 						else{
-							if(Users.length == 0)
-								console.log("User not found");
-							else{
+							
 								console.log("User found correctly")
 								console.log(Users);
 								// tell the app to look for static files in these directories
@@ -31,7 +29,6 @@ models.connect(models.MODE_TEST, function(err, sequelize){
 								app.listen(3000, () => {
 								  console.log('Server is running on http://localhost:3000 or http://127.0.0.1:3000');
 								});
-							}
 						}
 					});
 				}
