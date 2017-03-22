@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "export DATABASE_NAME='licenses_RedBorder_db' && export DATABASE_USER='web' && export DATABASE_PASSWORD='web_password' && export MODE_RUN='mode_development' && nodemon --use_strict index.js",
+    "start:test": "export DATABASE_NAME='licenses_RedBorder_db_test' && export DATABASE_USER='web' && export DATABASE_PASSWORD='web_password' && export MODE_RUN='mode_test' && nodemon --use_strict index.js",
     "build:dev": "webpack -w",
     "build": "webpack",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -19,6 +20,7 @@
     "body-parser": "^1.17.1",
     "express": "^4.15.2",
     "node-uuid": "^1.4.8",
+    "password-hash": "^1.2.2",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-router": "^4.0.0",

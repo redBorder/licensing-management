@@ -3,7 +3,7 @@ const models = require('./server/models/models');
 const app = express();
 const {NewUser} = require('./server/utils/user_controller');
 
-models.connect(module.MODE_TEST, function(err, sequelize){
+models.connect(models.MODE_TEST, function(err, sequelize){
 		if(err){
 			console.log(err);
 		}
