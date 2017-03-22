@@ -1,3 +1,5 @@
+==============================================
+
 		Estructura de la aplicación
 ==============================================
 		.
@@ -29,6 +31,7 @@
 
 
 
+==============================================
 
 		Arquitectura de la aplicación
 ==============================================
@@ -67,6 +70,7 @@ Se han instalado las siguientes dependencias:
 
 		$ sudo /usr/local/mysql/support-files/mysql.server start
 
+===========================================================
 
 		Conexion a la base de datos medianta Sequelize
 ===========================================================
@@ -79,6 +83,7 @@ Existe una función que realiza la conexión con la base de datos.
 		- done: Callback para notificar cuando la conexión haya terminado. Devuelve el objeto sequelize.
 
 
+============================================================
 
 		Manejo de los modelos de forma sencilla
 ============================================================
