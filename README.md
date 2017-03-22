@@ -48,7 +48,7 @@ Se han instalado las siguientes dependencias:
 * __nodemon__ : Librería que monitoriza cambios en la aplicación y reinicia el servidor
 * __node-uuid__ : Librería para generar uuid aleatorios que identifiquen a los usuarios en la base de datos
 * __password-hash__ : Librería para encriptacion de contraseñas. 
-* __mocha, expect__ : Librerías para los test con mocha.
+* __mocha, assert : Librerías para los test con mocha.
 
 
 	Scripts de servicio:
@@ -104,3 +104,13 @@ Existe un fichero llamado user_controlled el cual tiene definida las siguientes 
 			Esta función acepta como parámetros los siguientes campos:
 				-email: Email del usuario a buscar
 				-done: Funcion de CallBack que devolverá error en el primer parámetro o la lista de usuarios con ese email en el segundo. (Debe ser un único usuario ya que email es unico)
+
+
+Test del modelo User
+====================
+
+En el directorio test se encuentra el fichero model_user.test.js encargado de realizar los siguientes test:
+	1) Comprobar que cada vez que se inicia en el modo test la base de datos está vacía de contenido (pero si tiene tablas)
+
+	2) Comprobar que cuando añadimos un usuario, solo se añade uno y lo hace de forma correcta.
+	
