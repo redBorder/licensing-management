@@ -1,7 +1,7 @@
 const express = require('express');
 const models = require('./server/models/models');
 const app = express();
-const {NewUser} = require('./server/utils/user_controller');
+const {NewUser, FindUserByEmail} = require('./server/utils/user_controller');
 
 models.connect(models.MODE_TEST, function(err, sequelize){
 		if(err){
@@ -13,14 +13,26 @@ models.connect(models.MODE_TEST, function(err, sequelize){
 					console.log(err);
 				}
 				else{
-					//console.log(NewUser);
-					// tell the app to look for static files in these directories
-					app.use(express.static('./server/static/'));
-					app.use(express.static('./client/dist/'));
+					FindUserByEmail("davisd@prueba.com", function(err, Users){
+						if(err){
+							console.log(err)
+						}
+						else{
+							if(Users.length == 0)
+								console.log("User not found");
+							else{
+								console.log("User found correctly")
+								console.log(Users);
+								// tell the app to look for static files in these directories
+								app.use(express.static('./server/static/'));
+								app.use(express.static('./client/dist/'));
 
-					// start the server
-					app.listen(3000, () => {
-					  console.log('Server is running on http://localhost:3000 or http://127.0.0.1:3000');
+								// start the server
+								app.listen(3000, () => {
+								  console.log('Server is running on http://localhost:3000 or http://127.0.0.1:3000');
+								});
+							}
+						}
 					});
 				}
 			});

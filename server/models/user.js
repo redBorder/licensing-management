@@ -16,9 +16,10 @@ module.exports = function(sequelize, DataTypes) {
         },
         email: {
             type: DataTypes.STRING,
+            unique: true,
             validate: {
                 isEmail: { msg: "Email should be a correct email" },
-                notEmpty: {msg: "Field name shouldn't be empty'"}
+                notEmpty: {msg: "Field name shouldn't be empty'"},
             }
         },
         hashed_password: {

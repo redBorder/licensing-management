@@ -19,3 +19,15 @@ module.exports.NewUser = (name, email, password, rol, done) => {
          	return done(err);
         	});
 }
+
+module.exports.FindUserByEmail = (email, done) => {
+	models.User.findAll({
+		where: {
+			email: email
+		}
+	}).then(function(Users){
+		return done(null, Users);
+	}, function(err){
+		return done(err);
+	})
+}
