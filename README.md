@@ -68,12 +68,13 @@ Se han instalado las siguientes dependencias:
 		$ sudo /usr/local/mysql/support-files/mysql.server start
 
 
-		Conexion a la base de datos medianta Sequalize
+		Conexion a la base de datos medianta Sequelize
 ===========================================================
 
-En el fichero models/index.js existe una función, connect = (database, user, password, mode, done), la cual 
-necesita el nombre de la base de datos, el usuario y la contraseña de MySql.
+En el fichero models/models.js se realiza la configuracion de sequelize segun variables de entorno, exporta los modelos y se harán las realaciones entre ellos.
 
-También acepta como parámetro un modo de funcionamiento, MODE_TEST o MODE_PRODUCTION importado del mismo módulo.
+Existe una función que realiza la conexión con la base de datos. 
+	Accepta dos parámetros:
+		- mode: Puede ser mode_test o mode_development (utilizar las variables exportadas del modulo).
+		- done: Callback para notificar cuando la conexión haya terminado. Devuelve el objeto sequelize.
 
-Al ser la conexión una función asíncrona, necesita además la funcion done como CallBack.
