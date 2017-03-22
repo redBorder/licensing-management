@@ -1,3 +1,35 @@
+		Estructura de la aplicación
+==============================================
+		.
+		├── README.md
+		├── config
+		│	└── config.json
+		├── client
+		│   └── src
+		│       ├── app.jsx
+		│       ├── components
+		│       │   ├── Base.jsx
+		│       │   ├── HomePage.jsx
+		│       │   ├── LoginForm.jsx
+		│       │   └── SignUpForm.jsx
+		│       ├── containers
+		│       │   ├── LoginPage.jsx
+		│       │   └── SignUpPage.jsx
+		│       └── routes.js
+		├── index.js
+		├── package.json
+		├── server
+		│   ├── routes
+		│   │   └── auth.js
+		│   └── static
+		│       ├── css
+		│       │   └── style.css
+		│       └── index.html
+		└── webpack.config.js
+
+
+
+
 		Arquitectura de la aplicación
 ==============================================
 
@@ -34,3 +66,6 @@ Se han instalado las siguientes dependencias:
 	--------------------------------
 
 		$ sudo /usr/local/mysql/support-files/mysql.server start
+
+		Conexion a la base de datos medianta Sequalize
+===========================================================

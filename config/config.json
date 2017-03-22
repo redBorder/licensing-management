@@ -1,0 +1,8 @@
+{
+	"development":
+	{
+	  	"database": "licenses_RedBorder_db",
+	  	"user": "web",
+	  	"password": "web_password"
+	}
+}
