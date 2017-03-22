@@ -1,9 +1,8 @@
 ==============================================
-
 		Estructura de la aplicación
-==============================================
+
 		.
-		├── README.md
+		├── README.md  <br />
 		├── config
 		│	└── config.json
 		├── client
@@ -32,9 +31,7 @@
 
 
 ==============================================
-
 		Arquitectura de la aplicación
-==============================================
 
 Se ha iniciado el repositorio con npm init
 
@@ -71,9 +68,7 @@ Se han instalado las siguientes dependencias:
 		$ sudo /usr/local/mysql/support-files/mysql.server start
 
 ===========================================================
-
 		Conexion a la base de datos medianta Sequelize
-===========================================================
 
 En el fichero models/models.js se realiza la configuracion de sequelize segun variables de entorno, exporta los modelos y se harán las realaciones entre ellos.
 
@@ -84,18 +79,17 @@ Existe una función que realiza la conexión con la base de datos.
 
 
 ============================================================
-
 		Manejo de los modelos de forma sencilla
-============================================================
 
 En el directorio server/utils se irán creando ficheros encargados de controlar el manejo de los modelos.
 
 Existe un fichero llamado user_controlled el cual tiene definida las siguientes funciones:
-	1) NewUser, encargada de crear y añadir un nuevo usuario al modelo Users
-		Esta funcion acepta como parámetros los siguientes campos
-			-name: Nombre del usuario a crear
-			-email: Email del usuario a crear
-			-password: Contraseña del usuario sin encriptar (Se realiza el hash dentro)
-			-rol: Rol del usuario a crear
-			-done: Funcion que hará de CallBack, en el primer parámetro devuelve el error y en el segundo el usuario creado.
-		Dentro de la función se hace uso de la librería node-uuid para generar un uuid aleatorio y asisgnarselo a dicho usuario.
+
+		1) NewUser, encargada de crear y añadir un nuevo usuario al modelo Users
+			Esta funcion acepta como parámetros los siguientes campos
+				-name: Nombre del usuario a crear
+				-email: Email del usuario a crear
+				-password: Contraseña del usuario sin encriptar (Se realiza el hash dentro)
+				-rol: Rol del usuario a crear
+				-done: Funcion que hará de CallBack, en el primer parámetro devuelve el error y en el segundo el usuario creado.
+			Dentro de la función se hace uso de la librería node-uuid para generar un uuid aleatorio y asisgnarselo a dicho usuario.
