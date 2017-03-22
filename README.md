@@ -67,5 +67,13 @@ Se han instalado las siguientes dependencias:
 
 		$ sudo /usr/local/mysql/support-files/mysql.server start
 
+
 		Conexion a la base de datos medianta Sequalize
 ===========================================================
+
+En el fichero models/index.js existe una función, connect = (database, user, password, mode, done), la cual 
+necesita el nombre de la base de datos, el usuario y la contraseña de MySql.
+
+También acepta como parámetro un modo de funcionamiento, MODE_TEST o MODE_PRODUCTION importado del mismo módulo.
+
+Al ser la conexión una función asíncrona, necesita además la funcion done como CallBack.
