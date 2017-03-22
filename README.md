@@ -110,6 +110,7 @@ Test del modelo User
 ====================
 
 En el directorio test se encuentra el fichero model_user.test.js encargado de realizar los siguientes test:
+	
 	1) Comprobar que cada vez que se inicia en el modo test la base de datos está vacía de contenido (pero si tiene tablas)
 
 	2) Comprobar que cuando añadimos un usuario, solo se añade uno y lo hace de forma correcta.
