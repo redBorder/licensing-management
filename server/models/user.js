@@ -2,10 +2,10 @@ module.exports = function(sequelize, DataTypes) {
   return sequelize.define('User',
       { 
         id:{
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING,
             allowNull: false,
             primaryKey: true,
-            autoIncrement: false,
+            autoIncrement: false, //It will be uuid
             unique: true
         },
         name: {
