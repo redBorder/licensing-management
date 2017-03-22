@@ -1,12 +1,9 @@
 const express = require('express');
-const model = require('./server/models');
-const config_DB = require('./config/config.json')
+const models = require('./server/models/models');
 const app = express();
 
 
-model.connect(config_DB.development.database, config_DB.development.user, 
-	config_DB.development.password, module.MODE_TEST, function(err, sequalize){
-
+models.connect(module.MODE_TEST, function(err, sequalize){
 		if(err){
 			console.log(err);
 		}

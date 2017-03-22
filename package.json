@@ -4,7 +4,7 @@
   "description": "Portal web de licencias de RedBorder",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --use_strict index.js",
+    "start": "export DATABASE_NAME='licenses_RedBorder_db' && export DATABASE_USER='web' && export DATABASE_PASSWORD='web_password' && export MODE_RUN='mode_development' && nodemon --use_strict index.js",
     "build:dev": "webpack -w",
     "build": "webpack",
     "test": "echo \"Error: no test specified\" && exit 1"
