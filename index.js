@@ -13,14 +13,13 @@ models.connect(models.MODE_TEST, function(err, sequelize){
 					console.log(err);
 				}
 				else{
-					FindUserByEmail("davisd@prueba.com", function(err, Users){
+					FindUserByEmail("DAvid@prueba.com", function(err, Users){
 						if(err){
 							console.log(err)
 						}
 						else{
-							
-								console.log("User found correctly")
-								console.log(Users);
+								console.log("User found correctly:")
+								console.log(Users.dataValues);
 								// tell the app to look for static files in these directories
 								app.use(express.static('./server/static/'));
 								app.use(express.static('./client/dist/'));
