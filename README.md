@@ -1,4 +1,5 @@
 Estructura de la aplicación
+===========================
 
 		.
 		├── README.md
@@ -30,6 +31,7 @@ Estructura de la aplicación
 
 
 Arquitectura de la aplicación
+=============================
 
 Se ha iniciado el repositorio con npm init
 
@@ -67,6 +69,7 @@ Se han instalado las siguientes dependencias:
 
 
 Conexion a la base de datos medianta Sequelize
+==============================================
 
 En el fichero models/models.js se realiza la configuracion de sequelize segun variables de entorno, exporta los modelos y se harán las realaciones entre ellos.
 
@@ -78,6 +81,7 @@ Existe una función que realiza la conexión con la base de datos.
 
 
 Manejo de los modelos de forma sencilla
+=======================================
 
 En el directorio server/utils se irán creando ficheros encargados de controlar el manejo de los modelos.
 
