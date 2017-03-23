@@ -104,6 +104,9 @@ Existe un fichero llamado user_controlled el cual tiene definida las siguientes 
 			Esta función acepta como parámetros los siguientes campos:
 				-email: Email del usuario a buscar
 				-done: Funcion de CallBack que devolverá error en el primer parámetro o la lista de usuarios con ese email en el segundo. (Debe ser un único usuario ya que email es unico)
+		
+		3) VerifyUserPassword, encargada de verificar que la contraseña de dicho usuario es correcta.
+			Esta función acepta como par
 
 
 Test del modelo User

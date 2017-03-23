@@ -14,7 +14,7 @@ module.exports.NewUser = (name, email, password, rol, done) => {
 		NewUser.save().then(function(NewUser) {
 		  	done(null, NewUser)
 			}, function (err) { 
-         	console.log('An error occurred while save the user:', err);
+         	err.message= 'An error occurred while save the user:';
          	return done(err);
         	});
 }
@@ -25,8 +25,40 @@ module.exports.FindUserByEmail = (email, done) => {
 			email: email
 		}
 	}).then(function(Users){
-		return done(null, Users[0]);
+		if(Users.length==0){
+			err.message = "User not found";
+			return done(err)
+		}
+		else
+			return done(null, Users[0]);
 	}, function(err){
+		err.message = "Couldn't found the user"
 		return done(err);
 	})
+}
+
+module.exports.VerifyUserPassword = (User, password, done) => {
+	if(passwordHash.verify(password, User.dataValues.hashed_password)){
+		return done(null, User);
+	}
+	else{
+		const err = new Error("Error, password it is not correct");
+		return done(err);
+	}
+}
+
+module.exports.ChangeUserPassword = (User, password, new_password, done) => {
+	if(passwordHash.verify(password, User.dataValues.hashed_password)){
+		User.dataValues.hashed_password=passwordHash.generate(new_password);
+		User.save().then(function(User){
+			return done(null, User)
+		}, function (err){
+			err.message = "Error changing user password"
+			return done(err);
+		})
+	}
+	else{
+		const err = new Error("Error, current password it is not correct");
+		return done(err);	
+	}
 }
