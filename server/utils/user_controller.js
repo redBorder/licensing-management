@@ -26,7 +26,7 @@ module.exports.FindUserByEmail = (email, done) => {
 		}
 	}).then(function(Users){
 		if(Users.length==0){
-			err.message = "User not found";
+			const err = new Error("Error, User not found");
 			return done(err)
 		}
 		else
@@ -49,8 +49,8 @@ module.exports.VerifyUserPassword = (User, password, done) => {
 
 module.exports.ChangeUserPassword = (User, password, new_password, done) => {
 	if(passwordHash.verify(password, User.dataValues.hashed_password)){
-		User.dataValues.hashed_password=passwordHash.generate(new_password);
-		User.save().then(function(User){
+		const new_password_hash= passwordHash.generate(new_password);
+		User.update({hashed_password: new_password_hash}).then(function(User){
 			return done(null, User)
 		}, function (err){
 			err.message = "Error changing user password"

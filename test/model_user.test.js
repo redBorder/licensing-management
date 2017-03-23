@@ -155,22 +155,28 @@ describe('Model User', function() {
 		  		if(!err){
 		  			ChangeUserPassword(User, "0987654321", "0123456789", function(err, User_changed){
 		  				if(!err){
-		  					try{
-				  				assert.equal(User_changed.dataValues.name,"david");
-								assert.notEqual(User_changed.dataValues.email,"David@prueba.com"); //Inside it's on Lower case
-								assert.equal(User_changed.dataValues.email,"david@prueba.com");
-								assert.notEqual(User_changed.dataValues.password,"0987654321");
-								assert.notEqual(User_changed.dataValues.password,"0123456789");
-								assert.notEqual(passwordHash.verify("0987654321", User_changed.dataValues.hashed_password), true);
-								assert.equal(User_changed.dataValues.role,"normal");
-								}catch (e){
-									return done(e);
-								}
+		  					FindUserByEmail("david@prueba.com", function(err, User_changed_found){
+		  						if(!err){
+				  					try{
+						  				assert.equal(User_changed_found.dataValues.name,"david");
+										assert.notEqual(User_changed_found.dataValues.email,"David@prueba.com"); //Inside it's on Lower case
+										assert.equal(User_changed_found.dataValues.email,"david@prueba.com");
+										assert.notEqual(User_changed_found.dataValues.password,"0987654321");
+										assert.notEqual(User_changed_found.dataValues.password,"0123456789");
+										assert.notEqual(passwordHash.verify("0987654321", User_changed_found.dataValues.hashed_password), true);
+										assert.equal(User_changed_found.dataValues.role,"normal");
+										}catch (e){
+											return done(e);
+										}
 
-							VerifyUserPassword(User_changed, "0123456789", function(err, User){
-								return !err ?  done() : done(err);
-						 		})
-						}
+									VerifyUserPassword(User_changed, "0123456789", function(err, User){
+										return !err ?  done() : done(err);
+								 		})
+								}
+								else
+									return done(err);
+							});
+		  				}
 						else
 							return done(err)
 		  				})

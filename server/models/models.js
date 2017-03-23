@@ -15,7 +15,7 @@ const User = sequelize.import(path.join(__dirname, 'user'));
 module.exports.User = User;
 
 
-module.exports.MODE_PRODUCTION = "mode_development";
+module.exports.MODE_DEVELOPMENT = "mode_development";
 module.exports.MODE_TEST = "mode_test";
 
 
@@ -33,11 +33,11 @@ module.exports.connect = (mode, done) => {
           User.destroy({where: {}}).then(function(err, sequelize) {
             return done(null, sequelize);
           }).catch(function(error) {
-            console.log('An error occurred while deleted the tables:', err);
+            err.message = 'An error occurred while deleted the tables';
             return done(err);
           })
         }, function (err) { 
-         console.log('An error occurred while creating the table:', err);
+         err.message = 'An error occurred while creating the table';
          return done(err);
         });
       }
@@ -47,12 +47,12 @@ module.exports.connect = (mode, done) => {
         .then(function(err) {
          return done(null, sequelize);
         }, function (err) { 
-         console.log('An error occurred while creating the table:', err);
+         err.message='An error occurred while creating the table';
          return done(err);
         });
       }
     }, function (err) { 
-      console.log('Unable to connect to the database:', err);
+      err.message='Unable to connect to the database';
       return done(err);
     });
 }
