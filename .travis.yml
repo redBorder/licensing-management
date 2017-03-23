@@ -7,7 +7,7 @@ services:
 before_install:
     - mysql -e 'CREATE DATABASE IF NOT EXISTS test;'
 script:
-    - npm run test:travis
+    - export DATABASE_NAME='test' && export DATABASE_USER='travis' && export DATABASE_PASSWORD='' &&  npm run test
 
 # env:
 #   - CXX=g++-4.8
