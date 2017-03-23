@@ -25,7 +25,7 @@ module.exports = function(sequelize, DataTypes) {
         hashed_password: {
             type: DataTypes.STRING
         },
-        rol: {
+        role: {
             type: DataTypes.STRING,
             validate: {
                 isIn: {

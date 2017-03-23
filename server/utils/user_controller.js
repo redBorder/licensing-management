@@ -2,14 +2,14 @@ const models = require('../models/models');
 const v4 = require('node-uuid');
 const passwordHash = require('password-hash');
 
-module.exports.NewUser = (name, email, password, rol, done) => {
+module.exports.NewUser = (name, email, password, role, done) => {
 
 	const NewUser = models.User.build({
 		  id: v4(), //Generate uuid automatically
 		  name: name,
 		  email: email.toLowerCase(), 
 		  hashed_password: passwordHash.generate(password),
-		  rol: rol
+		  role: role
 		})
 		NewUser.save().then(function(NewUser) {
 		  	done(null, NewUser)
@@ -22,7 +22,7 @@ module.exports.NewUser = (name, email, password, rol, done) => {
 module.exports.FindUserByEmail = (email, done) => {
 	models.User.findAll({
 		where: {
-			email: email
+			email: email.toLowerCase()
 		}
 	}).then(function(Users){
 		if(Users.length==0){
