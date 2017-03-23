@@ -8,7 +8,9 @@
     "start:test": "export DATABASE_NAME='licenses_RedBorder_db_test' && export DATABASE_USER='web' && export DATABASE_PASSWORD='web_password' && export MODE_RUN='mode_test' && nodemon --use_strict index.js",
     "build:dev": "webpack -w",
     "build": "webpack",
-    "test": "export DATABASE_NAME='licenses_RedBorder_db_test' && export DATABASE_USER='web' && export DATABASE_PASSWORD='web_password' && export MODE_RUN='mode_test' && node_modules/mocha/bin/mocha --compilers js:babel-core/register --recursive"
+    "test": "export DATABASE_NAME='licenses_RedBorder_db_test' && export DATABASE_USER='web' && export DATABASE_PASSWORD='web_password' && export MODE_RUN='mode_test' && node_modules/mocha/bin/mocha --compilers js:babel-core/register --recursive",
+    "test:travis": "export DATABASE_NAME='test' && export DATABASE_USER='travis' && export DATABASE_PASSWORD='' && export MODE_RUN='mode_test' && node_modules/mocha/bin/mocha --compilers js:babel-core/register --recursive"
+
   },
   "repository": {
     "type": "git",

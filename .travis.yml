@@ -1,0 +1,20 @@
+language: node_js
+node_js:
+    - "stable"
+services:
+    - mysql
+
+before_install:
+    - mysql -e 'CREATE DATABASE IF NOT EXISTS test;'
+script:
+    - npm run test:travis
+
+# env:
+#   - CXX=g++-4.8
+
+# addons:
+#   apt:
+#     sources:
+#       - ubuntu-toolchain-r-test
+#     packages:
+#       - g++-4.8

@@ -3,7 +3,10 @@ const v4 = require('node-uuid');
 const passwordHash = require('password-hash');
 
 module.exports.NewUser = (name, email, password, role, done) => {
-
+	if(password.length > 15 || password.length < 8 || typeof password != "string"){
+		const err = new Error("Error, password must be between 8 and 15 alphanumeric characters");
+		return done(err);
+	}
 	const NewUser = models.User.build({
 		  id: v4(), //Generate uuid automatically
 		  name: name,

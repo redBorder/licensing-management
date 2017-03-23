@@ -44,6 +44,57 @@ describe('Model User', function() {
 	  });
   });
 
+  it("Shouldn't create user. Password too short", function(done) {
+  	NewUser("david", "David@prueba.com", "1234567", "invalid role", function(err, NewUser){
+			models.User.findAll({where: {}})
+  			.then(function(Users){
+  				try{
+					assert.equal(Users.length, 0);
+					assert.notEqual(err, null);
+				}catch (e){
+					return done(e);
+				}
+				return done();
+		  	}, function(err){
+				return done(err);
+			})
+	  });
+  });
+
+  it("Shouldn't create user. Password too long", function(done) {
+  	NewUser("david", "David@prueba.com", "1234567890123456", "invalid role", function(err, NewUser){
+			models.User.findAll({where: {}})
+  			.then(function(Users){
+  				try{
+					assert.equal(Users.length, 0);
+					assert.notEqual(err, null);
+				}catch (e){
+					return done(e);
+				}
+				return done();
+		  	}, function(err){
+				return done(err);
+			})
+	  });
+  });
+
+   it("Shouldn't create user. Password empty", function(done) {
+  	NewUser("david", "David@prueba.com", "", "invalid role", function(err, NewUser){
+			models.User.findAll({where: {}})
+  			.then(function(Users){
+  				try{
+					assert.equal(Users.length, 0);
+					assert.notEqual(err, null);
+				}catch (e){
+					return done(e);
+				}
+				return done();
+		  	}, function(err){
+				return done(err);
+			})
+	  });
+  });
+
   it("Shouldn't create user. Role invalid", function(done) {
   	NewUser("david", "David@prueba.com", "0987654321", "invalid role", function(err, NewUser){
 			models.User.findAll({where: {}})
