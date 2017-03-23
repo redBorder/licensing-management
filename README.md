@@ -103,10 +103,21 @@ Existe un fichero llamado user_controlled el cual tiene definida las siguientes 
 		2) FindUserByEmail, encargada de buscar un usuario con un email dado.
 			Esta función acepta como parámetros los siguientes campos:
 				-email: Email del usuario a buscar
-				-done: Funcion de CallBack que devolverá error en el primer parámetro o la lista de usuarios con ese email en el segundo. (Debe ser un único usuario ya que email es unico)
+				-done: Funcion de CallBack que devolverá error en el primer parámetro o el primer (y único) usuario con ese email.
 		
 		3) VerifyUserPassword, encargada de verificar que la contraseña de dicho usuario es correcta.
-			Esta función acepta como par
+			Esta función acepta como parámteros los siguientes campos:
+				-User: Instancia de usuario, obtenido del modelo, el cuál queremos verificar.
+				-Contraseña: Contraseña actual sin encriptar
+				-done: Función que hará de CallBack la cual devolverá error en el primer parámetro, si la constraseña no es correcta, o el usuario en el segundo. 
+		
+		4) ChangeUserPassword, encargada de verificar la contraseña de dicho usuario.
+			Esta función acepta como parámetros los siguientes campos:
+				-User: Instancia de usuario, obtenido del modelo, al cuál queremos cambiar la contraseña.
+				-Password: Valor de la contraseña actual.
+				-new_password: Valor de la nueva contraseña.
+				-done: Función que hará de CallBack la cual devolverá error en el primer parámetro, si la constraseña no es correcta o no se ha podido cambiar, o bien el usuario en el segundo.
+
 
 
 Test del modelo User
@@ -117,4 +128,6 @@ En el directorio test se encuentra el fichero model_user.test.js encargado de re
 	1) Comprobar que cada vez que se inicia en el modo test la base de datos está vacía de contenido (pero si tiene tablas)
 
 	2) Comprobar que cuando añadimos un usuario, solo se añade uno y lo hace de forma correcta.
+
+	3) Comprobar que podemos crear un usuario, cambiar su contraseña y verificarla.
 	
