@@ -48,7 +48,7 @@ Se han instalado las siguientes dependencias:
 * __nodemon__ : Librería que monitoriza cambios en la aplicación y reinicia el servidor
 * __node-uuid__ : Librería para generar uuid aleatorios que identifiquen a los usuarios en la base de datos
 * __password-hash__ : Librería para encriptacion de contraseñas. 
-* __mocha, assert : Librerías para los test con mocha.
+* __mocha, assert__ : Librerías para los test con mocha.
 
 
 	Scripts de servicio:
@@ -127,7 +127,17 @@ En el directorio test se encuentra el fichero model_user.test.js encargado de re
 	
 	1) Comprobar que cada vez que se inicia en el modo test la base de datos está vacía de contenido (pero si tiene tablas)
 
-	2) Comprobar que cuando añadimos un usuario, solo se añade uno y lo hace de forma correcta.
+	2) Comprobar que cuando añadimos un usuario, solo se añade uno.
 
-	3) Comprobar que podemos crear un usuario, cambiar su contraseña y verificarla.
+	3) Comprobar que si el rol es inválido no se crea el usuario.
+
+	4) Comprobar que si el email es inválido no se crea el usuario.
+
+	5) Comprobar que encontrar un usuario creado.
+
+	6) Comprobar que un usuario se crea con los parámetros indicados.
+
+	7) Comprobar que al crear un usuario la contraseña se encripta correctamente.
+
+	8) Comprobar que podemos cambiar la contraseña de un usuario creado previamente.
 	
