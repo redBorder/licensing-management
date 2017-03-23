@@ -19,6 +19,7 @@
   "dependencies": {
     "body-parser": "^1.17.1",
     "express": "^4.15.2",
+    "mysql": "^2.13.0",
     "node-uuid": "^1.4.8",
     "password-hash": "^1.2.2",
     "react": "^15.4.2",
