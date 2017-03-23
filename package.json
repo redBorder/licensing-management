@@ -4,8 +4,8 @@
   "description": "Portal web de licencias de RedBorder",
   "main": "index.js",
   "scripts": {
-    "start": "export DATABASE_NAME='licenses_RedBorder_db' && export DATABASE_USER='web' && export DATABASE_PASSWORD='web_password' && export MODE_RUN='mode_development' && nodemon --use_strict index.js",
-    "start:test": "export DATABASE_NAME='licenses_RedBorder_db_test' && export DATABASE_USER='web' && export DATABASE_PASSWORD='web_password' && export MODE_RUN='mode_test' && nodemon --use_strict index.js",
+    "start": "export MODE_RUN='mode_development' && nodemon --use_strict index.js",
+    "start:test": "export MODE_RUN='mode_test' && nodemon --use_strict index.js",
     "build:dev": "webpack -w",
     "build": "webpack",
     "test": "export MODE_RUN='mode_test' && node_modules/mocha/bin/mocha --compilers js:babel-core/register --recursive"

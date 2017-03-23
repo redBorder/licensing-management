@@ -5,16 +5,6 @@ services:
     - mysql
 
 before_install:
-    - mysql -e 'CREATE DATABASE IF NOT EXISTS test;'
+    - mysql -e 'CREATE DATABASE IF NOT EXISTS licenses_management_test;'
 script:
-    - export DATABASE_NAME='test' && export DATABASE_USER='travis' && export DATABASE_PASSWORD='' &&  npm run test
-
-# env:
-#   - CXX=g++-4.8
-
-# addons:
-#   apt:
-#     sources:
-#       - ubuntu-toolchain-r-test
-#     packages:
-#       - g++-4.8
+    - npm run test

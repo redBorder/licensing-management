@@ -1,8 +1,14 @@
 {
 	"development":
 	{
-	  	"database": "licenses_RedBorder_db",
-	  	"user": "web",
-	  	"password": "web_password"
+	  	"database": "licenses_management",
+	  	"user": "root",
+	  	"password": "" 
+	},
+	"test":
+	{
+	  	"database": "licenses_management_test",
+	  	"user": "root",
+	  	"password": ""
 	}
 }

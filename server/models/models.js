@@ -1,9 +1,13 @@
 const path = require('path');
 const Sequelize = require('sequelize')
+const config = require('../../config/config.json')
 
-const sequelize = new Sequelize(process.env.DATABASE_NAME, 
-                                process.env.DATABASE_USER,
-                                process.env.DATABASE_PASSWORD, 
+
+const DB_config = process.env.MODE_RUN=="mode_test" ? config.test : config.development
+
+const sequelize = new Sequelize(DB_config.database, 
+                                DB_config.user,
+                                DB_config.password, 
         {
         dialect: "mysql", // or 'sqlite', 'postgres', 'mariadb'
         port:    3306, // or 5432 (for postgres)
