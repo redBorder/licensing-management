@@ -1,9 +1,7 @@
 const path = require('path');
 const Sequelize = require('sequelize')
 const config = require('../../config/config.json')
-
-
-const DB_config = process.env.MODE_RUN=="mode_test" ? config.test : config.development
+const DB_config = config[process.env.MODE_RUN]
 
 const sequelize = new Sequelize(DB_config.database, 
                                 DB_config.user,
@@ -11,16 +9,12 @@ const sequelize = new Sequelize(DB_config.database,
         {
         dialect: "mysql", // or 'sqlite', 'postgres', 'mariadb'
         port:    3306, // or 5432 (for postgres)
-        logging: false, //Not print logs
+        logging: DB_config.logging=="true" //Print logs
         });
 //Import definitions of the models
 //   -User from user.js
 const User = sequelize.import(path.join(__dirname, 'user')); 
 module.exports.User = User;
-
-
-module.exports.MODE_DEVELOPMENT = "mode_development";
-module.exports.MODE_TEST = "mode_test";
 
 
 module.exports.connect = (mode, done) => {
@@ -29,7 +23,7 @@ module.exports.connect = (mode, done) => {
     .authenticate()
     .then(function(err) {
       //Ent variable contain if it's test mode or development mode
-      if(process.env.MODE_RUN==="mode_test"){
+      if(process.env.MODE_RUN==="test"){
         sequelize
         .sync({ force: true }) //Force re-create the database
         .then(function(err) {

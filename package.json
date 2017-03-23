@@ -4,11 +4,11 @@
   "description": "Portal web de licencias de RedBorder",
   "main": "index.js",
   "scripts": {
-    "start": "export MODE_RUN='mode_development' && nodemon --use_strict index.js",
-    "start:test": "export MODE_RUN='mode_test' && nodemon --use_strict index.js",
+    "start": "export MODE_RUN='development' && nodemon --use_strict index.js",
+    "start:test": "export MODE_RUN='test' && nodemon --use_strict index.js",
     "build:dev": "webpack -w",
     "build": "webpack",
-    "test": "export MODE_RUN='mode_test' && node_modules/mocha/bin/mocha --compilers js:babel-core/register --recursive"
+    "test": "export MODE_RUN='test' && node_modules/mocha/bin/mocha --compilers js:babel-core/register --recursive"
   },
   "repository": {
     "type": "git",

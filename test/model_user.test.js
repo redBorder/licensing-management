@@ -112,7 +112,7 @@ describe('Model User', function() {
 	  });
   });
 
-  it("Shouldn't create user. Email invalid", function(done) {
+  it("Shouldn't create user. Email wrong format", function(done) {
   	NewUser("david", "invalid email", "0987654321", "admin", function(err, NewUser){
 			models.User.findAll({where: {}})
   			.then(function(Users){
