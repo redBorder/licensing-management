@@ -3,21 +3,21 @@
 	{
 	  	"database": "licenses_management_production",
 	  	"user": "root",
-	  	"password": "",
+	  	"password": "root",
 	  	"logging": "false" 
 	},
 	"development":
 	{
 	  	"database": "licenses_management",
 	  	"user": "root",
-	  	"password": "",
+	  	"password": "root",
 	  	"logging": "true" 
 	},
 	"test":
 	{
 	  	"database": "licenses_management_test",
 	  	"user": "root",
-	  	"password": "",
+	  	"password": "root",
 	  	"logging": "false"
 	}
 }

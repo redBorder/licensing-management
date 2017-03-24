@@ -54,3 +54,5 @@ module.exports.connect = (mode, done) => {
       return done(err);
     });
 }
+
+module.exports.Module = sequelize;
