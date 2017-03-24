@@ -84,39 +84,32 @@ Existe una función que realiza la conexión con la base de datos.
 
 
 
-Manejo de los modelos de forma sencilla
+Definición del modelo usuario
 =======================================
 
-En el directorio server/utils se irán creando ficheros encargados de controlar el manejo de los modelos.
+En el directorio models existe el fichero user.js el cual define el modelo para un usuario.
 
-Existe un fichero llamado user_controlled el cual tiene definida las siguientes funciones:
+En este fichero se comprueba que todos los campos del usaurio cumplen los requisitos (email correct, password entre 8 y 15 caracteres, el rol es normal o admin... )
 
-		1) NewUser, encargada de crear y añadir un nuevo usuario al modelo Users
-			Esta funcion acepta como parámetros los siguientes campos
-				-name: Nombre del usuario a crear
-				-email: Email del usuario a crear
-				-password: Contraseña del usuario sin encriptar (Se realiza el hash dentro)
-				-rol: Rol del usuario a crear
-				-done: Funcion que hará de CallBack, en el primer parámetro devuelve el error y en el segundo el usuario creado.
-			Dentro de la función se hace uso de la librería node-uuid para generar un uuid aleatorio y asisgnarselo a dicho usuario.
+También se han creado funciones setter y getter para conseguir que la contrasña se encripte antes de almacenarla, que el email siempre se guarde en minúsculas y que al pedir el campo password se devuelva la contraseña encriptada (hash_password)
 
-		2) FindUserByEmail, encargada de buscar un usuario con un email dado.
+Por otro lado se han creado los siguientes métodos de instancia:
+		1) verifyPassword, encargada de verificar que la contraseña es correcta para esa instancia (usuario)
+			Esta función acepta como parámetros el siguiente campo:
+				-Password: Contraseña sin encriptar a verificar
+			Esta función devuelve true o false en función de que sea o no correcta la contraseña a verificar
+
+		2) changePassword, ncargada de verificar que la contraseña de dicho usuario es correcta.
 			Esta función acepta como parámetros los siguientes campos:
-				-email: Email del usuario a buscar
-				-done: Funcion de CallBack que devolverá error en el primer parámetro o el primer (y único) usuario con ese email.
-		
-		3) VerifyUserPassword, encargada de verificar que la contraseña de dicho usuario es correcta.
-			Esta función acepta como parámteros los siguientes campos:
-				-User: Instancia de usuario, obtenido del modelo, el cuál queremos verificar.
-				-Contraseña: Contraseña actual sin encriptar
-				-done: Función que hará de CallBack la cual devolverá error en el primer parámetro, si la constraseña no es correcta, o el usuario en el segundo. 
-		
-		4) ChangeUserPassword, encargada de verificar la contraseña de dicho usuario.
-			Esta función acepta como parámetros los siguientes campos:
-				-User: Instancia de usuario, obtenido del modelo, al cuál queremos cambiar la contraseña.
-				-Password: Valor de la contraseña actual.
-				-new_password: Valor de la nueva contraseña.
-				-done: Función que hará de CallBack la cual devolverá error en el primer parámetro, si la constraseña no es correcta o no se ha podido cambiar, o bien el usuario en el segundo.
+				-Password: Contraseña actual del usuario.
+				-New_password: Nueva contraseña a almacenar.
+			Esta función devuelve true o false en función de que sea o no correcta la contraseña actual y se haya podido cambiar.
+
+En cuanto a los métodos de clase se han creado los siguientes:
+		1) findByEmail, funcion asíncrona encargada de buscar un usuario en por su email.
+			Esta función acepta como parámetros lso siguientes campos:
+				-email: Email con el que buscar el usuario.
+				-done: Función de CallBack la cual tiene dos parámetros, el primero es el error y el segundo es el usuario encontrado.
 
 
 
@@ -129,15 +122,27 @@ En el directorio test se encuentra el fichero model_user.test.js encargado de re
 
 	2) Comprobar que cuando añadimos un usuario, solo se añade uno.
 
-	3) Comprobar que si el rol es inválido no se crea el usuario.
+	3) Comprobar que si la contraseña es de menos de 8 caracteres no se crea el usuario.
 
-	4) Comprobar que si el email es inválido no se crea el usuario.
+	4) Comprobar que si la contraseña es de mas de 15 caracteres no se crea el usuario.
 
-	5) Comprobar que encontrar un usuario creado.
+	5) Comprobar que si la contraseña está en blanco no se crea el usuario.
 
-	6) Comprobar que un usuario se crea con los parámetros indicados.
+	6) Comprobar que si el rol no es admin o normal no se crea el usuario.
 
-	7) Comprobar que al crear un usuario la contraseña se encripta correctamente.
+	7) Comprobar que si el rol está vacío no se crea el usuario.
 
-	8) Comprobar que podemos cambiar la contraseña de un usuario creado previamente.
+	8) Comprobar que si el email tiene un formato inválido no se crea el usuario.
+
+	9) Comprobar que se puede encontrar un usuario creado por su email.
+
+	10) Comprobar que un usuario se crea con los parámetros indicados.
+
+	11) Comprobar que al crear un usuario la contraseña se encripta correctamente y la podemos verificar.
+
+	12) Comprobar que podemos cambiar la contraseña de un usuario creado previamente.
+
+	13) Comprobar que si la contraseña actual es incorrecta no se nos permite cambiar la contraseña.
+
+	14) Comprobar que podemos cambiar la contraseña de un usario que previamente estaba guardado en la base de datos.
 	
