@@ -3,29 +3,37 @@ Estructura de la aplicación
 
 		.
 		├── README.md
+		├── .travis.yml
+		├── .gitignore
+		├── index.js
+		├── package.json
+		├── webpack.config.js
 		├── config
 		│	└── config.json
 		├── client
 		│   └── src
 		│       ├── app.jsx
-		│       ├── components
-		│       │   ├── Base.jsx
-		│       │   ├── HomePage.jsx
-		│       │   ├── LoginForm.jsx
-		│       │   └── SignUpForm.jsx
-		│       ├── containers
-		│       │   ├── LoginPage.jsx
-		│       │   └── SignUpPage.jsx
-		│       └── routes.js
-		├── index.js
-		├── package.json
 		├── server
 		│   ├── routes
 		│   │   └── auth.js
+		│   ├── static
+		│   │   ├── css
+		│   │   │   └── style.css
+		│   │   └── index.html
+		│   ├── models
+		│   │    ├── user.js
+		│   │    └── models.js
 		│   └── static
 		│       ├── css
 		│       │   └── style.css
 		│       └── index.html
+		├── test
+		│    └── model_user.test.js
+		│
+		├── .travis.yml
+		├── .gitignore
+		├── index.js
+		├── package.json
 		└── webpack.config.js
 
 
