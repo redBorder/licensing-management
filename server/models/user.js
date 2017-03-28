@@ -1,5 +1,4 @@
 const passwordHash = require('password-hash');
-const v4 = require('node-uuid');
 
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('User',
