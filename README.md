@@ -74,12 +74,12 @@ Se han instalado las siguientes dependencias:
 Conexion a la base de datos mediante Sequelize
 ==============================================
 
-En el fichero models/models.js se realiza la configuracion de sequelize segun variables de entorno, exporta los modelos y se harán las realaciones entre ellos.
+En el fichero models/models.js se realiza la configuración de sequelize según el fichero config/config.json, exportará los modelos y creará las realaciones entre ellos.
 
 Existe una función que realiza la conexión con la base de datos. 
 	Accepta dos parámetros:
-		- mode: Puede ser mode_test o mode_development (utilizar las variables exportadas del modulo).
-		- done: Callback para notificar cuando la conexión haya terminado. Devuelve el objeto sequelize.
+		- mode: Puede ser test o development.
+		- done: Callback para notificar cuando la conexión haya terminado. Devuelve el objeto sequelize como segundo parámetro o error en el primero si lo hubiera.
 
 
 
@@ -88,13 +88,13 @@ Definición del modelo usuario
 
 En el directorio models existe el fichero user.js el cual define el modelo para un usuario.
 
-En este fichero se comprueba que todos los campos del usaurio cumplen los requisitos (email correct, password entre 8 y 15 caracteres, el rol es normal o admin... )
+En este fichero se comprueba que todos los campos del usaurio cumplen los requisitos (email correcto, contraseña entre 8 y 15 carácteres, si el rol es normal o admin... )
 
 También se han creado funciones setter y getter para conseguir que la contrasña se encripte antes de almacenarla, que el email siempre se guarde en minúsculas y que al pedir el campo password se devuelva la contraseña encriptada (hash_password)
 
 Por otro lado se han creado los siguientes métodos de instancia:
 		1) verifyPassword, encargada de verificar que la contraseña es correcta para esa instancia (usuario)
-			Esta función acepta como parámetros el siguiente campo:
+			Esta función acepta como parámetro el siguiente campo:
 				-Password: Contraseña sin encriptar a verificar
 			Esta función devuelve true o false en función de que sea o no correcta la contraseña a verificar
 
