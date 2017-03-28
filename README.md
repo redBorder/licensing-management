@@ -56,6 +56,7 @@ Se han instalado las siguientes dependencias:
 * __nodemon__ : Librería que monitoriza cambios en la aplicación y reinicia el servidor
 * __password-hash__ : Librería para encriptacion de contraseñas. 
 * __mocha, assert__ : Librerías para los test con mocha.
+* __react-boostrap__ : Librería para utilización de componentes boostrap. 
 
 
 	Scripts de servicio:
