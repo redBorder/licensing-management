@@ -1,0 +1,23 @@
+{
+	"production":
+	{
+	  	"database": "licenses_management_production",
+	  	"user": "root",
+	  	"password": "",
+	  	"logging": "false" 
+	},
+	"development":
+	{
+	  	"database": "licenses_management",
+	  	"user": "root",
+	  	"password": "",
+	  	"logging": "true" 
+	},
+	"test":
+	{
+	  	"database": "licenses_management_test",
+	  	"user": "root",
+	  	"password": "",
+	  	"logging": "false"
+	}
+}
