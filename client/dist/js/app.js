@@ -19716,7 +19716,7 @@ var _reactBootstrap = __webpack_require__(118);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Dashboard = function Dashboard(_ref) {
-  var successMessage = _ref.successMessage;
+  var secretData = _ref.secretData;
   return _react2.default.createElement(
     'div',
     null,
@@ -19725,10 +19725,10 @@ var Dashboard = function Dashboard(_ref) {
       { header: 'Licenses management', bsStyle: 'info' },
       'This is the dashboard page, if you can see this, you are autenticated'
     ),
-    successMessage && _react2.default.createElement(
+    secretData && _react2.default.createElement(
       _reactBootstrap.Panel,
       { header: 'Success message', bsStyle: 'success' },
-      successMessage
+      secretData
     )
   );
 };
@@ -19837,19 +19837,6 @@ var LoginForm = function LoginForm(_ref) {
           { sm: 10 },
           _react2.default.createElement(_reactBootstrap.FormControl, { name: 'password', type: 'password', placeholder: 'Password', onChange: onChange, value: user.password }),
           _react2.default.createElement(_reactBootstrap.FormControl.Feedback, null)
-        )
-      ),
-      _react2.default.createElement(
-        _reactBootstrap.FormGroup,
-        null,
-        _react2.default.createElement(
-          _reactBootstrap.Col,
-          { smOffset: 2, sm: 10 },
-          _react2.default.createElement(
-            _reactBootstrap.Checkbox,
-            null,
-            'Remember me'
-          )
         )
       ),
       _react2.default.createElement(
@@ -19972,9 +19959,13 @@ var DashboardPage = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (DashboardPage.__proto__ || Object.getPrototypeOf(DashboardPage)).call(this, props));
 
+    var name = localStorage.getItem('userProfileName');
+    var email = localStorage.getItem('userProfileEmail');
+
     _this.state = {
-      secretData: 'You are autorizate'
+      secretData: name + ' (' + email + ') is autorizated to see this page'
     };
+    console.log(_this.state.secretData);
     return _this;
   }
   /**
@@ -20111,23 +20102,14 @@ var LoginPage = function (_React$Component) {
   function LoginPage(props, context) {
     _classCallCheck(this, LoginPage);
 
+    // set the initial component state
     var _this = _possibleConstructorReturn(this, (LoginPage.__proto__ || Object.getPrototypeOf(LoginPage)).call(this, props, context));
 
-    var storedMessage = localStorage.getItem('errorMessage');
-    var errorMessage = '';
-
-    if (storedMessage) {
-      error.summary = storedMessage;
-      localStorage.removeItem('errorMessage');
-    }
-
-    // set the initial component state
     _this.state = {
       errors: {
         email: '',
         password: ''
       },
-      errorMessage: errorMessage,
       user: {
         email: '',
         password: ''

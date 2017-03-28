@@ -21,7 +21,7 @@ module.exports = new PassportLocalStrategy({
   };
   // find a user by email address
   return Model.User.findByEmail(userData.email, function(err, Found_User){
-        if(err){
+        if(err || !Found_User){
             const error = new Error('Incorrect email or password');
             error.name = 'IncorrectCredentialsError';
             return done(error);

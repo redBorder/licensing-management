@@ -11,21 +11,12 @@ class LoginPage extends React.Component {
   constructor(props, context) {
     super(props, context);
 
-    const storedMessage = localStorage.getItem('errorMessage');
-    let errorMessage = '';
-
-    if (storedMessage) {
-      error.summary = storedMessage;
-      localStorage.removeItem('errorMessage');
-    }
-
     // set the initial component state
     this.state = {
       errors: {
         email: '',
         password: ''
       },
-      errorMessage,
       user: {
         email: '',
         password: ''
@@ -87,6 +78,7 @@ class LoginPage extends React.Component {
       }
     });
     xhr.send(formData);
+    
   }
 
   /**
