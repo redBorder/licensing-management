@@ -5,13 +5,12 @@ const LoginForm = ({
   onSubmit,
   onChange,
   errors,
-  errorMessage,
   user
 }) => (
   <div>
-    {errorMessage && 
+    {errors.summary && 
             <Panel header="Error message" bsStyle="danger">
-              {errorMessage}
+              {errors.summary}
             </Panel>
     }
     <Form horizontal onSubmit={onSubmit}>
@@ -56,7 +55,6 @@ LoginForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired,
-  errorMessage: PropTypes.string.isRequired,
   user: PropTypes.object.isRequired
 };
 

@@ -5,7 +5,6 @@
   "main": "index.js",
   "scripts": {
     "start": "export MODE_RUN='development' && nodemon --use_strict index.js",
-    "start:test": "export MODE_RUN='test' && nodemon --use_strict index.js",
     "build:dev": "webpack -w",
     "build": "webpack",
     "test": "export MODE_RUN='test' && node_modules/mocha/bin/mocha --compilers js:babel-core/register --recursive"
@@ -19,7 +18,10 @@
   "dependencies": {
     "body-parser": "^1.17.1",
     "express": "^4.15.2",
+    "jsonwebtoken": "^7.3.0",
     "mysql": "^2.13.0",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
     "password-hash": "^1.2.2",
     "react": "^15.4.2",
     "react-bootstrap": "^0.30.8",

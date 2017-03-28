@@ -15,7 +15,7 @@ class LoginPage extends React.Component {
     let errorMessage = '';
 
     if (storedMessage) {
-      errorMessage = storedMessage;
+      error.summary = storedMessage;
       localStorage.removeItem('errorMessage');
     }
 
@@ -44,9 +44,8 @@ class LoginPage extends React.Component {
   processForm(event) {
     // prevent default action. in this case, action is the form submission event
     event.preventDefault();
-    console.log("Form sent")
-    /*
-    // create a string for an HTTP body message
+    
+        // create a string for an HTTP body message
     const email = encodeURIComponent(this.state.user.email);
     const password = encodeURIComponent(this.state.user.password);
     const formData = `email=${email}&password=${password}`;
@@ -88,7 +87,6 @@ class LoginPage extends React.Component {
       }
     });
     xhr.send(formData);
-    */
   }
 
   /**
@@ -124,7 +122,6 @@ class LoginPage extends React.Component {
         onSubmit={this.processForm}
         onChange={this.changeUser}
         errors={this.state.errors}
-        errorMessage={this.state.errorMessage}
         user={this.state.user}
       />
     );
