@@ -46,7 +46,6 @@ Se han instalado las siguientes dependencias:
 * __webpack__ : Librería para poder utilizar webpack
 * __babel-core, babel-preset-react, babel-preset-es2015, babel-loader__ : Librerías usadas para realizar la transpilación
 * __nodemon__ : Librería que monitoriza cambios en la aplicación y reinicia el servidor
-* __node-uuid__ : Librería para generar uuid aleatorios que identifiquen a los usuarios en la base de datos
 * __password-hash__ : Librería para encriptacion de contraseñas. 
 * __mocha, assert__ : Librerías para los test con mocha.
 
