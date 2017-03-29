@@ -19965,7 +19965,6 @@ var DashboardPage = function (_React$Component) {
     _this.state = {
       secretData: name + ' (' + email + ') is autorizated to see this page'
     };
-    console.log(_this.state.secretData);
     return _this;
   }
   /**

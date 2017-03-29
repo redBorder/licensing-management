@@ -72,6 +72,10 @@ Se han instalado las siguientes dependencias:
 * __password-hash__ : Librería para encriptacion de contraseñas. 
 * __mocha, assert__ : Librerías para los test con mocha.
 * __react-boostrap__ : Librería para utilización de componentes boostrap. 
+* __request__ : Librería para hacer peticiones http desde los test.
+* __sequelize-fixtures__ : Librería para manejar fixtures para los test. 
+
+
 
 
 	Scripts de servicio:

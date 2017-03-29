@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "export MODE_RUN='development' && nodemon --use_strict index.js",
+    "start:test": "export MODE_RUN='test' && nodemon --use_strict index.js",
     "build:dev": "webpack -w",
     "build": "webpack",
     "test": "export MODE_RUN='test' && node_modules/mocha/bin/mocha --compilers js:babel-core/register --recursive"
@@ -39,6 +40,8 @@
     "babel-preset-react": "^6.23.0",
     "mocha": "^3.2.0",
     "nodemon": "^1.11.0",
+    "request": "^2.81.0",
+    "sequelize-fixtures": "^0.5.6",
     "webpack": "^2.2.1"
   }
 }
