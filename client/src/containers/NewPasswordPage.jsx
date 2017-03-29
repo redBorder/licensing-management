@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react';
 import Auth from '../modules/Auth';
-import ForgotForm from '../components/ForgotForm.jsx';
+import NewPasswordForm from '../components/NewPasswordForm.jsx';
 
 
-class ForgotPage extends React.Component {
+class NewPasswordPage extends React.Component {
 
   /**
    * Class constructor.
@@ -14,10 +14,12 @@ class ForgotPage extends React.Component {
     // set the initial component state
     this.state = {
       errors: {
-        email: '',
+        password: '',
+        confir_password: ''
       },
       user: {
-        email: '',
+        password: '',
+        confir_password: ''
       }
     };
 
@@ -34,13 +36,17 @@ class ForgotPage extends React.Component {
     // prevent default action. in this case, action is the form submission event
     event.preventDefault();
     
-    // create a string for an HTTP body message
-    const email = encodeURIComponent(this.state.user.email);
-    const formData = `email=${email}`;
+    //No entiendo por qué hay que poner esto si esto es el default, no? Lo he puesto para evitarlo por fuerza
+    if(this.state.user.password || this.state.user.confir_password)
+    {
+        // create a string for an HTTP body message
+    const password = encodeURIComponent(this.state.user.password);
+    const formData = `password=${password}`;
 
     // create an AJAX request
     const xhr = new XMLHttpRequest();
-    xhr.open('post', '/auth/forgot');
+    //El token se le pasa como parametros al usar react-router para pasar parametros
+    xhr.open('post', '/auth/reset/' + this.props.params.token ); 
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.responseType = 'json';
     xhr.addEventListener('load', () => {
@@ -54,8 +60,6 @@ class ForgotPage extends React.Component {
 
         //Almacenamos el mensaje para mostrarlo en la pagina principal despues
         localStorage.setItem('successMessage', xhr.response.message);
-
-
 
         // change the current URL to /
         this.context.router.replace('/');
@@ -72,7 +76,7 @@ class ForgotPage extends React.Component {
       }
     });
     xhr.send(formData);
-    
+   } 
   }
 
   /**
@@ -87,6 +91,21 @@ class ForgotPage extends React.Component {
     this.setState({
       user
     });
+
+
+    //Esto es para validar el formulario visualmente, solo para el usuario
+    if(this.state.user.password !== this.state.user.confir_password){
+      this.state.errors.password="error";
+      this.state.errors.confi_password="error";
+    }
+    else{
+      this.state.errors.password="success";
+      this.state.errors.confir_password="success";
+    }
+    if(this.state.user.password.length < 8 || this.state.user.password.length > 15)
+      this.state.errors.password="error";
+    if(this.state.user.confir_password.length <8 || this.state.user.confir_password.length > 15)
+      this.state.errors.confir_password="error";
   }
 
   /**
@@ -94,7 +113,8 @@ class ForgotPage extends React.Component {
    */
   render() {
     return (
-      <ForgotForm
+      <NewPasswordForm
+
         onSubmit={this.processForm}
         onChange={this.changeUser}
         errors={this.state.errors}
@@ -105,8 +125,8 @@ class ForgotPage extends React.Component {
 
 }
 
-ForgotPage.contextTypes = {
+NewPasswordPage.contextTypes = {
   router: PropTypes.object.isRequired
 };
 
-export default ForgotPage;
+export default NewPasswordPage;

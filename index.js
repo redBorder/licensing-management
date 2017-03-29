@@ -1,16 +1,16 @@
 const express = require('express');
 const passport = require('passport');
-const models = require('./server/models/models');
+const Model = require('./server/models/models');
 const bodyParser = require('body-parser');
-
 const app = express();
 
-models.connect(process.env.MODE_RUN, function(err, sequelize){
+Model.connect(process.env.MODE_RUN, function(err, sequelize){
 	console.log("Servidor iniciado en modo: " + process.env.MODE_RUN);
 	if(err){
 		console.log(err);
 	}
 	else{
+		
 		// tell the app to look for static files in these directories
 		app.use(express.static('./server/static/'));
 		app.use(express.static('./client/dist/'));

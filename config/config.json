@@ -5,7 +5,11 @@
 	  	"user": "root",
 	  	"password": "",
 	  	"logging": "false",
-	  	"jwtSecret": "Secret key to JWT" 
+	  	"jwtSecret": "Secret key to JWT",
+	  	"email": {
+		  	"email": "",
+		  	"password": ""
+		  }
 	},
 	"development":
 	{
@@ -13,7 +17,11 @@
 	  	"user": "root",
 	  	"password": "",
 	  	"logging": "true",
-	  	"jwtSecret": "Secret key to JWT" 
+	  	"jwtSecret": "Secret key to JWT",
+	  	"email": {
+		  	"email": "",
+		  	"password": ""
+		  }
 	},
 	"test":
 	{
@@ -21,6 +29,10 @@
 	  	"user": "root",
 	  	"password": "",
 	  	"logging": "false",
-	  	"jwtSecret": "Secret key to JWT" 
+	  	"jwtSecret": "Secret key to JWT",
+	  	"email": {
+		  	"email": "",
+		  	"password": ""
+		  }
 	}
 }

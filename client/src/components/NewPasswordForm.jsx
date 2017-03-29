@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import {Panel, Form, FormControl, FormGroup, Col, HelpBlock, ControlLabel, Checkbox, Button, FeedBack} from 'react-bootstrap';
 
-const ForgotForm = ({
+const NewPasswordForm = ({
   onSubmit,
   onChange,
   errors,
@@ -14,19 +14,28 @@ const ForgotForm = ({
             </Panel>
     }
     <Form horizontal onSubmit={onSubmit}>
-      <FormGroup controlId="email" validationState={errors.email=="" ? null : errors.email} >
+      <FormGroup controlId="password" validationState={errors.password=="" ? null : errors.password}>
         <Col componentClass={ControlLabel} sm={2}>
-          Email
+          Password
         </Col>
         <Col sm={10}>
-          <FormControl name ="email" type="email" placeholder="Email" onChange={onChange} value={user.email}/>
+          <FormControl name="password" type="password" placeholder="Password" onChange={onChange} value={user.password}/>
+          <FormControl.Feedback />
+        </Col>
+      </FormGroup>
+      <FormGroup controlId="confir_password" validationState={errors.confir_password=="" ? null : errors.confir_password}>
+        <Col componentClass={ControlLabel} sm={2}>
+          Confirm Password
+        </Col>
+        <Col sm={10}>
+          <FormControl name="confir_password" type="password" placeholder="Confirm Password" onChange={onChange} value={user.confir_password}/>
           <FormControl.Feedback />
         </Col>
       </FormGroup>
       <FormGroup>
         <Col smOffset={2} sm={10}>
           <Button type="submit">
-            Remember me
+            Change Password
           </Button>
         </Col>
       </FormGroup>
@@ -34,11 +43,11 @@ const ForgotForm = ({
   </div>
 );
 
-ForgotForm.propTypes = {
+NewPasswordForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired
 };
 
-export default ForgotForm;
+export default NewPasswordForm;

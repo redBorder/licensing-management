@@ -74,6 +74,9 @@ Se han instalado las siguientes dependencias:
 * __react-boostrap__ : Librería para utilización de componentes boostrap. 
 * __request__ : Librería para hacer peticiones http desde los test.
 * __sequelize-fixtures__ : Librería para manejar fixtures para los test. 
+* __nodemailer : Librería para poder enviar correos electrónicos.
+* __async__ : Librería para realizar tareas asíncronas 
+* __crypto__ : Librería para generar un token aleatorio al recordar la contraseña
 
 
 

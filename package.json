@@ -17,10 +17,13 @@
   "author": "David Señas",
   "license": "MIT",
   "dependencies": {
+    "async": "^2.2.0",
     "body-parser": "^1.17.1",
+    "crypto": "0.0.3",
     "express": "^4.15.2",
     "jsonwebtoken": "^7.3.0",
     "mysql": "^2.13.0",
+    "nodemailer": "^3.1.8",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
     "password-hash": "^1.2.2",

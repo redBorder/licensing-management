@@ -3,6 +3,7 @@ import HomePage from './containers/HomePage.jsx';
 import DashboardPage from './containers/DashboardPage.jsx';
 import LoginPage from './containers/LoginPage.jsx';
 import ForgotPage from './containers/ForgotPage.jsx';
+import NewPasswordPage from './containers/NewPasswordPage.jsx';
 import Auth from './modules/Auth';
 
 const routes = {
@@ -38,6 +39,10 @@ const routes = {
     {
       path: '/forgot',
       component: ForgotPage
+    },
+    {
+      path: '/reset/:token',
+      component: NewPasswordPage
     }
   ]
 };

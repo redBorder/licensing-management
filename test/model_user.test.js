@@ -337,7 +337,7 @@ describe('Model User', function() {
 		  password: "0987654321",
 		  role: "normal"
 		});
-  	NewUser.save().then(function(NewUser) {
+  	NewUser.save().then(function() {
   		Model.User.findByEmail("DAVID@prueba.com", function(err, Found_User){
 	  				Found_User.changePassword("0987654321", "1234567890");
 	  				Found_User.update(Found_User).then(function(Change_User){
