@@ -2,6 +2,7 @@ import BasePage from './containers/BasePage.jsx';
 import HomePage from './containers/HomePage.jsx';
 import DashboardPage from './containers/DashboardPage.jsx';
 import LoginPage from './containers/LoginPage.jsx';
+import ForgotPage from './containers/ForgotPage.jsx';
 import Auth from './modules/Auth';
 
 const routes = {
@@ -33,6 +34,10 @@ const routes = {
         // change the current URL to /
         replace('/');
       }
+    },
+    {
+      path: '/forgot',
+      component: ForgotPage
     }
   ]
 };

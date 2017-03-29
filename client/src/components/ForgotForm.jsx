@@ -1,9 +1,7 @@
 import React, { PropTypes } from 'react';
 import {Panel, Form, FormControl, FormGroup, Col, HelpBlock, ControlLabel, Checkbox, Button, FeedBack} from 'react-bootstrap';
-import { Link } from 'react-router';
 
-
-const LoginForm = ({
+const ForgotForm = ({
   onSubmit,
   onChange,
   errors,
@@ -25,34 +23,22 @@ const LoginForm = ({
           <FormControl.Feedback />
         </Col>
       </FormGroup>
-
-      <FormGroup controlId="password" validationState={errors.password=="" ? null : errors.password}>
-        <Col componentClass={ControlLabel} sm={2}>
-          Password
-        </Col>
-        <Col sm={10}>
-          <FormControl name="password" type="password" placeholder="Password" onChange={onChange} value={user.password}/>
-          <FormControl.Feedback />
-        </Col>
-      </FormGroup>
-
       <FormGroup>
         <Col smOffset={2} sm={10}>
           <Button type="submit">
             Sign in
           </Button>
-          <Link to={'/forgot'}>Forgot your password?</Link>
         </Col>
       </FormGroup>
     </Form> 
   </div>
 );
 
-LoginForm.propTypes = {
+ForgotForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired
 };
 
-export default LoginForm;
+export default ForgotForm;
