@@ -17,7 +17,6 @@ class DashboardPage extends React.Component {
     this.state = {
       secretData: name + ' (' + email + ') is autorizated to see this page'
     };
-    console.log(this.state.secretData);
   }
   /**
    * Render the component.
