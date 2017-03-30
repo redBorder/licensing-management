@@ -15,7 +15,7 @@ describe('Reset Password Test', function() {
 
   //Before each test we clean databse and load fixtures file.
   beforeEach(function(done){
-  	Model.connect(process.env.MODE_RUN, function(){
+  	Model.connect(function(){
   		sequelize_fixtures.loadFile('test/fixtures/fixtures.json', Model)
   		.then(() => done())
   	});

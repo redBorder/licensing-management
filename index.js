@@ -4,7 +4,7 @@ const Model = require('./server/models/models');
 const bodyParser = require('body-parser');
 const app = express();
 
-Model.connect(process.env.MODE_RUN, function(err, sequelize){
+Model.connect(function(err, sequelize){
 	console.log("Servidor iniciado en modo: " + process.env.MODE_RUN);
 	if(err){
 		console.log(err);

@@ -5,7 +5,7 @@ const passwordHash = require('password-hash');
 
 describe('Model User', function() {
   beforeEach(function(done){
-  	Model.connect(process.env.MODE_RUN, done);
+  	Model.connect(done);
   });
 
   it('Should create a empty model', function(done) {

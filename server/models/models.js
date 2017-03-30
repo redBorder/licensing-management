@@ -17,7 +17,7 @@ const User = sequelize.import(path.join(__dirname, 'user'));
 module.exports.User = User;
 
 
-module.exports.connect = (mode, done) => {
+module.exports.connect = (done) => {
   //Assign MODE_RUN enviroment to tell it to the rest of the files.
   sequelize
     .authenticate()
