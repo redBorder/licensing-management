@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react';
 import Auth from '../modules/Auth';
-import NewPasswordForm from '../components/NewPasswordForm.jsx';
+import ProfileForm from '../components/ProfileForm.jsx';
 
 
-class NewPasswordPage extends React.Component {
+class ProfilePage extends React.Component {
 
   /**
    * Class constructor.
@@ -11,15 +11,24 @@ class NewPasswordPage extends React.Component {
   constructor(props, context) {
     super(props, context);
 
+    const name = localStorage.getItem('userProfileName');
+    const email = localStorage.getItem('userProfileEmail')
+
     // set the initial component state
     this.state = {
       errors: {
-        password: '',
-        confir_password: ''
+        name: '',
+        new_password: '',
+        confir_new_password: '',
+        email: '',
+        password: ''
       },
       user: {
-        password: '',
-        confir_password: ''
+        name: name,
+        new_password: '',
+        confir_new_password: '',
+        email: email,
+        password: ''
       }
     };
 
@@ -35,18 +44,15 @@ class NewPasswordPage extends React.Component {
   processForm(event) {
     // prevent default action. in this case, action is the form submission event
     event.preventDefault();
-    
-    //No entiendo por qué hay que poner esto si esto es el default, no? Lo he puesto para evitarlo por fuerza
-
-        // create a string for an HTTP body message
-    const confir_password = encodeURIComponent(this.state.user.confir_password);
+    console.log("Change profile");
+    /*    // create a string for an HTTP body message
+    const email = encodeURIComponent(this.state.user.email);
     const password = encodeURIComponent(this.state.user.password);
-    const formData = `password=${password}&confir_password=${confir_password}`;
+    const formData = `email=${email}&password=${password}`;
 
     // create an AJAX request
     const xhr = new XMLHttpRequest();
-    //El token se le pasa como parametros al usar react-router para pasar parametros
-    xhr.open('post', '/auth/reset/' + this.props.params.token ); 
+    xhr.open('post', '/auth/login');
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.responseType = 'json';
     xhr.addEventListener('load', () => {
@@ -58,8 +64,13 @@ class NewPasswordPage extends React.Component {
           errors: {}
         });
 
-        //Almacenamos el mensaje para mostrarlo en la pagina principal despues
-        localStorage.setItem('successMessage', xhr.response.message);
+        // set a user profile items
+        localStorage.setItem('userProfileName', xhr.response.user.name);
+        localStorage.setItem('userProfileEmail', xhr.response.user.email);
+
+        // save the token
+        Auth.authenticateUser(xhr.response.token);
+
 
         // change the current URL to /
         this.context.router.replace('/');
@@ -76,7 +87,8 @@ class NewPasswordPage extends React.Component {
       }
     });
     xhr.send(formData);
-  } 
+    */
+  }
 
   /**
    * Change the user object.
@@ -90,21 +102,29 @@ class NewPasswordPage extends React.Component {
     this.setState({
       user
     });
-
-
+  
+    
     //Esto es para validar el formulario visualmente, solo para el usuario
-    if(this.state.user.password !== this.state.user.confir_password){
-      this.state.errors.password="error";
-      this.state.errors.confir_password="error";
+    if(event.target.name=="new_password" && this.state.user.new_password.length==0 || this.state.user.new_password !== this.state.user.confir_new_password){
+      this.state.errors.new_password="error";
+      this.state.errors.confir_new_password="error";
     }
     else{
-      this.state.errors.password="success";
-      this.state.errors.confir_password="success";
+      this.state.errors.new_password="success";
+      this.state.errors.confir_new_password="success";
     }
-    if(this.state.user.password.length < 8 || this.state.user.password.length > 15)
+
+    if(event.target.name=="password" && this.state.user.password.length < 8 || this.state.user.password.length > 15 || this.state.user.password.length== 0 )
       this.state.errors.password="error";
-    if(this.state.user.confir_password.length <8 || this.state.user.confir_password.length > 15)
-      this.state.errors.confir_password="error";
+    else
+      this.state.errors.password="success"
+
+    if(this.state.user.name.length!=0)
+      this.state.errors.name="success";
+    else
+      this.state.errors.name="error"
+
+    
   }
 
   /**
@@ -112,8 +132,7 @@ class NewPasswordPage extends React.Component {
    */
   render() {
     return (
-      <NewPasswordForm
-
+      <ProfileForm
         onSubmit={this.processForm}
         onChange={this.changeUser}
         errors={this.state.errors}
@@ -121,9 +140,11 @@ class NewPasswordPage extends React.Component {
       />
     );
   }
+
 }
-NewPasswordPage.contextTypes = {
+
+ProfilePage.contextTypes = {
   router: PropTypes.object.isRequired
 };
 
-export default NewPasswordPage;
+export default ProfilePage;

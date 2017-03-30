@@ -4,6 +4,7 @@ import DashboardPage from './containers/DashboardPage.jsx';
 import LoginPage from './containers/LoginPage.jsx';
 import ForgotPage from './containers/ForgotPage.jsx';
 import NewPasswordPage from './containers/NewPasswordPage.jsx';
+import ProfilePage from './containers/ProfilePage.jsx';
 import Auth from './modules/Auth';
 
 const routes = {
@@ -43,6 +44,10 @@ const routes = {
     {
       path: '/reset/:token',
       component: NewPasswordPage
+    },
+    {
+      path: '/changeProfile',
+      component: ProfilePage
     }
   ]
 };
