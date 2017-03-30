@@ -25,15 +25,9 @@ module.exports.connect = (done) => {
       //Ent variable contain if it's test mode or development mode
       if(process.env.MODE_RUN==="test"){
         sequelize
-        .sync({ force: true }) //Force re-create the database
+        .sync({force:true}) //Force re-create the database
         .then(function(err) {
-          // Delete all users before start
-          User.destroy({where: {}}).then(function(err, sequelize) {
             return done(null, sequelize);
-          }).catch(function(error) {
-            err.message = 'An error occurred while deleted the tables';
-            return done(err);
-          })
         }, function (err) { 
          err.message = 'An error occurred while creating the table';
          return done(err);
