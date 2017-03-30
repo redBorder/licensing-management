@@ -44,3 +44,4 @@ Model.connect(process.env.MODE_RUN, function(err, sequelize){
 	}
 });	
 
+module.exports = app;

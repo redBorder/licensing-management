@@ -70,9 +70,9 @@ Se han instalado las siguientes dependencias:
 * __babel-core, babel-preset-react, babel-preset-es2015, babel-loader__ : Librerías usadas para realizar la transpilación
 * __nodemon__ : Librería que monitoriza cambios en la aplicación y reinicia el servidor
 * __password-hash__ : Librería para encriptacion de contraseñas. 
-* __mocha, assert__ : Librerías para los test con mocha.
+* __mocha, assert, chai__ : Librerías para los test con mocha.
 * __react-boostrap__ : Librería para utilización de componentes boostrap. 
-* __request__ : Librería para hacer peticiones http desde los test.
+* __chai-http__ : Librería para hacer test al servidor.
 * __sequelize-fixtures__ : Librería para manejar fixtures para los test. 
 * __nodemailer : Librería para poder enviar correos electrónicos.
 * __async__ : Librería para realizar tareas asíncronas 

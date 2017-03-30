@@ -37,11 +37,11 @@ class NewPasswordPage extends React.Component {
     event.preventDefault();
     
     //No entiendo por qué hay que poner esto si esto es el default, no? Lo he puesto para evitarlo por fuerza
-    if(this.state.user.password || this.state.user.confir_password)
-    {
+
         // create a string for an HTTP body message
+    const confir_password = encodeURIComponent(this.state.user.confir_password);
     const password = encodeURIComponent(this.state.user.password);
-    const formData = `password=${password}`;
+    const formData = `password=${password}&confir_password=${confir_password}`;
 
     // create an AJAX request
     const xhr = new XMLHttpRequest();
@@ -76,8 +76,7 @@ class NewPasswordPage extends React.Component {
       }
     });
     xhr.send(formData);
-   } 
-  }
+  } 
 
   /**
    * Change the user object.
@@ -122,9 +121,7 @@ class NewPasswordPage extends React.Component {
       />
     );
   }
-
 }
-
 NewPasswordPage.contextTypes = {
   router: PropTypes.object.isRequired
 };

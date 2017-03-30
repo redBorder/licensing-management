@@ -7,6 +7,35 @@ const crypto = require('crypto');
 const Model = require('../models/models');
 const email = require('../../config/config.json')[process.env.MODE_RUN].email;
 
+/**
+ * Validate the NewPassword form
+ *
+ * @param {object} payload - the HTTP body message
+ * @returns {object} The result of validation. Object contains a boolean validation result,
+ *                   errors tips, and a global message for the whole form.
+ */
+function validateNewPasswordForm(payload) {
+  let isFormValid = true;
+  let message = '';
+
+
+  if (!(payload.confir_password.trim()===payload.password.trim())){
+    isFormValid = false;
+    message = "Password must be equal"
+  }
+
+  if (!payload || typeof payload.password !== 'string' || payload.password.trim().length < 8 
+    || typeof payload.confir_password !== 'string' || payload.confir_password.trim().length < 8) {
+    isFormValid = false;
+    message = 'Password must have at least 8 characters.';
+  }
+
+  return {
+    success: isFormValid,
+    message
+  };
+}
+
 router.post('/login', (req, res, next) => {
   return passport.authenticate('local-login', (err, token, userData) => {
     if (err) {
@@ -81,7 +110,8 @@ router.post('/forgot', function(req, res, next) {
       };
       smtpTransport.sendMail(mailOptions,function(err) {
         res.status(200).json({
-        message: "An e-mail has been sent to " + user.email.toLowerCase() + " with further instructions."
+          success: true,
+          message: "An e-mail has been sent to " + user.email.toLowerCase() + " with further instructions."
         });
         done(err, 'done');
       });
@@ -94,6 +124,13 @@ router.post('/forgot', function(req, res, next) {
 });
 
 router.post('/reset/:token', function(req, res) {
+  const validationResult = validateNewPasswordForm(req.body);
+  if (!validationResult.success) {
+    return res.status(400).json({
+      success: false,
+      message: validationResult.message,
+    });
+  }
   async.waterfall([
     function(done) {
       Model.User.findOne({
@@ -136,6 +173,7 @@ router.post('/reset/:token', function(req, res) {
       };
       smtpTransport.sendMail(mailOptions,function(err) {
         res.status(200).json({
+        success: true,
         message: "An e-mail has been sent to " + user.email.toLowerCase() + " with confirmation. The password has been changed"
         });
         done(err, 'done');
