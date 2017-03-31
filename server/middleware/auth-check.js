@@ -11,7 +11,6 @@ module.exports = (req, res, next) => {
   if (!req.headers.authorization) {
     return res.status(401).end();
   }
-
   // get the last part from a authorization header string like "bearer token-value"
   const token = req.headers.authorization.split(' ')[1];
 
@@ -21,7 +20,7 @@ module.exports = (req, res, next) => {
     if (err) { return res.status(401).end(); }
 
     const userId = decoded.sub;
-
+    req.userId = userId;
     // check if a user exists
     return Model.User.findOne({where: {id: userId}})
     .then(function(User){

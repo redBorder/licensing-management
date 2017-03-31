@@ -11,6 +11,14 @@ class LoginPage extends React.Component {
   constructor(props, context) {
     super(props, context);
 
+    const storedMessage = localStorage.getItem('successMessage');
+    let successMessage = '';
+
+    if (storedMessage) {
+      successMessage = storedMessage;
+      localStorage.removeItem('successMessage');
+    }
+
     // set the initial component state
     this.state = {
       errors: {
@@ -20,7 +28,8 @@ class LoginPage extends React.Component {
       user: {
         email: '',
         password: ''
-      }
+      },
+      successMessage: successMessage
     };
 
     this.processForm = this.processForm.bind(this);
@@ -115,6 +124,7 @@ class LoginPage extends React.Component {
         onChange={this.changeUser}
         errors={this.state.errors}
         user={this.state.user}
+        successMessage={this.state.successMessage}
       />
     );
   }

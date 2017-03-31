@@ -7,9 +7,15 @@ const LoginForm = ({
   onSubmit,
   onChange,
   errors,
-  user
+  user,
+  successMessage
 }) => (
   <div>
+    {successMessage && 
+      <Panel header="Success message" bsStyle="success">
+        {successMessage}
+      </Panel>
+    }
     {errors.summary && 
             <Panel header="Error message" bsStyle="danger">
               {errors.summary}

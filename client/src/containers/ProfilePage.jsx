@@ -44,16 +44,20 @@ class ProfilePage extends React.Component {
   processForm(event) {
     // prevent default action. in this case, action is the form submission event
     event.preventDefault();
-    console.log("Change profile");
-    /*    // create a string for an HTTP body message
+    // create a string for an HTTP body message
+    const name  = encodeURIComponent(this.state.user.name);
     const email = encodeURIComponent(this.state.user.email);
+    const new_password = encodeURIComponent(this.state.user.new_password);
+    const confir_new_password = encodeURIComponent(this.state.user.confir_new_password);
     const password = encodeURIComponent(this.state.user.password);
-    const formData = `email=${email}&password=${password}`;
+    const formData = `email=${email}&password=${password}&name=${name}&new_password=${new_password}&confir_new_password=${confir_new_password}`;
 
     // create an AJAX request
     const xhr = new XMLHttpRequest();
-    xhr.open('post', '/auth/login');
+    xhr.open('post', '/api/changeProfile');
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    // set the authorization HTTP header
+    xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
     xhr.responseType = 'json';
     xhr.addEventListener('load', () => {
       if (xhr.status === 200) {
@@ -68,12 +72,15 @@ class ProfilePage extends React.Component {
         localStorage.setItem('userProfileName', xhr.response.user.name);
         localStorage.setItem('userProfileEmail', xhr.response.user.email);
 
-        // save the token
-        Auth.authenticateUser(xhr.response.token);
+         // set a message
+        localStorage.setItem('successMessage', xhr.response.message);
 
+        //Cerramos sesion para iniciar con los nuevos datos
+        Auth.deauthenticateUser();
 
         // change the current URL to /
-        this.context.router.replace('/');
+        this.context.router.replace('/login');
+
       } else {
         // failure
 
@@ -87,7 +94,7 @@ class ProfilePage extends React.Component {
       }
     });
     xhr.send(formData);
-    */
+    
   }
 
   /**
@@ -105,16 +112,21 @@ class ProfilePage extends React.Component {
   
     
     //Esto es para validar el formulario visualmente, solo para el usuario
-    if(event.target.name=="new_password" && this.state.user.new_password.length==0 || this.state.user.new_password !== this.state.user.confir_new_password){
-      this.state.errors.new_password="error";
-      this.state.errors.confir_new_password="error";
-    }
-    else{
+    if(this.state.user.new_password === this.state.user.confir_new_password
+      && this.state.user.new_password.length > 8 
+      && this.state.user.new_password.length < 15 
+      && this.state.user.confir_new_password.length > 8 
+      && this.state.user.confir_new_password.length < 15
+      || (this.state.user.new_password.length==0 && this.state.user.confir_new_password.length == 0)){
       this.state.errors.new_password="success";
       this.state.errors.confir_new_password="success";
     }
+    else{
+      this.state.errors.new_password="error";
+      this.state.errors.confir_new_password="error";
+    }
 
-    if(event.target.name=="password" && this.state.user.password.length < 8 || this.state.user.password.length > 15 || this.state.user.password.length== 0 )
+    if(this.state.user.password.length < 8 || this.state.user.password.length > 15 || this.state.user.password.length== 0 )
       this.state.errors.password="error";
     else
       this.state.errors.password="success"
