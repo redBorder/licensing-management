@@ -21,7 +21,7 @@ function validateChangeProfileForm(payload) {
 
   if (!payload || typeof payload.email !== 'string' || payload.email.trim().length === 0) {
     isFormValid = false;
-    message = message != "" ? message + 'please provide your email address ' : "Please provide your email address ";
+    message = message != "" ? message + 'and please provide your email address ' : "Please provide your email address ";
 
   }
 
@@ -74,6 +74,7 @@ router.post('/changeProfile', (req, res) => {
         user.name = req.body.name;
         user.save().then(function(){
           return res.status(200).json({
+            success: true,
             message: "You have changed your profile correctly!",
             user
           });

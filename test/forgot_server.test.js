@@ -5,7 +5,7 @@ const server = require('../index.js');
 const should = chai.should();
 const sequelize_fixtures = require('sequelize-fixtures');
 
-debugger
+
 
 chai.use(chaiHttp);
 
