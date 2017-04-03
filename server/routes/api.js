@@ -34,7 +34,7 @@ function validateChangeProfileForm(payload) {
   if (payload.new_password && (typeof payload.new_password !== 'string' || payload.new_password.trim().length < 8) ||
    payload.confir_new_password && (typeof payload.confir_new_password !== 'string' || payload.confir_new_password.trim().length < 8)) {
     isFormValid = false;
-    message = message != "" ? message + 'and new password must have at least 8 characters ' : 'New Password must have at least 8 characters ';
+    message = message != "" ? message + 'and new password should be between 8 and 15 alphanumeric characters ' : 'New password should be between 8 and 15 alphanumeric characters ';
   }
 
   if(!payload.password){

@@ -24,10 +24,10 @@ function validateNewPasswordForm(payload) {
     message = "Password must be equal"
   }
 
-  if (!payload || typeof payload.password !== 'string' || payload.password.trim().length < 8 
-    || typeof payload.confir_password !== 'string' || payload.confir_password.trim().length < 8) {
+  if (!payload || typeof payload.password !== 'string' || payload.password.trim().length < 8 || payload.password.trim().length > 15 
+    || typeof payload.confir_password !== 'string' || payload.confir_password.trim().length < 8 || payload.confir_password.trim().length > 15 ) {
     isFormValid = false;
-    message = 'Password must have at least 8 characters.';
+    message = 'Password should be between 8 and 15 alphanumeric characters.';
   }
 
   return {
@@ -104,7 +104,7 @@ router.post('/forgot', function(req, res, next) {
         from: 'passwordreset@demo.com',
         subject: 'Node.js Password Reset',
         text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
-          'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
+          'Please click on the following link before one hour, or paste this into your browser to complete the process:\n\n' +
           'http://' + req.headers.host + '/#/reset/' + token + '\n\n' +
           'If you did not request this, please ignore this email and your password will remain unchanged.\n'
       };

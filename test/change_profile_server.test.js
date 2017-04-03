@@ -82,6 +82,37 @@ describe('Profile Test', function() {
         })
     });
 
+  it('Should return a 400 Bad Request. Login ok and current password correct but new password too short', function(done) {
+    const email = encodeURIComponent("admin@redborder.com");
+    const password = encodeURIComponent("adminadmin");
+    const user = `email=${email}&password=${password}`;
+    chai.request(server)
+       .post('/auth/login') //Before test, log in
+       .send(user)
+       .end((err, res) => {
+        const name  = encodeURIComponent("David test");
+        const email_cambiado = encodeURIComponent("cambiado@prueba.com");
+        const new_password = encodeURIComponent("1234567");
+        const confir_new_password = encodeURIComponent("1234567");
+        const current_password = encodeURIComponent("adminadmin");
+        const data = `email=${email_cambiado}&password=${current_password}&name=${name}&new_password=${new_password}&confir_new_password=${confir_new_password}`;
+         chai.request(server)
+           .post('/api/changeProfile')
+           .set('Authorization', `bearer ${res.body.token}`)
+           .send(data)
+           .end((err, res) => {
+            try{
+              res.should.have.status(400);
+              res.body.should.have.property('success').eql(false);
+              res.body.should.have.property('message').eql('Current password is not correct.');
+              done();
+            } catch(e){
+              done(e);
+            }
+         });
+        })
+    });
+
   it('Should return a 400 Bad Request. Login ok and current password empty', function(done) {
     const email = encodeURIComponent("admin@redborder.com");
     const password = encodeURIComponent("adminadmin");

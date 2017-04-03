@@ -70,7 +70,26 @@ describe('Reset Password Test', function() {
         try{
           res.should.have.status(400);
           res.body.should.have.property('success').eql(false);
-          res.body.should.have.property('message').eql('Password must have at least 8 characters.');
+          res.body.should.have.property('message').eql('Password should be between 8 and 15 alphanumeric characters.');
+          done();
+        } catch(e){
+          done(e);
+        }
+       });
+    });
+
+  it('Should return a 400 Bad Request. Passwords too long', function(done) {  
+   const confir_password = encodeURIComponent("1234567890123456");
+   const password = encodeURIComponent("1234567890123456");
+   const data = `password=${password}&confir_password=${confir_password}`; 
+   chai.request(server)
+       .post('/auth/reset/TESTTOKEN')
+       .send(data)
+       .end((err, res) => {
+        try{
+          res.should.have.status(400);
+          res.body.should.have.property('success').eql(false);
+          res.body.should.have.property('message').eql('Password should be between 8 and 15 alphanumeric characters.');
           done();
         } catch(e){
           done(e);
@@ -89,7 +108,7 @@ describe('Reset Password Test', function() {
         try{
           res.should.have.status(400);
           res.body.should.have.property('success').eql(false);
-          res.body.should.have.property('message').eql('Password must have at least 8 characters.');
+          res.body.should.have.property('message').eql('Password should be between 8 and 15 alphanumeric characters.');
           done();
         } catch(e){
           done(e);
