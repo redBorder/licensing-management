@@ -21,24 +21,26 @@ describe('Forgot Test', function() {
   		.then(() => done())
   	});
   });
- it('Should return a 200 Ok message. Email correct', function(done) {
+
+  it('Should return a 200 Ok message. Email correct', function(done) {
     const email = encodeURIComponent("admin@redborder.com");
     const data = `email=${email}`;
 
-     chai.request(server)
-         .post('/auth/forgot')
-         .send(data)
-         .end((err, res) => {
-          try{
-            res.should.have.status(200);
-            res.body.should.have.property('success').eql(true);
-            res.body.should.have.property('message').eql('An e-mail has been sent to admin@redborder.com with further instructions.');
-            done();
-          } catch(e){
-            done(e);
-          }
-         });
+   chai.request(server)
+     .post('/auth/forgot')
+     .send(data)
+     .end((err, res) => {
+      try{
+        res.should.have.status(200);
+        res.body.should.have.property('success').eql(true);
+        res.body.should.have.property('message').eql('An e-mail has been sent to admin@redborder.com with further instructions.');
+        done();
+      } catch(e){
+          done(e);
+        }
+      });
   });
+
  it('Should return a 400 Bad Request. Email incorrect', function(done) {
     const email = encodeURIComponent("incorrect@redborder.com");
     const data = `email=${email}`;

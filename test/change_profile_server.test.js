@@ -104,7 +104,7 @@ describe('Profile Test', function() {
             try{
               res.should.have.status(400);
               res.body.should.have.property('success').eql(false);
-              res.body.should.have.property('message').eql('Current password is not correct.');
+              res.body.should.have.property('message').eql('New password should be between 8 and 15 alphanumeric characters ');
               done();
             } catch(e){
               done(e);
