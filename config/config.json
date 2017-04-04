@@ -3,13 +3,13 @@
 	{
 	  	"database": "licenses_management_production",
 	  	"user": "root",
-	  	"password": "root",
+	  	"password": "",
 	  	"host": "127.0.0.1",
 	  	"logging": "false",
 	  	"jwtSecret": "Secret key to JWT",
 	  	"email": {
-		  	"email": "",
-		  	"password": ""
+		  	"email": "desarrollo.dsenas@gmail.com",
+		  	"password": "desarrollodsenas"
 		  }
 	},
 	"development":
@@ -21,8 +21,8 @@
 	  	"logging": "true",
 	  	"jwtSecret": "Secret key to JWT",
 	  	"email": {
-		  	"email": "",
-		  	"password": ""
+		  	"email": "desarrollo.dsenas@gmail.com",
+		  	"password": "desarrollodsenas"
 		  }
 	},
 	"test":
@@ -34,8 +34,8 @@
 	  	"logging": "false",
 	  	"jwtSecret": "Secret key to JWT",
 	  	"email": {
-		  	"email": "",
-		  	"password": ""
+		  	"email": "desarrollo.dsenas@gmail.com",
+		  	"password": "desarrollodsenas"
 		  }
 	}
 }

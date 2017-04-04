@@ -7,7 +7,7 @@
             "hashed_password": "sha1$53b53d83$1$d0ac537f69356fcd7e23f81fcbb1924df7d9d7f8",
             "role": "admin",
             "resetPasswordToken": "TESTTOKEN",
-            "resetPasswordExpires" : "2100-01-01T00:00:00.000Z"
+            "resetPasswordExpires" : "2100-01-01"
         }
     },
     {
