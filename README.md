@@ -116,9 +116,13 @@ En el directorio ./server/db se realiza la configuración de sequelize según el
 
 
 La información relevante para esta cofiguración del fichero config/config.json ces la siguiente:
+
 	1) Qué gestor de bases de datos se usará
+
 	2) Qué base de datos concreta se usará
+
 	3) El nombre de usuario y la contraseña del dueño (o quién usará esa base de datos)
+
 	4) Un booleano para indicar si queremo que haya o no haya loggs por pantalla cada vez que realicemos una operacion en la BD
 
 Para llevar a cabo el uso de los modelos hay que importar primero el objeto Sequelize (la configuración dependerá del valor de la variable de entorno MODE_RUN). 
@@ -130,7 +134,7 @@ Finalmente para que se sincronicen los objetos y así poder usarlos hay que llam
 Ejemplo de uso:
 ---------------
 
-```java
+```node
 //Inicializamos sequelize
 const sequelize = require('./db').sequelize;
 
@@ -335,6 +339,7 @@ Para realizar los test de las diferentes rutas post y get definidas en los fiche
 * __/auth/login__* 
 
 	En el fichero ./test/ruotes/login_server.test.js:
+
 		1) Comprueba si introduciendo el email y la contraseña correctas podemos hacer login recibimos un 200 OK.
 
 		2) Comprueba si introduciendo un email correcto pero una contraseña incorrecta recibimos un 400 y no podemos hacer login.
@@ -345,6 +350,7 @@ Para realizar los test de las diferentes rutas post y get definidas en los fiche
 * __/auth/forgot__* 
 
 	En el fichero ./test/ruotes/forgot_server.test.js:
+
 		1) Comprueba que si introducimos un email correcto nos devuelve un 200 OK, enviando un correo electrónico al email suministrado.
 
 		2) Comprueba que si introducimos un email incorrecto nos devuevel un 400 Bad Request y no envía un correo electrónico al email suministrado.
@@ -353,6 +359,7 @@ Para realizar los test de las diferentes rutas post y get definidas en los fiche
 * __/auth/reset/:token__* 
 
 	En el fichero ./test/ruotes/reset_server.test.js:
+
 		1) Comprueba que si las contraseñas son correctas, recibimos un 200 OK y se cambian correctamente.
 
 		2) Comprueba que si las contraseñas no coinciden, recibimos un 400 Bad Request y no se cambia.
@@ -369,6 +376,7 @@ Para realizar los test de las diferentes rutas post y get definidas en los fiche
 * __/api/changeProfile__* 
 
 	En el fichero ./test/ruotes/change_profile_server.test.js:
+
 		1) Comprueba que si hacemos login correctamente, e introducimos el nombre y el email, junto con la contraseña actual correcamnte, se cambian el nombre y el email.
 
 		2) Comprueba que aunque hagamos login correctamente si la contraseña actual no lo es no se hace nada.
