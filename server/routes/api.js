@@ -1,7 +1,13 @@
 const jwt = require('jsonwebtoken');
 const express = require('express');
 const router = new express.Router();
-const Model = require('../models/models');
+
+//Incializamos sequelize
+const sequelize = require('../db').sequelize;
+
+//Cargamos los modelos
+const models = require('../models')(sequelize);
+
 
 /**
  * Validate the change profile form
@@ -57,7 +63,7 @@ router.post('/changeProfile', (req, res) => {
       message: validationResult.message,
     });
   }
-  Model.User.findOne({
+  models.User.findOne({
         where: {
             id: req.userId
         }

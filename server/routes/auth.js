@@ -4,9 +4,13 @@ const router = new express.Router();
 const nodemailer = require('nodemailer');
 const async = require('async');
 const crypto = require('crypto');
-const Model = require('../models/models');
 const email = require('../../config/config.json')[process.env.MODE_RUN].email;
 
+//Incializamos sequelize
+const sequelize = require('../db').sequelize;
+
+//Cargamos los modelos
+const models = require('../models')(sequelize);
 /**
  * Validate the NewPassword form
  *
@@ -45,7 +49,6 @@ router.post('/login', (req, res, next) => {
           message: err.message
         });
       }
-
       return res.status(400).json({
         success: false,
         message: 'Could not process the form.'
@@ -72,7 +75,7 @@ router.post('/forgot', function(req, res, next) {
       });
     },
     function(token, done) {
-      Model.User.findByEmail(req.body.email, function(err, user) {
+      models.User.findByEmail(req.body.email, function(err, user) {
         if (!user) {
           return res.status(400).json({
           success: false,
@@ -133,7 +136,7 @@ router.post('/reset/:token', function(req, res) {
   }
   async.waterfall([
     function(done) {
-      Model.User.findOne({
+      models.User.findOne({
                     where: {
                         resetPasswordToken: req.params.token,
                         resetPasswordExpires: {$gt: Date.now()}

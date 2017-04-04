@@ -1,7 +1,8 @@
 const passwordHash = require('password-hash');
+const DataTypes = require('sequelize/lib/data-types');
 
-module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('User',
+module.exports = function(sequelize) {
+  const User = sequelize.define('User',
       { 
         id:{
             type : DataTypes.UUID,
@@ -103,4 +104,5 @@ module.exports = function(sequelize, DataTypes) {
             }
         }
     });
+    return User;
 }

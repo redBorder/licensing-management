@@ -3,7 +3,6 @@ Estructura de la aplicación
 
 		.
 		├── README.md
-		├── index.js
 		├── .travis.yml
 		├── .gitignore
 		├── package.json
@@ -29,24 +28,36 @@ Estructura de la aplicación
 		│ 	├──Home.jsx
 		│ 	└──LoginForm.jsx
 		├── server
+		│   ├── index.js
 		│   ├── routes
 		│	│	├── api.jsx
-		│   │   └── auth.js
+		│   │   └── auth.js		
+		│   ├── db
+		│   │   └── index.js
 		│   ├── static
 		│   │   ├── css
 		│   │   │   └── style.css
 		│   │   └── index.html
 		│   ├── models
 		│   │    ├── user.js
-		│   │    └── models.js
+		│   │    └── index.js
 		│   │── passport
 		│   │    ├── local-login.js
 		│   │    └── local-signup.js
+		│   │── static
+		│   │    └── fichero estaticos		
 		│   └── middleware
 		│		└── auth-check.js		
 		└── test
-		    └── model_user.test.js
-		
+			│── routes
+		    │	└──  model_user.test.js
+		    │── routes
+			│   ├── change_profile_server.test.js
+			│	├── login_server.test.js
+			│	├── reset_server.test.js
+			│	└── forgot_server.test.js
+			└── fixtures
+				└── fixtures.json
 
 
 
@@ -98,78 +109,108 @@ Se han instalado las siguientes dependencias:
 		$ sudo /usr/local/mysql/support-files/mysql.server start
 
 
-Conexion a la base de datos mediante Sequelize
-==============================================
+Inicialización de la base de datos mediante Sequelize
+=====================================================
 
-En el fichero models/models.js se realiza la configuración de sequelize según el fichero config/config.json, exportará los modelos y creará las realaciones entre ellos.
-
-Existe una función que realiza la conexión con la base de datos la cuál se conectará a la base de datos test o developtment en función de la variable de entorno MODE_RUN.
-	Tiene el siguiente parámetro:
-		- done: Callback para notificar cuando la conexión haya terminado. Devuelve el objeto sequelize como segundo parámetro o error en el primero si lo hubiera.
-
-Hay que aclarar que existe un fichero config/config.json con información relevante a las bases de datos definidas en MySql, el nombre de usuario y la contraseña del dueño de dicha base de dato, un booleano para indicar si queremos que nos muestre o no logs en tiempo de ejecucion y una clave privada para la creación de lso tokens.
-
-Definición del modelo usuario
-=======================================
-
-En el directorio models existe el fichero user.js el cual define el modelo para un usuario.
-
-En este fichero se comprueba que todos los campos del usaurio cumplen los requisitos (email correcto, contraseña entre 8 y 15 carácteres, si el rol es normal o admin... )
-
-También se han creado funciones setter y getter para conseguir que la contraseña se encripte antes de almacenarla, que el email siempre se guarde en minúsculas y que al pedir el campo password se devuelva la contraseña encriptada (hashed_password)
-
-Por otro lado se han creado los siguientes métodos de instancia:
-		1) verifyPassword, encargada de verificar que la contraseña es correcta para esa instancia (usuario)
-			Esta función acepta como parámetro el siguiente campo:
-				-Password: Contraseña sin encriptar a verificar
-			Esta función devuelve true o false en función de que sea o no correcta la contraseña a verificar
-
-		2) changePassword, encargada de cambiar el campo contraseña de una instancia (usuario)
-			Esta función acepta como parámetros los siguientes campos:
-				-Password: Contraseña actual del usuario.
-				-New_password: Nueva contraseña a almacenar.
-			Esta función devuelve true o false en función de que sea o no correcta la contraseña actual y se haya, o no, podido cambiar.
-
-En cuanto a los métodos de clase se han creado los siguientes:
-		1) findByEmail, funcion asíncrona encargada de buscar un usuario por su email.
-			Esta función acepta como parámetros lso siguientes campos:
-				-email: Email con el que buscar el usuario.
-				-done: Función de CallBack la cual tendrá dos parámetros, el primero es el error y el segundo es el usuario encontrado.
+En el directorio ./server/db se realiza la configuración de sequelize según el fichero config/config.json. Se exporta el objeto sequelize para realizar la inicializacion de la base de datos en los diferentes ficheros donde sea necesaria.
 
 
+La información relevante para esta cofiguración del fichero config/config.json ces la siguiente:
+	1) Qué gestor de bases de datos se usará
+	2) Qué base de datos concreta se usará
+	3) El nombre de usuario y la contraseña del dueño (o quién usará esa base de datos)
+	4) Un booleano para indicar si queremo que haya o no haya loggs por pantalla cada vez que realicemos una operacion en la BD
 
-Test del modelo User
-====================
+Para llevar a cabo el uso de los modelos hay que importar primero el objeto Sequelize (la configuración dependerá del valor de la variable de entorno MODE_RUN). 
 
-En el directorio test se encuentra el fichero model_user.test.js encargado de realizar los siguientes test:
-	
-	1) Comprobar que cada vez que se inicia en el modo test la base de datos está vacía de contenido (pero si tiene tablas)
+Una vez importado el modelo hay que importar los modelos (./server/models) pasándole el objeto sequelize.
 
-	2) Comprobar que cuando añadimos un usuario, solo se añade uno.
+Finalmente para que se sincronicen los objetos y así poder usarlos hay que llamar al metodo sync del objeto sequelize que se ha configurado en los dos pasos anteriores
 
-	3) Comprobar que si la contraseña es de menos de 8 caracteres no se crea el usuario.
+	Ejemplo de uso:
+	---------------
+	```node.js
 
-	4) Comprobar que si la contraseña es de mas de 15 caracteres no se crea el usuario.
+	//Inicializamos sequelize
+	const sequelize = require('./db').sequelize;
 
-	5) Comprobar que si la contraseña está en blanco no se crea el usuario.
+	//Cargamos los diferentes modelos
+	const models = require('./models')(sequelize);
 
-	6) Comprobar que si el rol no es admin o normal no se crea el usuario.
+	//Sincronizamos los modelos a la base de datos
+	if (process.env.MODE_RUN == "test"){
+		sequelize.sync({force:true});
+	}
 
-	7) Comprobar que si el rol está vacío no se crea el usuario.
+	```
 
-	8) Comprobar que si el email tiene un formato inválido no se crea el usuario.
+Definición de modelos
+===================================
 
-	9) Comprobar que se puede encontrar un usuario creado por su email.
+En el directorio ./server/models existen los modelos que existen en la base de datos (user.js...) y un fichero index encargado de realizar todas las relaciones entre ellos y exportarlos para que puedan ser usados a lo largo de la aplicación.
 
-	10) Comprobar que un usuario se crea con los parámetros indicados.
 
-	11) Comprobar que al crear un usuario la contraseña se encripta correctamente y la podemos verificar.
+	Definición del modelo usuario
+	-----------------------------
 
-	12) Comprobar que podemos cambiar la contraseña de un usuario creado previamente.
+	En el directorio models existe el fichero user.js el cual define el modelo para un usuario.
 
-	13) Comprobar que si la contraseña actual es incorrecta no se nos permite cambiar la contraseña.
+	En este fichero se comprueba que todos los campos del usaurio cumplen los requisitos (email correcto, contraseña entre 8 y 15 carácteres, si el rol es normal o admin... )
 
-	14) Comprobar que podemos cambiar la contraseña de un usario que previamente estaba guardado en la base de datos.
+	También se han creado funciones setter y getter para conseguir que la contraseña se encripte antes de almacenarla, que el email siempre se guarde en minúsculas y que al pedir el campo password se devuelva la contraseña encriptada (hashed_password)
+
+	Por otro lado se han creado los siguientes métodos de instancia:
+			1) verifyPassword, encargada de verificar que la contraseña es correcta para esa instancia (usuario)
+				Esta función acepta como parámetro el siguiente campo:
+					-Password: Contraseña sin encriptar a verificar
+				Esta función devuelve true o false en función de que sea o no correcta la contraseña a verificar
+
+			2) changePassword, encargada de cambiar el campo contraseña de una instancia (usuario)
+				Esta función acepta como parámetros los siguientes campos:
+					-Password: Contraseña actual del usuario.
+					-New_password: Nueva contraseña a almacenar.
+				Esta función devuelve true o false en función de que sea o no correcta la contraseña actual y se haya, o no, podido cambiar.
+
+	En cuanto a los métodos de clase se han creado los siguientes:
+			1) findByEmail, funcion asíncrona encargada de buscar un usuario por su email.
+				Esta función acepta como parámetros lso siguientes campos:
+					-email: Email con el que buscar el usuario.
+					-done: Función de CallBack la cual tendrá dos parámetros, el primero es el error y el segundo es el usuario encontrado.
+
+
+
+	Test del modelo User
+	--------------------
+
+	En el directorio test se encuentra el fichero model_user.test.js encargado de realizar los siguientes test:
+		
+		1) Comprobar que cada vez que se inicia en el modo test la base de datos está vacía de contenido (pero si tiene tablas)
+
+		2) Comprobar que cuando añadimos un usuario, solo se añade uno.
+
+		3) Comprobar que si la contraseña es de menos de 8 caracteres no se crea el usuario.
+
+		4) Comprobar que si la contraseña es de mas de 15 caracteres no se crea el usuario.
+
+		5) Comprobar que si la contraseña está en blanco no se crea el usuario.
+
+		6) Comprobar que si el rol no es admin o normal no se crea el usuario.
+
+		7) Comprobar que si el rol está vacío no se crea el usuario.
+
+		8) Comprobar que si el email tiene un formato inválido no se crea el usuario.
+
+		9) Comprobar que se puede encontrar un usuario creado por su email.
+
+		10) Comprobar que un usuario se crea con los parámetros indicados.
+
+		11) Comprobar que al crear un usuario la contraseña se encripta correctamente y la podemos verificar.
+
+		12) Comprobar que podemos cambiar la contraseña de un usuario creado previamente.
+
+		13) Comprobar que si la contraseña actual es incorrecta no se nos permite cambiar la contraseña.
+
+		14) Comprobar que podemos cambiar la contraseña de un usario que previamente estaba guardado en la base de datos.
 
 
 Ficheros del cliente
@@ -242,7 +283,7 @@ Ficheros del servidor
 
 	En el lado del servidor existe 1 fichero principal, el fichero index.js, el cual es el fichero al que accede el servidor al arrancarse en el se realiza lo siguiente:
 	
-		1) Se crea una conexión a la base de datos correspondiente (en funcion de la variable de entorno MODE_RUN)
+		1) Se inicializa sequelize, se añaden los modelos y se sincroniza en función de la variable de entorno
 		
 		2) Se definen las rutas estáticas para el servidor
 
@@ -293,15 +334,18 @@ Ficheros del servidor
 	Para realizar los test de las diferentes rutas post y get definidas en los ficheros auth y api del servidor se ha utilizado la librería chai-http y se han realizado los siguientes test:
 
 	*__/auth/login__*
+	En el fichero ./test/ruotes/login_server.test.js:
 		1) Comprueba si introduciendo el email y la contraseña correctas podemos hacer login recibimos un 200 OK.
 		2) Comprueba si introduciendo un email correcto pero una contraseña incorrecta recibimos un 400 y no podemos hacer login.
 		3) Comprueba si introduciendo un email incorrecto pero una contraseña correcta recibimos un 400 y no podemos hacer login.
 	
 	*__/auth/forgot__*
+	En el fichero ./test/ruotes/forgot_server.test.js:
 		1) Comprueba que si introducimos un email correcto nos devuelve un 200 OK, enviando un correo electrónico al email suministrado.
 		2) Comprueba que si introducimos un email incorrecto nos devuevel un 400 Bad Request y no envía un correo electrónico al email suministrado.
 
 	*__/auth/reset/:token__*
+	En el fichero ./test/ruotes/reset_server.test.js:
 		1) Comprueba que si las contraseñas son correctas, recibimos un 200 OK y se cambian correctamente.
 		2) Comprueba que si las contraseñas no coinciden, recibimos un 400 Bad Request y no se cambia.
 		3) Comprueba que si las contraseñas son mas cortas de 8 carácteres recibimos un 400 Bad Request y no se cambia.
@@ -310,6 +354,7 @@ Ficheros del servidor
 		6) Comprueba que si las contraseñas son validas, se envía un email y despues podemos hacer login con la nueva contraseña.
 
 	*__/api/changeProfile__*
+	En el fichero ./test/ruotes/change_profile_server.test.js:
 		1) Comprueba que si hacemos login correctamente, e introducimos el nombre y el email, junto con la contraseña actual correcamnte, se cambian el nombre y el email.
 		2) Comprueba que aunque hagamos login correctamente si la contraseña actual no lo es no se hace nada.
 		3) Comprueba que si la contraseña nueva es mas corta de 8 carácteres da error y no se cambia.

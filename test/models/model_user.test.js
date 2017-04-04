@@ -1,15 +1,21 @@
-const Model = require('../server/models/models');
 const assert = require('assert');
 const passwordHash = require('password-hash');
+//Incializamos sequelize
+const sequelize = require('../../server/db').sequelize;
+//Cargamos los modelos
+const models = require('../../server/models')(sequelize);
+
 
 
 describe('Model User', function() {
   beforeEach(function(done){
-  	Model.connect(done);
+  //Sincronizamos la base de datos
+  sequelize.sync({force:true}).then(() => done());
+
   });
 
-  it('Should create a empty model', function(done) {
-  	Model.User.findAll({where: {}})
+  it('Should create a empty models', function(done) {
+  	models.User.findAll({where: {}})
   	.then(function(Users){
   		try{
 			assert.equal(Users.length,0);
@@ -23,14 +29,14 @@ describe('Model User', function() {
   });
 
   it('Should create only 1 user', function(done) {
-  	const NewUser = Model.User.build({
+  	const NewUser = models.User.build({
 		  name: "David",
 		  email: "David@prueba.com", 
 		  password: "1234567890",
 		  role: "normal"
 		});
   	NewUser.save().then(function(NewUser) {
-			Model.User.findAll({where: {}})
+			models.User.findAll({where: {}})
   			.then(function(Users){
   				try{
 					assert.equal(Users.length,1);
@@ -47,14 +53,14 @@ describe('Model User', function() {
 	});
 
   it("Shouldn't create user. Password too short", function(done) {
-  	const NewUser = Model.User.build({
+  	const NewUser = models.User.build({
 		  name: "David",
 		  email: "David@prueba.com", 
 		  password: "1234567",
 		  role: "normal"
 		});
   	NewUser.save().then(function(NewUser) {
-			Model.User.findAll({where: {}})
+			models.User.findAll({where: {}})
   			.then(function(Users){
   				try{
 					assert.equal(Users.length, 0);
@@ -78,14 +84,14 @@ describe('Model User', function() {
 	  });
 
   it("Shouldn't create user. Password too long", function(done) {
-  	const NewUser = Model.User.build({
+  	const NewUser = models.User.build({
 		  name: "David",
 		  email: "David@prueba.com", 
 		  password: "1234567890123456",
 		  role: "normal"
 		});
   	NewUser.save().then(function(NewUser) {
-			Model.User.findAll({where: {}})
+			models.User.findAll({where: {}})
   			.then(function(Users){
   				try{
 					assert.equal(Users.length, 0);
@@ -108,14 +114,14 @@ describe('Model User', function() {
         	});
 	  });
   it("Shouldn't create user. Password empty", function(done) {
-  	const NewUser = Model.User.build({
+  	const NewUser = models.User.build({
 		  name: "David",
 		  email: "David@prueba.com", 
 		  password: "",
 		  role: "normal"
 		});
   	NewUser.save().then(function(NewUser) {
-			Model.User.findAll({where: {}})
+			models.User.findAll({where: {}})
   			.then(function(Users){
   				try{
 					assert.equal(Users.length, 0);
@@ -140,14 +146,14 @@ describe('Model User', function() {
 
 
   it("Shouldn't create user. Role invalid", function(done) {
-  	const NewUser = Model.User.build({
+  	const NewUser = models.User.build({
 		  name: "David",
 		  email: "David@prueba.com", 
 		  password: "0987654321",
 		  role: "invalid role"
 		});
   	NewUser.save().then(function(NewUser) {
-			Model.User.findAll({where: {}})
+			models.User.findAll({where: {}})
   			.then(function(Users){
   				try{
 					assert.equal(Users.length, 0);
@@ -171,14 +177,14 @@ describe('Model User', function() {
 	});
 
   	it("Shouldn't create user. Role empty", function(done) {
-  	const NewUser = Model.User.build({
+  	const NewUser = models.User.build({
 		  name: "David",
 		  email: "David@prueba.com", 
 		  password: "0987654321",
 		  role: ""
 		});
   	NewUser.save().then(function(NewUser) {
-			Model.User.findAll({where: {}})
+			models.User.findAll({where: {}})
   			.then(function(Users){
   				try{
 					assert.equal(Users.length, 0);
@@ -202,14 +208,14 @@ describe('Model User', function() {
 	});
 
 	it("Shouldn't create user. Email wrong format", function(done) {
-  	const NewUser = Model.User.build({
+  	const NewUser = models.User.build({
 		  name: "David",
 		  email: "invalid email", 
 		  password: "0987654321",
 		  role: "normal"
 		});
   	NewUser.save().then(function(NewUser) {
-			Model.User.findAll({where: {}})
+			models.User.findAll({where: {}})
   			.then(function(Users){
   				try{
 					assert.equal(Users.length, 0);
@@ -233,14 +239,14 @@ describe('Model User', function() {
 	});
 
 	it("Should find user created by email", function(done) {
-  	const NewUser = Model.User.build({
+  	const NewUser = models.User.build({
 		  name: "David",
 		  email: "David@prueba.com", 
 		  password: "0987654321",
 		  role: "normal"
 		});
   	NewUser.save().then(function(NewUser) {
-  		Model.User.findByEmail("DAVID@prueba.com", function(err, Found_User){
+  		models.User.findByEmail("DAVID@prueba.com", function(err, Found_User){
   			if(!err){
 	  			try{
 				  	assert.notEqual(Found_User, null);
@@ -258,14 +264,14 @@ describe('Model User', function() {
 	});
 
 	it("Should create one user with correct paramaters", function(done) {
-  	const NewUser = Model.User.build({
+  	const NewUser = models.User.build({
 		  name: "David",
 		  email: "David@prueba.com", 
 		  password: "0987654321",
 		  role: "normal"
 		});
   	NewUser.save().then(function(NewUser) {
-  		Model.User.findByEmail("DAVID@prueba.com", function(err, Found_User){
+  		models.User.findByEmail("DAVID@prueba.com", function(err, Found_User){
 	  			try{
 	  				assert.equal(NewUser.getDataValue("name"),"David");
 	  				assert.equal(NewUser.getDataValue("email"),"david@prueba.com");
@@ -282,7 +288,7 @@ describe('Model User', function() {
 	});
 
 	it("Should create one user with correct hash password", function(done) {
-  	const NewUser = Model.User.build({
+  	const NewUser = models.User.build({
 		  name: "David",
 		  email: "David@prueba.com", 
 		  password: "0987654321",
@@ -297,7 +303,7 @@ describe('Model User', function() {
   	});
 
   	it("Should change password user correctly", function(done) {
-  	const NewUser = Model.User.build({
+  	const NewUser = models.User.build({
 		  name: "David",
 		  email: "David@prueba.com", 
 		  password: "0987654321",
@@ -314,7 +320,7 @@ describe('Model User', function() {
   	});
 
   	it("Shouldn't change password user correctly. Current password incorrect", function(done) {
-  	const NewUser = Model.User.build({
+  	const NewUser = models.User.build({
 		  name: "David",
 		  email: "David@prueba.com", 
 		  password: "0987654321",
@@ -331,14 +337,14 @@ describe('Model User', function() {
   	});
 
   	it("Should change password user saved", function(done){
-  	const NewUser = Model.User.build({
+  	const NewUser = models.User.build({
 		  name: "David",
 		  email: "David@prueba.com", 
 		  password: "0987654321",
 		  role: "normal"
 		});
   	NewUser.save().then(function() {
-  		Model.User.findByEmail("DAVID@prueba.com", function(err, Found_User){
+  		models.User.findByEmail("DAVID@prueba.com", function(err, Found_User){
 	  				Found_User.changePassword("0987654321", "1234567890");
 	  				Found_User.update(Found_User).then(function(Change_User){
 	  					try{

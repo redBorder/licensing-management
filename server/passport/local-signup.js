@@ -1,5 +1,10 @@
 const PassportLocalStrategy = require('passport-local').Strategy;
-const Model = require('../models/models');
+
+//Incializamos sequelize
+const sequelize = require('../db').sequelize;
+
+//Cargamos los modelos
+const models = require('../models')(sequelize);
 
 /**
  * Return the Passport Local Strategy object.
@@ -10,7 +15,7 @@ module.exports = new PassportLocalStrategy({
   session: false, 
   passReqToCallback: true //Para poder leer el nombre del body 
 }, (req, email, password, done) => {
-  const NewUser = Model.User.build({
+  const NewUser = models.User.build({
       name: req.body.name.trim(),
       email: email.trim(), 
       password: password.trim(),

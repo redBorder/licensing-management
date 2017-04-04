@@ -1,10 +1,13 @@
 const jwt = require('jsonwebtoken');
 const PassportLocalStrategy = require('passport-local').Strategy;
-const Model = require('../models/models');
 const config_json = require('../../config/config.json');
-
 const config = config_json[process.env.MODE_RUN]
 
+//Incializamos sequelize
+const sequelize = require('../db').sequelize;
+
+//Cargamos los modelos
+const models = require('../models')(sequelize);
 
 /**
  * Return the Passport Local Strategy object.
@@ -20,7 +23,7 @@ module.exports = new PassportLocalStrategy({
     password: password.trim()
   };
   // find a user by email address
-  return Model.User.findByEmail(userData.email, function(err, Found_User){
+  return models.User.findByEmail(userData.email, function(err, Found_User){
         if(err || !Found_User){
             const error = new Error('Incorrect email or password');
             error.name = 'IncorrectCredentialsError';

@@ -1,10 +1,13 @@
-const Model = require('../server/models/models');
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const server = require('../index.js');
+const server = require('../../server/index.js');
 const should = chai.should();
 const sequelize_fixtures = require('sequelize-fixtures');
+//Incializamos sequelize
+const sequelize = require('../../server/db').sequelize;
 
+//Cargamos los modelos
+const models = require('../../server/models')(sequelize);
 
 chai.use(chaiHttp);
 
@@ -15,10 +18,12 @@ describe('Reset Password Test', function() {
 
   //Before each test we clean databse and load fixtures file.
   beforeEach(function(done){
-  	Model.connect(function(){
-  		sequelize_fixtures.loadFile('test/fixtures/fixtures.json', Model)
-  		.then(() => done())
-  	});
+    //Sincronizamos la base de datos
+    sequelize.sync({force:true}).then(function(){
+      //Cargamos los datos necesarios
+      sequelize_fixtures.loadFile('test/fixtures/fixtures.json', models)
+            .then(() => done())
+    })
   });
 
   it('Should return a 200 Ok message. Correct Passwords', function(done) {   

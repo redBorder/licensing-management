@@ -1,8 +1,13 @@
 const jwt = require('jsonwebtoken');
-const Model = require('../models/models');
 const config_json = require('../../config/config.json');
 
 const config = config_json[process.env.MODE_RUN]
+
+//Incializamos sequelize
+const sequelize = require('../db').sequelize;
+
+//Cargamos los modelos
+const models = require('../models')(sequelize);
 
 /**
  *  The Auth Checker middleware function.
@@ -22,7 +27,7 @@ module.exports = (req, res, next) => {
     const userId = decoded.sub;
     req.userId = userId;
     // check if a user exists
-    return Model.User.findOne({where: {id: userId}})
+    return models.User.findOne({where: {id: userId}})
     .then(function(User){
       return next();
       }, function(err){

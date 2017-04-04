@@ -1,6 +1,7 @@
 {
 	"production":
 	{
+		"BD": "mysql",
 	  	"database": "licenses_management_production",
 	  	"user": "root",
 	  	"password": "",
@@ -14,6 +15,7 @@
 	},
 	"development":
 	{
+		"BD": "mysql",
 	  	"database": "licenses_management",
 	  	"user": "root",
 	  	"password": "",
@@ -27,6 +29,7 @@
 	},
 	"test":
 	{
+		"BD": "mysql",
 	  	"database": "licenses_management_test",
 	  	"user": "root",
 	  	"password": "",
