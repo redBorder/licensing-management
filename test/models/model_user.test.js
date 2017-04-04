@@ -8,10 +8,10 @@ const models = require('../../server/models')(sequelize);
 
 
 describe('Model User', function() {
-  beforeEach(function(done){
-  //Sincronizamos la base de datos
-  sequelize.sync({force:true}).then(() => done());
-
+  
+  beforeEach(){
+	  //Sincronizamos la base de datos
+	  sequelize.sync();
   });
 
   it('Should create a empty models', function(done) {
