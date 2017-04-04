@@ -10,49 +10,49 @@ Estructura de la aplicación
 		├── config
 		│	└── config.json
 		├── client
-		│   │── src
-		│   │   ├── components
+		│	│── src
+		│	│	├── components
 		│	│	│	 ├──Base.jsx
 		│	│	│	 ├──Dashboard.jsx
 		│	│	│	 ├──Home.jsx
 		│	│	│	 └──LoginForm.jsx
-		│   │   ├── containers
+		│	│	├── containers
 		│	│	│	 ├──BasePage.jsx
 		│	│	│	 ├──DashboardPage.jsx
 		│	│	│	 ├──HomePage.jsx
 		│	│	│	 └──LoginPage.jsx
-		│   │   └── modules
+		│	│	└── modules
 		│	│		 └──Auth.jsx
-		│ 	├──Base.jsx
-		│ 	├──Dashboard.jsx
-		│ 	├──Home.jsx
-		│ 	└──LoginForm.jsx
+		│	├──Base.jsx
+		│	├──Dashboard.jsx
+		│	├──Home.jsx
+		│	└──LoginForm.jsx
 		├── server
-		│   ├── index.js
-		│   ├── routes
+		│	├── index.js
+		│	├── routes
 		│	│	├── api.jsx
-		│   │   └── auth.js		
-		│   ├── db
-		│   │   └── index.js
-		│   ├── static
-		│   │   ├── css
-		│   │   │   └── style.css
-		│   │   └── index.html
-		│   ├── models
-		│   │    ├── user.js
-		│   │    └── index.js
-		│   │── passport
-		│   │    ├── local-login.js
-		│   │    └── local-signup.js
-		│   │── static
-		│   │    └── fichero estaticos		
-		│   └── middleware
+		│	│	└── auth.js		
+		│	├── db
+		│	│	└── index.js
+		│	├── static
+		│	│	├── css
+		│	│	│	└── style.css
+		│	│	└── index.html
+		│	├── models
+		│	│	├── user.js
+		│	│	└── index.js
+		│	│── passport
+		│	│	├── local-login.js
+		│	│	└── local-signup.js
+		│	│── static
+		│	│	└── fichero estaticos		
+		│	└── middleware
 		│		└── auth-check.js		
 		└── test
 			│── routes
-		    │	└──  model_user.test.js
-		    │── routes
-			│   ├── change_profile_server.test.js
+			│	└──  model_user.test.js
+			│── routes
+			│	├── change_profile_server.test.js
 			│	├── login_server.test.js
 			│	├── reset_server.test.js
 			│	└── forgot_server.test.js
@@ -216,135 +216,128 @@ En el directorio ./server/models existen los modelos que existen en la base de d
 Ficheros del cliente
 ====================
 	
-	Principales ficheros del cliente
-	--------------------------------
+Principales ficheros del cliente
+--------------------------------
+En el lado del cliente existen 3 ficheros principales:
+	*__App.jsx__ : Fichero encargado de crear el componente principal de la aplicación, el cual incluirá a todos los demás elementos de forma recursiva, es decir es el componente padre de todos. Dentro de él se hace uso de react-router mediante el componente router, al cual se le pasan las rutas definidas en el fichero routes.js
+	*__index.jsx__ : Fichero de entrada para webpack. Es el encargado de interpretar el componente App dentro del ficheroHTML de la página web.
+	*__routes.js__ : Fichero que contiene las rutas necesarias para react router. Cuando se accede a alguna ruta definida en dicho fichero, se creará un componente BasePage cuyo hijo será el que haga mach con esa ruta.
 
-	En el lado del cliente existen 3 ficheros principales:
+Componentes JSX de la aplicación
+--------------------------------
+Dentro del directorio client/src/components se encuentran los siguientes componentes:
+	*__Base__ : Componente principal de la aplicación. Es el encargado de mostrar la barra de navegación con losdiferentes enlaces a las diferentes rutas. Acepta como propiedad 'children', la cual será el componente a mostrardebajo de la barra de navegación del componente base. 
 
-		*__App.jsx__ : Fichero encargado de crear el componente principal de la aplicación, el cual incluirá a todos los demás elementos de forma recursiva, es decir es el componente padre de todos. Dentro de él se hace uso de react-router mediante el componente router, al cual se le pasan las rutas definidas en el fichero routes.js
+	*__Home__ : Componente encargado de mostrar la página principal de la aplicación a los usuarios que no están loguados.Acepta como propiedades un mensaje de éxito, el cuál será mostrado si existe dicho mensaje.
 
-		*__index.jsx__ : Fichero de entrada para webpack. Es el encargado de interpretar el componente App dentro del fichero HTML de la página web.
+	*__Dashboard__ : Componente encargado de mostrar la página principal una vez que un usuario está logueado. Acepta comopropiedad una cadena de caráteres que será una frase secreta sólo visible si estás logueado.
 
-		*__routes.js__ : Fichero que contiene las rutas necesarias para react router. Cuando se accede a alguna ruta definida en dicho fichero, se creará un componente BasePage cuyo hijo será el que haga mach con esa ruta.
+	*__LoginForm__ : Componente encargado de crear el formulario de inicio de sesión. Acepta como propiedades lasfunciones 'onChange', encargada de manejar los campos que van cambiando, 'onSubmit', encargada de manejar cuando seenvía el formulario, 'errors', objeto encargado de almacenar los errores para cada campo además de un resumen (summary y por último 'user', objeto encargado de almacenar los valores suministrados en el formulario. 
 
-	Componentes JSX de la aplicación
-	--------------------------------
+	*__ForgotForm__ : Componente encargado de mostrar el formulario para el recordatorio de la contraseña. Este formulariosolo pedirá en email, y en el caso de haber algún error lo mostrará. 
 
-	Dentro del directorio client/src/components se encuentran los siguientes componentes:
+	*__NewPasswordFormForm__ : Componente encargado de mostrar el formulario para el cambio de la contraeña olvidada. Esteformulario contendrá la nueva contraseña junto con un campo de verificacion de la nueva contraseña. 
 
-		*__Base__ : Componente principal de la aplicación. Es el encargado de mostrar la barra de navegación con los diferentes enlaces a las diferentes rutas. Acepta como propiedad 'children', la cual será el componente a mostrar debajo de la barra de navegación del componente base. 
+	*__ProfileForm__ : Componente encargado de mostrar el formulario para el cambio del perfil de un usario. Esteformulario contendrá el nombre del usuario, el email, la nueva contraseña y la contraseña actual.
 
-		*__Home__ : Componente encargado de mostrar la página principal de la aplicación a los usuarios que no están loguados. Acepta como propiedades un mensaje de éxito, el cuál será mostrado si existe dicho mensaje.
+Contenedores JSX de la aplicación
+---------------------------------
 
-		*__Dashboard__ : Componente encargado de mostrar la página principal una vez que un usuario está logueado. Acepta como propiedad una cadena de caráteres que será una frase secreta sólo visible si estás logueado.
+La principal diferencia entre los Componentes (conocidos en inglés como Presentational Component) y los contenedores radica en que los componentes interpretan directamente los componentes JSX que se encuentran definidos en ellos (Es decir, cómo se ven las cosas), mientras que los contenedores se encargan de tratar los datos, utilizar funciones y pasársela a los componentes (Cómo se hacen las cosas).
 
-		*__LoginForm__ : Componente encargado de crear el formulario de inicio de sesión. Acepta como propiedades las funciones 'onChange', encargada de manejar los campos que van cambiando, 'onSubmit', encargada de manejar cuando se envía el formulario, 'errors', objeto encargado de almacenar los errores para cada campo además de un resumen (summary) y por último 'user', objeto encargado de almacenar los valores suministrados en el formulario.
+En esta aplicación los contenedores se encuentran en el directorio client/src/containers y son los siguientes:
 
-		*__ForgotForm__ : Componente encargado de mostrar el formulario para el recordatorio de la contraseña. Este formulario solo pedirá en email, y en el caso de haber algún error lo mostrará.
+	*__BasePage__ : Contenedor encargado de gestionar el componente Base, de momento no le hace ningún cambio.
 
-		*__NewPasswordFormForm__ : Componente encargado de mostrar el formulario para el cambio de la contraeña olvidada. Este formulario contendrá la nueva contraseña junto con un campo de verificacion de la nueva contraseña.
+	*__HomePage__ : Contenedor encargado de mostrar el componente Home. Obtiene, si procede, el mensaja de éxito del almacenamiento local, lo elimina y se lo pasa al componente para que lo muestre.
 
-		*__ProfileForm__ : Componente encargado de mostrar el formulario para el cambio del perfil de un usario. Este formulario contendrá el nombre del usuario, el email, la nueva contraseña y la contraseña actual.
+	*__DashboardPage__ : Contenedor encargado de gestionar el componente Dashboard. Obtiene el nombre y el email del usuario logueado del almacenamiento local del navegador (previamente se ha almacenado en LoginPage) para escribir un mensaje personal y pasárselo a Base como secretMessage.
 
+	*__LoginPage__ : Contenedor encargado de definir las funciones necesarias para el tratamiento de los datos del formulario (onChange) y el tratamiento del envío del formulario, en el cual se hace una petición AJAX al servidor para que autorice/deniegue al usuarío, almacenando el token si se le permite el acceso.
 
-	Contenedores JSX de la aplicación
-	---------------------------------
+	*__ForgotPage__ : Contenedor encargado de definir las funciones necesarias para el tratamiento de los datos del formulario (onChange) y el tratamiento del envío del formulario de recuerdo de contraseña, en el cual se hace una petición AJAX al servidor para que envíe un email al usuario con el enlace para recuperar la contraseña.
 
-	La principal diferencia entre los Componentes (conocidos en inglés como Presentational Component) y los contenedores radica en que los componentes interpretan directamente los componentes JSX que se encuentran definidos en ellos (Es decir, cómo se ven las cosas), mientras que los contenedores se encargan de tratar los datos, utilizar funciones y pasársela a los componentes (Cómo se hacen las cosas).
+	*__NewPasswordPage__ : Contenedor encargado de definir las funciones necesarias para el tratamiento de los datos del formulario (onChange) y el tratamiento del envío del formulario de nueva contraseña, en el cual se hace una petición AJAX al servidor para que cambie la contraseña del usuario que la está solicitando.
 
-	En esta aplicación los contenedores se encuentran en el directorio client/src/containers y son los siguientes:
+	*__Profile__ : Contenedor encargado de definir las funciones necesarias para el tratamiento de los datos del formulario (onChange) y el tratamiento del envío del formulario para el cambio de perfil, en el cual se hace una petición AJAX al servidor para que cambie los campos nombre, email y contraseña si procede del usuario.
 
-		*__BasePage__ : Contenedor encargado de gestionar el componente Base, de momento no le hace ningún cambio.
+Ficheros utiles para la autenticacion en el lado del cliente
+------------------------------------------------------------
 
-		*__HomePage__ : Contenedor encargado de mostrar el componente Home. Obtiene, si procede, el mensaja de éxito del almacenamiento local, lo elimina y se lo pasa al componente para que lo muestre.
-
-		*__DashboardPage__ : Contenedor encargado de gestionar el componente Dashboard. Obtiene el nombre y el email del usuario logueado del almacenamiento local del navegador (previamente se ha almacenado en LoginPage) para escribir un mensaje personal y pasárselo a Base como secretMessage.
-
-		*__LoginPage__ : Contenedor encargado de definir las funciones necesarias para el tratamiento de los datos del formulario (onChange) y el tratamiento del envío del formulario, en el cual se hace una petición AJAX al servidor para que autorice/deniegue al usuarío, almacenando el token si se le permite el acceso.
-
-		*__ForgotPage__ : Contenedor encargado de definir las funciones necesarias para el tratamiento de los datos del formulario (onChange) y el tratamiento del envío del formulario de recuerdo de contraseña, en el cual se hace una petición AJAX al servidor para que envíe un email al usuario con el enlace para recuperar la contraseña.
-
-		*__NewPasswordPage__ : Contenedor encargado de definir las funciones necesarias para el tratamiento de los datos del formulario (onChange) y el tratamiento del envío del formulario de nueva contraseña, en el cual se hace una petición AJAX al servidor para que cambie la contraseña del usuario que la está solicitando.
-
-		*__Profile__ : Contenedor encargado de definir las funciones necesarias para el tratamiento de los datos del formulario (onChange) y el tratamiento del envío del formulario para el cambio de perfil, en el cual se hace una petición AJAX al servidor para que cambie los campos nombre, email y contraseña si procede del usuario.
-
-	Ficheros utiles para la autenticacion en el lado del cliente
-	------------------------------------------------------------
-
-	Dentro del directorio client/modules se encuentra el fichero Auth.js que posee metodos necesarios para almacenar el token de un usuario una vez registrado (authenticateUser), comprobar si un usuario está logueado, es decir si existe el token (isUserAuthenticated), desautenticar a un usuario borrando su token (deauthenticateUser) y un metodo para recuperar el token (getToken).
+Dentro del directorio client/modules se encuentra el fichero Auth.js que posee metodos necesarios para almacenar el token de un usuario una vez registrado (authenticateUser), comprobar si un usuario está logueado, es decir si existe el token (isUserAuthenticated), desautenticar a un usuario borrando su token (deauthenticateUser) y un metodo para recuperar el token (getToken).
 
 	
 
 Ficheros del servidor
 ====================
 	
-	Principales ficheros del servidor
-	--------------------------------
+Principales ficheros del servidor
+--------------------------------
 
-	En el lado del servidor existe 1 fichero principal, el fichero index.js, el cual es el fichero al que accede el servidor al arrancarse en el se realiza lo siguiente:
+En el lado del servidor existe 1 fichero principal, el fichero index.js, el cual es el fichero al que accede el servidor al arrancarse en el se realiza lo siguiente:
 	
-		1) Se inicializa sequelize, se añaden los modelos y se sincroniza en función de la variable de entorno
+	1) Se inicializa sequelize, se añaden los modelos y se sincroniza en función de la variable de entorno
 		
-		2) Se definen las rutas estáticas para el servidor
+	2) Se definen las rutas estáticas para el servidor
 
-		3) Se definen las estrategias para la librería passport de autenticación
+	3) Se definen las estrategias para la librería passport de autenticación
 
-		4) Se definen las rutas disponibles en el servidor (auth y api)
+	4) Se definen las rutas disponibles en el servidor (auth y api)
 
-		5) Se asigna un middleware (pasarela) a la ruta api para asegurarse que solo acceden clientes autenticados la ruta /api.
+	5) Se asigna un middleware (pasarela) a la ruta api para asegurarse que solo acceden clientes autenticados la ruta /api.
 
-	Ficheros útiles para passport (autenticación)
-	---------------------------------------------
+Ficheros útiles para passport (autenticación)
+---------------------------------------------
 
-	Dentro del directorio server/passport se encuentran los ficheros necesarios para manejar las estrategias de inicio de sesión y registro de un usuario:
+Dentro del directorio server/passport se encuentran los ficheros necesarios para manejar las estrategias de inicio de sesión y registro de un usuario:
 
-		*__local-login.js__ : En este fichero se crea una nueva estrategia para passport en la cual se configura dicha estrategia, se comprueba si el email introducido junto con su contraseña son válidos y en dicho caso se crea el token con la clave secreta del fichero config_json, el identificador de usuario y una cabecera.
+	*__local-login.js__ : En este fichero se crea una nueva estrategia para passport en la cual se configura dicha estrategia, se comprueba si el email introducido junto con su contraseña son válidos y en dicho caso se crea el token con la clave secreta del fichero config_json, el identificador de usuario y una cabecera.
 
-		*__local-signup.js__ : En este fichero lo que se realiza es una nueva estraegia para almacenar un nuevo usuario registrado, para ello obtiene los datos del usuario que se ha registrado y se almacena en la base de datos.
+	*__local-signup.js__ : En este fichero lo que se realiza es una nueva estraegia para almacenar un nuevo usuario registrado, para ello obtiene los datos del usuario que se ha registrado y se almacena en la base de datos.
 
-	Dentro del fichero server/middleware se ha creado el fichero auth-check.js encargado de comprobar si un cliente está logueado y en dicho caso dar paso a la petición hacia la api definida en el fichero index.js del servidor
+Dentro del fichero server/middleware se ha creado el fichero auth-check.js encargado de comprobar si un cliente está logueado y en dicho caso dar paso a la petición hacia la api definida en el fichero index.js del servidor
 
-	Ficheros de rutas para peticiones
-	---------------------------------
+Ficheros de rutas para peticiones
+---------------------------------
 	
-	Dentro del directorio server/routes se encuentran los ficheros con los métodos get y post definidos en el servidor. 
+Dentro del directorio server/routes se encuentran los ficheros con los métodos get y post definidos en el servidor. 
 
-	Para el fichero api se ha definido un middleware con la idea de que cada vez que se envíe una peticion a algunos de sus métodos, la peticion previamente pase por auth-check.js verificando que el usuario está autorizado para aceder. Este middleware añade el identificador de usuario en la peticion para que podamos procesar dicho usuario en los metodos de la ruta api si procede.
+Para el fichero api se ha definido un middleware con la idea de que cada vez que se envíe una peticion a algunos de sus métodos, la peticion previamente pase por auth-check.js verificando que el usuario está autorizado para aceder. Este middleware añade el identificador de usuario en la peticion para que podamos procesar dicho usuario en los metodos de la ruta api si procede.
 
-	En el fichero auth.js se definen los métodos que atienden las peticiones necesarias para la autenticación de un usuario.
+En el fichero auth.js se definen los métodos que atienden las peticiones necesarias para la autenticación de un usuario.
 
-	Existen los siguientes metodos del servidor:
+Existen los siguientes metodos del servidor:
 
-		*__/auth/login__* : Método post encargado de verificar si un usuario puede hacer o no login. Utilizará la estrategia local-login para verificarlo. Devuelve un mensaje JSON con un campo success y un campo mensaje con el texto de dicha respuesta. Además si el usuario se autentica correctamente se devolverá en dicho mensaje el token creado, su nombre de usuario y su email.
-		Recibe como parámetros el email(email) y la contraseña sin encriptar (password)
+	*__/auth/login__* : Método post encargado de verificar si un usuario puede hacer o no login. Utilizará la estrategia local-login para verificarlo. Devuelve un mensaje JSON con un campo success y un campo mensaje con el texto de dicha respuesta. Además si el usuario se autentica correctamente se devolverá en dicho mensaje el token creado, su nombre de usuario y su email.
+	Recibe como parámetros el email(email) y la contraseña sin encriptar (password)
 
-		*__/auth/forgot__* : Método post en el cual, si no ha habido error, (es decir, si el correo existe), se añadirá un token aleatorio al usuario con dicho usuario, junto con una fecha de expiracion de ese token. Depués se enviará un email a dicho corre electrónico con la url a la que tiene que acceder para poder cambiar la contraseña antes de 1 hora.
+	*__/auth/forgot__* : Método post en el cual, si no ha habido error, (es decir, si el correo existe), se añadirá un token aleatorio al usuario con dicho usuario, junto con una fecha de expiracion de ese token. Depués se enviará un email a dicho corre electrónico con la url a la que tiene que acceder para poder cambiar la contraseña antes de 1 hora.
 		Recibe como parámetros el email del usuario a recordar la contraseña (email).
 	
-		*__/auth/reset/:token__* : Método post en el cual, si no ha habido error (las contraseñas introducidas coinciden y están entre 8 y 15 carácteres), se comprueba si el token pasado por la url coincide y no ha expirado. En dicho caso se cambia la contraseña de dicho usuario y se le envía un correo electrónico de confirmación.
+	*__/auth/reset/:token__* : Método post en el cual, si no ha habido error (las contraseñas introducidas coinciden y están entre 8 y 15 carácteres), se comprueba si el token pasado por la url coincide y no ha expirado. En dicho caso se cambia la contraseña de dicho usuario y se le envía un correo electrónico de confirmación.
 		Recibe como parámetros la nueva contraseña (password) y la confirmacion (confir_password)
 
-		*__/api/changeProfile__* : Método post, al cual solo se puede acceder si estamos autenticados, donde si no ha habido error (El formulario de cambio de perfil es correcto, es decir, está relleno correctamente y las constrañas, si proceden, coinciden) se comprueba si la contraseña actual es correcta y si el nuevo email no existe ya en la base de datos. En el caso de haber introducido una nueva contraseña, esta se cambiará, en caso contrario se mantendrá la contraseña actual. Se cambiará el usuario que ya está autenticado.
-		Recibe como parámetros el nombre de usuario (name), el email (email), la contraseña actual (password), la nueva contraseña (new_password) y la confirmación (confir_new_password)
+	*__/api/changeProfile__* : Método post, al cual solo se puede acceder si estamos autenticados, donde si no ha habido error (El formulario de cambio de perfil es correcto, es decir, está relleno correctamente y las constrañas, si proceden, coinciden) se comprueba si la contraseña actual es correcta y si el nuevo email no existe ya en la base de datos. En el caso de haber introducido una nueva contraseña, esta se cambiará, en caso contrario se mantendrá la contraseña actual. Se cambiará el usuario que ya está autenticado.
+	Recibe como parámetros el nombre de usuario (name), el email (email), la contraseña actual (password), la nueva contraseña (new_password) y la confirmación (confir_new_password)
 
 
 
-	Test de las peticiones del servidor
-	-----------------------------------
-	Para realizar los test de las diferentes rutas post y get definidas en los ficheros auth y api del servidor se ha utilizado la librería chai-http y se han realizado los siguientes test:
+Test de las peticiones del servidor
+-----------------------------------
+Para realizar los test de las diferentes rutas post y get definidas en los ficheros auth y api del servidor se ha utilizado la librería chai-http y se han realizado los siguientes test:
 
-	*__/auth/login__*
+*__/auth/login__*
 	En el fichero ./test/ruotes/login_server.test.js:
 		1) Comprueba si introduciendo el email y la contraseña correctas podemos hacer login recibimos un 200 OK.
 		2) Comprueba si introduciendo un email correcto pero una contraseña incorrecta recibimos un 400 y no podemos hacer login.
 		3) Comprueba si introduciendo un email incorrecto pero una contraseña correcta recibimos un 400 y no podemos hacer login.
 	
-	*__/auth/forgot__*
+*__/auth/forgot__*
 	En el fichero ./test/ruotes/forgot_server.test.js:
 		1) Comprueba que si introducimos un email correcto nos devuelve un 200 OK, enviando un correo electrónico al email suministrado.
 		2) Comprueba que si introducimos un email incorrecto nos devuevel un 400 Bad Request y no envía un correo electrónico al email suministrado.
 
-	*__/auth/reset/:token__*
+*__/auth/reset/:token__*
 	En el fichero ./test/ruotes/reset_server.test.js:
 		1) Comprueba que si las contraseñas son correctas, recibimos un 200 OK y se cambian correctamente.
 		2) Comprueba que si las contraseñas no coinciden, recibimos un 400 Bad Request y no se cambia.
@@ -353,7 +346,7 @@ Ficheros del servidor
 		5) Comprueba que si las contraseñas están vacías recibimos un 400 Bad Request y no se cambia.
 		6) Comprueba que si las contraseñas son validas, se envía un email y despues podemos hacer login con la nueva contraseña.
 
-	*__/api/changeProfile__*
+*__/api/changeProfile__*
 	En el fichero ./test/ruotes/change_profile_server.test.js:
 		1) Comprueba que si hacemos login correctamente, e introducimos el nombre y el email, junto con la contraseña actual correcamnte, se cambian el nombre y el email.
 		2) Comprueba que aunque hagamos login correctamente si la contraseña actual no lo es no se hace nada.
@@ -369,29 +362,29 @@ Ficheros del servidor
 Ficheros de configuración
 =========================
 
-	Fichero .gitignore
-	------------------
-	En este fichero se definen que fichero y directorios no se deben subir a gitHub.
+Fichero .gitignore
+------------------
+En este fichero se definen que fichero y directorios no se deben subir a gitHub.
 
-	Fichero .travis.yml
-	-------------------
-	Fichero de configuración de travis para los test. En este fichero se le dice a travis qué necesita hacer antes de realizar los tests
+Fichero .travis.yml
+-------------------
+Fichero de configuración de travis para los test. En este fichero se le dice a travis qué necesita hacer antes de realizarlos tests
 
-	Package.json
-	------------
-	Fichero que contiene las librerías necesarias para el proyecto, tanto para el modo de desarrollo como para el modo de produccion. 
-	Además contiene los scripts necesarios para el testeo y arranque de la aplicación
+Package.json
+------------
+Fichero que contiene las librerías necesarias para el proyecto, tanto para el modo de desarrollo como para el modo deproduccion. 
+Además contiene los scripts necesarios para el testeo y arranque de la aplicación
 
-	webpack.config.js
-	-----------------
-	Fichero para la configuración de webpack. 
-	Se le da el fichero de entrada, la ruta de salida del fichero creado y su nombre.
-	También contiene los preset necesarios para realizar la transpilación de React.
+webpack.config.js
+-----------------
+Fichero para la configuración de webpack. 
+Se le da el fichero de entrada, la ruta de salida del fichero creado y su nombre.
+También contiene los preset necesarios para realizar la transpilación de React.
 
-	config/config.json
-	------------------
-	En este fichero se definen los nombres de las bases de datos para los test, el desarrollo y el testeo, junto con el nombre de usuario y la contraseña que tendrá acceso a esas bases de datos.
-	También contiene el correo electrónico y la contraseña desde la cual se enviarán los correos de recordatorio de contraseña.
+config/config.json
+------------------
+En este fichero se definen los nombres de las bases de datos para los test, el desarrollo y el testeo, junto con el nombrede usuario y la contraseña que tendrá acceso a esas bases de datos.
+También contiene el correo electrónico y la contraseña desde la cual se enviarán los correos de recordatorio de contraseña.
 
 
 
