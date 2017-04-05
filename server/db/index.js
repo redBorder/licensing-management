@@ -9,6 +9,6 @@ module.exports.sequelize = new Sequelize(DB_config.database,
         {
         dialect: DB_config.BD,
         host: DB_config.host,
-        port:    3306, 
+        port:    DB_config.port, 
         logging: DB_config.logging=="true" 
 });
