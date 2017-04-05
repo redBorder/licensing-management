@@ -79,5 +79,28 @@ it("Should exists an organization with users.", function(done) {
 
       });
   });
+  it('Should create one user whitout organizations', function(done) {
+    const NewUser = models.User.build({
+      name: "Usuario sin organización",
+      email: "sin@prueba.com", 
+      password: "1234567890",
+      role: "normal"
+    });
+    NewUser.save().then(function(NewUser) {
+      models.User.findAll({where: {}})
+        .then(function(Users){
+          try{
+          assert.equal(Users.length,3);
+        }catch (e){
+          return done(e);
+        }
+        return done();
+        }, function(err){
+        return done(err);
+      })
+    }, function(err){ 
+          return done(err);
+          });
+  });
 });
 
