@@ -2,10 +2,18 @@
     {
         "model": "Organization",
         "data": {
-            "name": "Organizacion inicial",
-            "email": "org@cor.com"
+            "name": "Organizacion con usuarios",
+            "email": "org1@cor.com"
         }
     },
+    {
+        "model": "Organization",
+        "data": {
+            "name": "Organizacion sin usuarios",
+            "email": "org2@cor.com"
+        }
+    },
+    
     {
         "model": "User",
         "data": {
@@ -16,17 +24,20 @@
             "resetPasswordToken": "TESTTOKEN",
             "resetPasswordExpires" : "2100-01-01",
             "Organization" : {
-                "name" : "Organizacion inicial"
+                "name" : "Organizacion con usuarios"
             }
         }
     },    
     {
         "model": "User",
         "data": {
-            "name": "Usuario sin organización",
+            "name": "Usuario",
             "email": "normal@redborder.com",
             "hashed_password": "sha1$cd3bcf46$1$86b6fa296cffa21993bdc5c305a4e5dd6a2a47bd",
-            "role": "normal"
+            "role": "normal",
+            "Organization" : {
+                "name" : "Organizacion con usuarios"
+            }
         }
     }
 ]
