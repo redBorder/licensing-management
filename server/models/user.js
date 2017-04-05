@@ -25,7 +25,7 @@ module.exports = function(sequelize) {
             unique: true,
             validate: {
                 isEmail: { msg: "Email should be a correct email" },
-                notEmpty: {msg: "Field name shouldn't be empty'"},
+                notEmpty: {msg: "Field email shouldn't be empty'"},
             }
         },
         hashed_password: {
