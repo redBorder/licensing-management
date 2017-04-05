@@ -39,6 +39,7 @@ Estructura de la aplicación
 		│	│	│	└── style.css
 		│	│	└── index.html
 		│	├── models
+		│	│	├── organization.js
 		│	│	├── user.js
 		│	│	└── index.js
 		│	│── passport
@@ -50,7 +51,10 @@ Estructura de la aplicación
 		│		└── auth-check.js		
 		└── test
 			│── models
-			│	└──  model_user.test.js
+			│	└── relations_user_org.test.js
+			│── models
+			│	├── model_organization.test.js
+			│	└── model_user.test.js
 			│── routes
 			│	├── change_profile_server.test.js
 			│	├── login_server.test.js
@@ -183,9 +187,9 @@ En cuanto a los métodos de clase se han creado los siguientes:
 Test del modelo User
 --------------------
 
-En el directorio test se encuentra el fichero model_user.test.js encargado de realizar los siguientes test:
+En el directorio test/models se encuentra el fichero model_user.test.js encargado de realizar los siguientes test:
 		
-1) Comprobar que cada vez que se inicia en el modo test la base de datos está vacía de contenido (pero si tiene tablas)
+1) Comprobar que cada vez que se inicia en el modo test la tabla users está vacía.
 
 2) Comprobar que cuando añadimos un usuario, solo se añade uno.
 
@@ -212,6 +216,49 @@ En el directorio test se encuentra el fichero model_user.test.js encargado de re
 13) Comprobar que si la contraseña actual es incorrecta no se nos permite cambiar la contraseña.
 
 14) Comprobar que podemos cambiar la contraseña de un usario que previamente estaba guardado en la base de datos.
+
+Definición del modelo Organización
+----------------------------------
+
+En el directorio models existe el fichero organization.js el cual define el modelo para una organización.
+
+En este fichero se definen todos los campos de una organizacion (id, nombre y email) y se comprueban las restricciones (que no estén vacíos, que sean válidos...).
+Además se definine el método setter email para almacenar siempre el email en minúsuculas.
+
+En cuanto a los métodos de clase se han creado los siguientes:
+1) findByEmail, funcion asíncrona encargada de buscar una organización por su email.
+	Esta función acepta como parámetros lso siguientes campos:
+		-email: Email con el que buscar la organización.
+		-done: Función de CallBack la cual tendrá dos parámetros, el primero es el error y el segundo es la organización encontrada.
+
+
+
+Test del modelo Organización
+----------------------------
+
+En el directorio test/models se encuentra el fichero model_organization.test.js encargado de realizar los siguientes test:
+		
+1) Comprobar que cada vez que se inicia en el modo test la tabla organiations está vacía.
+
+2) Comprobar que cuando añadimos una organización, solo se añade una.
+
+3) Comprobar que si el email es invalido no se crea la organización.
+
+4) Comprobar que si el nombre está vacío no se crea la organización.
+
+5) Comprobar que si el email está vacío no se crea la organización.
+
+6) Comprobar que cuando se crea una organización se crea con los parámetros adecuados.
+
+Test de las relaciones entre User-Organization
+-----------------------------------------------
+En el directorio test/relations se encuentra el fichero relations_user_org.test.js encargado de realizar los siguientes test:
+
+1) Comprobar que se puede crear una organización con dos usuarios.
+
+2) Comprobar que se puede crear una organización sin usuarios.
+
+3) Comprobar que se puede añadir un usuario sin organización.
 
 
 Ficheros del cliente
