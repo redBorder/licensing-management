@@ -81,7 +81,6 @@ it("Shouldn't create one Licenses. OrganizationId doesn't exists", function(done
          	return done(!err);
         	});
 	});
-
   /*it("Should create Licenses. OrganizationId exists", function(done) {
   	const NewOrganization = models.Organization.build({
 		  name: "Organizacion",
