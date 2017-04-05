@@ -1,7 +1,8 @@
 const passwordHash = require('password-hash');
+const DataTypes = require('sequelize/lib/data-types');
 
-module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('User',
+module.exports = function(sequelize) {
+  const User = sequelize.define('User',
       { 
         id:{
             type : DataTypes.UUID,
@@ -30,7 +31,7 @@ module.exports = function(sequelize, DataTypes) {
         hashed_password: {
             type: DataTypes.STRING,
             validate: {
-                notEmpty: {msg: "Field password shouldn'y be empty"},
+                notEmpty: {msg: "Field password shouldn't be empty"},
                 not: {args: ["wrong_password"], msg: "Format password is incorrect. Password should be between 8 and 15 alphanumeric characters"}
             }
         },
@@ -43,6 +44,15 @@ module.exports = function(sequelize, DataTypes) {
                     msg: "Rol user must be normal or admin"
                     }
             }
+        },
+        resetPasswordToken: {
+            type: DataTypes.STRING,
+            allowNull: true 
+        },
+
+        resetPasswordExpires:{ 
+            type: DataTypes.DATE,
+            allowNull: true
         }
         
     },
@@ -94,4 +104,5 @@ module.exports = function(sequelize, DataTypes) {
             }
         }
     });
+    return User;
 }

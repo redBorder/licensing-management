@@ -1,23 +1,44 @@
 {
 	"production":
 	{
+		"BD": "mysql",
 	  	"database": "licenses_management_production",
 	  	"user": "root",
 	  	"password": "",
-	  	"logging": "false" 
+	  	"host": "127.0.0.1",
+	  	"logging": "false",
+	  	"jwtSecret": "Secret key to JWT",
+	  	"email": {
+		  	"email": "desarrollo.dsenas@gmail.com",
+		  	"password": "desarrollodsenas"
+		  }
 	},
 	"development":
 	{
+		"BD": "mysql",
 	  	"database": "licenses_management",
 	  	"user": "root",
 	  	"password": "",
-	  	"logging": "true" 
+	  	"host": "127.0.0.1",
+	  	"logging": "true",
+	  	"jwtSecret": "Secret key to JWT",
+	  	"email": {
+		  	"email": "desarrollo.dsenas@gmail.com",
+		  	"password": "desarrollodsenas"
+		  }
 	},
 	"test":
 	{
+		"BD": "mysql",
 	  	"database": "licenses_management_test",
 	  	"user": "root",
 	  	"password": "",
-	  	"logging": "false"
+	  	"host": "127.0.0.1",
+	  	"logging": "false",
+	  	"jwtSecret": "Secret key to JWT",
+	  	"email": {
+		  	"email": "desarrollo.dsenas@gmail.com",
+		  	"password": "desarrollodsenas"
+		  }
 	}
 }

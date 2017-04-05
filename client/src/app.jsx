@@ -1,4 +1,17 @@
 import React from 'react';
-import ReactDom from 'react-dom';
+import { hashHistory, Router } from 'react-router';
+import routes from './routes.js';
 
-ReactDom.render(<h1>Primer componente de prueba</h1>, document.getElementById('root'));
+
+
+class App extends React.Component{
+	render(){
+		return(
+		    <Router history={hashHistory} routes={routes} />
+		);
+		
+	}
+}
+
+
+export default App;

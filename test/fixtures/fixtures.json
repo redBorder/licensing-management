@@ -1,0 +1,22 @@
+[
+    {
+        "model": "User",
+        "data": {
+            "name": "Admin",
+            "email": "admin@redborder.com",
+            "hashed_password": "sha1$53b53d83$1$d0ac537f69356fcd7e23f81fcbb1924df7d9d7f8",
+            "role": "admin",
+            "resetPasswordToken": "TESTTOKEN",
+            "resetPasswordExpires" : "2100-01-01"
+        }
+    },
+    {
+        "model": "User",
+        "data": {
+            "name": "Normal",
+            "email": "normal@redborder.com",
+            "hashed_password": "sha1$cd3bcf46$1$86b6fa296cffa21993bdc5c305a4e5dd6a2a47bd",
+            "role": "normal"
+        }
+    }
+]
