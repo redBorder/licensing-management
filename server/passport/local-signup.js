@@ -19,7 +19,8 @@ module.exports = new PassportLocalStrategy({
       name: req.body.name.trim(),
       email: email.trim(), 
       password: password.trim(),
-      role: "normal" //De momento todos los usuarios creados seran normales (no admin)
+      OrganizationId: req.body.organization=='' ? null : req.body.organization,
+      role: req.body.role 
     });
   NewUser.save().then(function(NewUser) {
       return done(null);
