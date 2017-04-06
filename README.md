@@ -39,6 +39,7 @@ Estructura de la aplicación
 		│	│	│	└── style.css
 		│	│	└── index.html
 		│	├── models
+		│	│	├── licenses.js
 		│	│	├── organization.js
 		│	│	├── user.js
 		│	│	└── index.js
@@ -51,8 +52,10 @@ Estructura de la aplicación
 		│		└── auth-check.js		
 		└── test
 			│── models
+			│	├── relations_licenses_org.test.js
 			│	└── relations_user_org.test.js
 			│── models
+			│	├── model_licenses.test.js			
 			│	├── model_organization.test.js
 			│	└── model_user.test.js
 			│── routes
@@ -158,7 +161,7 @@ En el directorio ./server/models existen los modelos que existen en la base de d
 Definición del modelo usuario
 -----------------------------
 
-En el directorio models existe el fichero user.js el cual define el modelo para un usuario.
+En el directorio /server/models existe el fichero user.js el cual define el modelo para un usuario.
 
 En este fichero se comprueba que todos los campos del usaurio cumplen los requisitos (email correcto, contraseña entre 8 y 15 carácteres, si el rol es normal o admin... )
 
@@ -220,7 +223,7 @@ En el directorio test/models se encuentra el fichero model_user.test.js encargad
 Definición del modelo Organización
 ----------------------------------
 
-En el directorio models existe el fichero organization.js el cual define el modelo para una organización.
+En el directorio /server/models existe el fichero organization.js el cual define el modelo para una organización.
 
 En este fichero se definen todos los campos de una organizacion (id, nombre y email) y se comprueban las restricciones (que no estén vacíos, que sean válidos...).
 Además se definine el método setter email para almacenar siempre el email en minúsuculas.
@@ -259,6 +262,39 @@ En el directorio test/relations se encuentra el fichero relations_user_org.test.
 2) Comprobar que se puede crear una organización sin usuarios.
 
 3) Comprobar que se puede añadir un usuario sin organización.
+
+
+Definición del modelo Licencias
+----------------------------------
+
+En el directorio server/models existe el fichero licenses.js el cual define el modelo para una licencia.
+
+En este fichero se definen todos los campos de una licencia (cluster_id y expires_at) y se comprueban las restricciones (que sean válidos y no estén vacíos).
+
+
+
+Test del modelo Licencias
+----------------------------
+
+En el directorio test/models se encuentra el fichero model_licenses.test.js encargado de realizar los siguientes test:
+		
+1) Comprobar que cada vez que se inicia en el modo test la tabla licenses está vacía.
+
+2) Comprobar que si el campo OrganizationId está vacío no se crea la licencia.
+
+3) Comprobar que si el campo OrganizationId no existe en la tabla organización no se crea la licencia.
+
+4) Comprobar que si el identificador de organización existe, se puede crear la licencia.
+
+
+Test de las relaciones entre Licenses-Organization
+-----------------------------------------------
+En el directorio test/relations se encuentra el fichero relations_user_org.test.js encargado de realizar los siguientes test:
+
+1) Comprobar que se puede crear una organización sin licencias.
+
+2) Comprobar que se puede crear una organización con varias licencias.
+
 
 
 Ficheros del cliente

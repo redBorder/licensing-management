@@ -82,32 +82,35 @@ it("Shouldn't create one Licenses. OrganizationId doesn't exists", function(done
         	});
 	});
 
-  /*it("Should create Licenses. OrganizationId exists", function(done) {
-  	const NewOrganization = models.Organization.build({
-		  name: "Organizacion",
-		  email: "org@cor.com"
-		});
-
-  	NewOrganization.save().then(function(NewOrganization) {
-			models.Organization.findOne({where: {}})
-  			.then(function(Organization){
-  				const NewLicenses = models.Licenses.build({
-				 cluster_id: "1ed52e37-51af-4d34-b814-13a7e9b5c389",
-				 expires_at: new Date(),
-				 OrganizationId: Organization.id
-				});
-		  		NewLicenses.save().then(function(NewLicenses) {
-				models.Licenses.findAll({where: {}})
-  				.then(function(Licenses){
-  					try{
-						assert.equal(Licenses.length,2);
-					}catch (e){
-						return done(e);
-					}
-					return done();
-		  		})
+  	it("Should create Licenses. OrganizationId exists", function(done) {
+	  	const NewOrganization = models.Organization.build({
+			  name: "Organizacion",
+			  email: "org@cor.com"
 			});
-       	})
+
+	  	NewOrganization.save().
+	  	then(function(NewOrganization) {
+			models.Organization.findOne({
+				where: {}
+			})
+	  		.then(function(Organization){
+	  			const NewLicenses = models.Licenses.build({
+				cluster_id: "1ed52e37-51af-4d34-b814-13a7e9b5c389",
+				expires_at: new Date(),
+				OrganizationId: Organization.id
+				});
+			  	NewLicenses.save().then(function(NewLicenses) {
+					models.Licenses.findAll({where: {}})
+	  				.then(function(Licenses){
+	  					try{
+							assert.equal(Licenses.length,1);
+						}catch (e){
+							return done(e);
+						}
+						return done();
+			  		})
+				});
+	       	})
+		});
 	});
-*/
- });
+});

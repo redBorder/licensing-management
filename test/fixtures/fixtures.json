@@ -41,12 +41,46 @@
         }
     },
     {
+        "model": "Organization",
+        "data": {
+            "name": "Organizacion con licencias",
+            "email": "org_licenses@cor.com"
+        }
+    },
+    {
+        "model": "Organization",
+        "data": {
+            "name": "Organizacion sin licencias",
+            "email": "org_no_licenses@cor.com"
+        }
+    },
+    {
         "model": "Licenses",
         "data": {
             "cluster_id": "12df8176-0813-49d1-8767-92f4d89f1a80",
             "expires_at": "2018-01-01",
             "Organization" : {
-                "name" : "Organizacion con usuarios"
+                "name" : "Organizacion con licencias"
+            }
+        }
+    },
+    {
+        "model": "Licenses",
+        "data": {
+            "cluster_id": "12df8176-0813-49d1-8767-92f4d89f1a81",
+            "expires_at": "2018-01-01",
+            "Organization" : {
+                "name" : "Organizacion con licencias"
+            }
+        }
+    },
+    {
+        "model": "Licenses",
+        "data": {
+            "cluster_id": "12df8176-0813-49d1-8767-92f4d89f1a82",
+            "expires_at": "2018-01-01",
+            "Organization" : {
+                "name" : "Organizacion con licencias"
             }
         }
     }
