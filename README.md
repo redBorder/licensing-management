@@ -13,14 +13,22 @@ Estructura de la aplicación
 		│	│── src
 		│	│	├── components
 		│	│	│	 ├──Base.jsx
-		│	│	│	 ├──Dashboard.jsx
+		│	│	│	 ├──CreateUserForm.jsx
+		│	│	│	 ├──DashBoard.jsx
+		│	│	│	 ├──ForgotForm.jsx
 		│	│	│	 ├──Home.jsx
-		│	│	│	 └──LoginForm.jsx
+		│	│	│	 ├──LoginForm.jsx		
+		│	│	│	 ├──NewPasswordForm.jsx
+		│	│	│	 └──ProfileForm.jsx
 		│	│	├── containers
-		│	│	│	 ├──BasePage.jsx
-		│	│	│	 ├──DashboardPage.jsx
+		│	│	│	 ├──BasePAge.jsx
+		│	│	│	 ├──CreateUserPage.jsx
+		│	│	│	 ├──DashBoardPage.jsx
+		│	│	│	 ├──ForgotPage.jsx
 		│	│	│	 ├──HomePage.jsx
-		│	│	│	 └──LoginPage.jsx
+		│	│	│	 ├──LoginFormPage.jsx		
+		│	│	│	 ├──NewPasswordPage.jsx
+		│	│	│	 └──ProfilePage.jsx
 		│	│	└── modules
 		│	│		 └──Auth.jsx
 		│	├──Base.jsx
@@ -324,6 +332,8 @@ Dentro del directorio client/src/components se encuentran los siguientes compone
 
 * __ProfileForm__ : Componente encargado de mostrar el formulario para el cambio del perfil de un usario. Esteformulario contendrá el nombre del usuario, el email, la nueva contraseña y la contraseña actual.
 
+* __CreateUser__ : Componente encargado de mostrar el formulario para crear un usuario. Este formulario contendrá un nombre, un email, una contraseña con su confirmación, una lista de todas las organizaciones disponibles y un checkbox para marcar el usuario como administrador o no.
+
 Contenedores JSX de la aplicación
 ---------------------------------
 
@@ -345,10 +355,12 @@ En esta aplicación los contenedores se encuentran en el directorio client/src/c
 
 * __Profile__ : Contenedor encargado de definir las funciones necesarias para el tratamiento de los datos del formulario (onChange) y el tratamiento del envío del formulario para el cambio de perfil, en el cual se hace una petición AJAX al servidor para que cambie los campos nombre, email y contraseña si procede del usuario.
 
+* __CreateUserPage__ : Contenedor encargado de definir las funciones necesarias para el tratamiento de los datos del formulario (onChange) y el tratamiento del envío del formulario para el registro de un nuevo usuario, en el cual se hace una petición AJAX al servidor para que se cree un usuario con los datos suministrados en el formulario.
+
 Ficheros utiles para la autenticacion en el lado del cliente
 ------------------------------------------------------------
 
-Dentro del directorio client/modules se encuentra el fichero Auth.js que posee metodos necesarios para almacenar el token de un usuario una vez registrado (authenticateUser), comprobar si un usuario está logueado, es decir si existe el token (isUserAuthenticated), desautenticar a un usuario borrando su token (deauthenticateUser) y un metodo para recuperar el token (getToken).
+Dentro del directorio client/modules se encuentra el fichero Auth.js que posee metodos necesarios para almacenar el token de un usuario una vez registrado (authenticateUser), comprobar si un usuario está logueado, es decir si existe el token (isUserAuthenticated), desautenticar a un usuario borrando su token (deauthenticateUser), un metodo para recuperar el token (getToken) y para comprobar si un usuario logueado es administrador (isAdmin).
 
 	
 
@@ -379,7 +391,7 @@ Dentro del directorio server/passport se encuentran los ficheros necesarios para
 En este fichero se crea una nueva estrategia para passport en la cual se configura dicha estrategia, se comprueba si el email introducido junto con su contraseña son válidos y en dicho caso se crea el token con la clave secreta del fichero config_json, el identificador de usuario y una cabecera.
 
 * __local-signup.js__ 
-En este fichero lo que se realiza es una nueva estraegia para almacenar un nuevo usuario registrado, para ello obtiene los datos del usuario que se ha registrado y se almacena en la base de datos.
+En este fichero lo que se realiza es una nueva estrategia para almacenar un nuevo usuario registrado, para ello obtiene los datos del usuario que se ha registrado y se almacena en la base de datos.
 
 Dentro del fichero server/middleware se ha creado el fichero auth-check.js encargado de comprobar si un cliente está logueado y en dicho caso dar paso a la petición hacia la api definida en el fichero index.js del servidor
 
@@ -408,9 +420,13 @@ Recibe como parámetros la nueva contraseña (password) y la confirmacion (confi
 
 * __/api/changeProfile__*  : 
 
-Método post, al cual solo se puede acceder si estamos autenticados, donde si no ha habido error (El formulario de cambio de perfil es correcto, es decir, está relleno correctamente y las constrañas, si proceden, coinciden) se comprueba si la contraseña actual es correcta y si el nuevo email no existe ya en la base de datos. En el caso de haber introducido una nueva contraseña, esta se cambiará, en caso contrario se mantendrá la contraseña actual. Se cambiará el usuario que ya está autenticado.
+Método post, al cual solo se puede acceder si estamos autenticados, donde si no ha habido error (El formulario de cambio de perfil es correcto, es decir, está relleno correctamente y las contraseñas, si proceden, coinciden) se comprueba si la contraseña actual es correcta y si el nuevo email no existe ya en la base de datos. En el caso de haber introducido una nueva contraseña, esta se cambiará, en caso contrario se mantendrá la contraseña actual. Se cambiará el usuario que ya está autenticado.
 	Recibe como parámetros el nombre de usuario (name), el email (email), la contraseña actual (password), la nueva contraseña (new_password) y la confirmación (confir_new_password)
 
+* __/api/createUser*  : 
+
+Método post, al cual solo se puede acceder si estamos autenticados, donde si no ha habido error (El formulario de creación de un usuario es correcto, es decir, está relleno correctamente y las contraseñas coinciden) se comprueba si la el usuario logueado realmente tiene permisos de usuarios, entonces se creará un usuario en la base de datos haciendo uso de passport.
+	Recibe como parámetros el nombre de usuario (name), el email (email), ls contraseña (new_password) y la confirmación (confir_new_password), la organización a la que pertenece y si es administrador o no.
 
 
 Test de las peticiones del servidor
