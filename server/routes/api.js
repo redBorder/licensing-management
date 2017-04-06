@@ -202,4 +202,31 @@ router.post('/createUser', (req, res, next) => {
     })
 });
 
+router.post('/listUsers', (req, res) => {
+  models.User.findOne({
+        where: {
+            id: req.userId
+        }
+    }).then(function(user){
+      if(user.role != "admin"){
+        return res.status(400).json({
+            success: false,
+            message: "You don't have permissions",
+          });
+      }
+      else
+      {
+          models.User.findAll({
+          where: {
+          }
+        }).then(function(list_users){
+          return res.status(200).json({
+            success: true,
+            users: list_users
+          })
+        })
+      }
+    })
+  });
+
 module.exports = router;
