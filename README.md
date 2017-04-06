@@ -435,7 +435,7 @@ Para realizar los test de las diferentes rutas post y get definidas en los fiche
 
 * __/auth/login__* 
 
-En el fichero ./test/ruotes/login_server.test.js:
+En el fichero ./test/routes/login_server.test.js:
 
 1) Comprueba si introduciendo el email y la contraseña correctas podemos hacer login recibimos un 200 OK.
 
@@ -446,7 +446,7 @@ En el fichero ./test/ruotes/login_server.test.js:
 	
 * __/auth/forgot__* 
 
-En el fichero ./test/ruotes/forgot_server.test.js:
+En el fichero ./test/routes/forgot_server.test.js:
 
 1) Comprueba que si introducimos un email correcto nos devuelve un 200 OK, enviando un correo electrónico al email suministrado.
 
@@ -455,7 +455,7 @@ En el fichero ./test/ruotes/forgot_server.test.js:
 
 * __/auth/reset/:token__* 
 
-En el fichero ./test/ruotes/reset_server.test.js:
+En el fichero ./test/routes/reset_server.test.js:
 
 1) Comprueba que si las contraseñas son correctas, recibimos un 200 OK y se cambian correctamente.
 
@@ -472,7 +472,7 @@ En el fichero ./test/ruotes/reset_server.test.js:
 
 * __/api/changeProfile__* 
 
-En el fichero ./test/ruotes/change_profile_server.test.js:
+En el fichero ./test/routes/change_profile_server.test.js:
 
 1) Comprueba que si hacemos login correctamente, e introducimos el nombre y el email, junto con la contraseña actual correcamnte, se cambian el nombre y el email.
 
@@ -492,7 +492,15 @@ En el fichero ./test/ruotes/change_profile_server.test.js:
 
 9) Comprueba que si los campos del formualario están vacíos debe salir un error y no cambiar nada.
 
-		
+* __/api/createUser*  : 
+
+En el fichero ./test/routes/create_user_server.test.js:
+
+1) Comprueba que un usuario administrador autenticado puede crear un usuario.
+
+2) Comprueba que un usuario normal autenticado NO puede crear un usuario.
+
+3) Comprueba que el usuario se ha creado correctamente y podemos loguearnos.
 
 
 Ficheros de configuración
