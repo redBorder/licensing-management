@@ -23,7 +23,6 @@ const models = require('../models')(sequelize);
 function validateCreateUserForm(payload) {
   let isFormValid = true;
   let message = '';
-console.log(payload);
   if (!payload || typeof payload.name !== 'string' || payload.name.trim().length === 0) {
     isFormValid = false;
     message = 'Please provide your name ';
@@ -65,25 +64,30 @@ function validateChangeProfileForm(payload) {
 
   if (!payload || typeof payload.name !== 'string' || payload.name.trim().length === 0) {
     isFormValid = false;
-    message = 'Please provide a name ';
+    message = 'Please provide your name ';
   }
 
   if (!payload || typeof payload.email !== 'string' || payload.email.trim().length === 0) {
     isFormValid = false;
-    message = message != "" ? message + 'and please provide a email address ' : "Please provide your a address ";
+    message = message != "" ? message + 'and please provide your email address ' : "Please provide your email address ";
 
   }
 
   if (payload.new_password && payload.confir_new_password && 
     !(payload.confir_new_password.trim()===payload.new_password.trim())){
     isFormValid = false;
-    message = message != "" ? message + 'and passwords must be the same ' : 'Passwords must be the same ';
+    message = message != "" ? message + 'and new passwords must be the same ' : 'New passwords must be the same ';
   }
 
   if (payload.new_password && (typeof payload.new_password !== 'string' || payload.new_password.trim().length < 8) ||
    payload.confir_new_password && (typeof payload.confir_new_password !== 'string' || payload.confir_new_password.trim().length < 8)) {
     isFormValid = false;
-    message = message != "" ? message + 'and password should be between 8 and 15 alphanumeric characters ' : 'Password should be between 8 and 15 alphanumeric characters ';
+    message = message != "" ? message + 'and new password should be between 8 and 15 alphanumeric characters ' : 'New password should be between 8 and 15 alphanumeric characters ';
+  }
+
+  if(!payload.password){
+    isFormValid = false;
+    message = message != "" ? message + "and password couldn't be empty " : "Password couldn't be empty ";
   }
 
   return {
@@ -136,7 +140,6 @@ router.post('/changeProfile', (req, res) => {
 });
 
 router.post('/createUser', (req, res, next) => {
-  console.log(req.body);
   const validationResult = validateCreateUserForm(req.body);
   if (!validationResult.success) {
     return res.status(400).json({
