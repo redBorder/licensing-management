@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { Link, IndexLink } from 'react-router';
 import Auth from '../modules/Auth';
 
-const Base = ({ children}) => (
+const Base = ({children}) => (
   <div>
     <div className="top-bar">
       <div className="top-bar-left">
@@ -10,10 +10,18 @@ const Base = ({ children}) => (
       </div>
 
      {Auth.isUserAuthenticated() ? (
+        Auth.isAdmin() ? (
+        <div className="top-bar-right">
+          <Link to="/createUser"> Create User </Link>
+          <Link to="/changeProfile">Profile</Link>
+          <Link to="/logout">Log out</Link>
+        </div>
+        ) : (
         <div className="top-bar-right">
           <Link to="/changeProfile">Profile</Link>
           <Link to="/logout">Log out</Link>
         </div>
+        )
       ) : (
         <div className="top-bar-right">
           <Link to="/login">Log in user</Link>

@@ -12,11 +12,11 @@ class DashboardPage extends React.Component {
     super(props);
 
     const name = localStorage.getItem('userProfileName');
-    const email = localStorage.getItem('userProfileEmail')
+    const email = localStorage.getItem('userProfileEmail');
 
     this.state = {
       secretData: name + ' (' + email + ') is autorizated to see this page'
-    };
+   };
   }
   /**
    * Render the component.

@@ -5,6 +5,7 @@ import LoginPage from './containers/LoginPage.jsx';
 import ForgotPage from './containers/ForgotPage.jsx';
 import NewPasswordPage from './containers/NewPasswordPage.jsx';
 import ProfilePage from './containers/ProfilePage.jsx';
+import CreateUserPage from './containers/CreateUserPage.jsx';
 import Auth from './modules/Auth';
 
 const routes = {
@@ -48,6 +49,10 @@ const routes = {
     {
       path: '/changeProfile',
       component: ProfilePage
+    },
+    {
+      path: '/createUser',
+      component: CreateUserPage
     }
   ]
 };
