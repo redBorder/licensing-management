@@ -2,14 +2,19 @@ import React from 'react';
 import { Panel } from 'react-bootstrap';
 
 
-const Dashboard = ({secretData}) => (
+const Dashboard = ({successMessage, errorMessage}) => (
 	<div>
   		<Panel header="Licenses management" bsStyle="info">
   			This is the dashboard page, if you can see this, you are autenticated
  	 	</Panel>
- 	 	{secretData && 
+ 	 	{successMessage && 
  	 		<Panel header="Success message" bsStyle="success">
-  			{secretData}
+  			{successMessage}
+ 	 		</Panel>
+ 	 	}
+ 	 	{errorMessage && 
+ 	 		<Panel header="Error message" bsStyle="danger">
+  			{errorMessage}
  	 		</Panel>
  	 	}
  	</div>

@@ -12,8 +12,9 @@ class ListUsersPage extends Component {
     	]
     }
   }
+
+  //Justo antes de renderizar el componente se llama a este método
   componentWillMount(){
-  	console.log("Se llama")
   	 //Utilizando ajax, en el constructor pedimos la lista de usuarios registrados
     // create an AJAX request
     const xhr = new XMLHttpRequest();
@@ -23,7 +24,6 @@ class ListUsersPage extends Component {
     xhr.responseType = 'json';
     xhr.addEventListener('load', () => {
       if (xhr.status === 200) {
-      	console.log("correcto");
         // success
         // change the component-container state
         this.setState({
@@ -33,8 +33,6 @@ class ListUsersPage extends Component {
 
       } else {
         // failure
-      	console.log("fallo");
-
         // change the component state
         error = xhr.response.message;
 

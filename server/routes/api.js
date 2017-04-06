@@ -228,5 +228,95 @@ router.post('/listUsers', (req, res) => {
       }
     })
   });
+router.post('/removeUser/:id', (req, res) => {
+  models.User.findOne({
+        where: {
+            id: req.userId
+        }
+    }).then(function(user){
+      if(user.role != "admin"){
+        return res.status(400).json({
+            success: false,
+            message: "You don't have permissions",
+          });
+      }
+      else
+      {
+          models.User.findOne({
+            where: {
+              id: req.params.id
+            }
+          }).then(function(user_delete){
+            if(!user_delete)
+              return res.status(400).json({
+                success: false,
+                message: "User doesn't exists"
+              })
+            const name = user_delete.name;
+            models.User.destroy({
+            where: {id: req.params.id} 
+           }).then(function(affectedRows){
+            if(affectedRows==1)
+              return res.status(200).json({
+              success: true,
+              message: "User " + name + " delete correctly"
+            })
+            else
+              return res.status(400).json({
+              success: false,
+              message: "Error removing user" 
+            })
+          })
+        })
+      }
+    })
+  });
+
+
+router.post('/editUsersAdmin/:id', (req, res) => {
+  models.User.findOne({
+        where: {
+            id: req.userId
+        }
+    }).then(function(user){
+      if(user.role != "admin"){
+        return res.status(400).json({
+            success: false,
+            message: "You don't have permissions",
+          });
+      }
+      else
+      {
+          models.User.findOne({
+            where: {
+              id: req.params.id
+            }
+          }).then(function(user_edit){
+            if(!user_edit)
+              return res.status(400).json({
+                success: false,
+                message: "User doesn't exists"
+              })
+            user_edit.name=req.body.name;
+            user_edit.email=req.body.email;
+            user_edit.role=req.body.role;
+            user_edit.OrganizationId=req.body.organization == "" ? null: req.body.organization;
+            user_edit.save()
+            .then(function(user_save){
+              return res.status(200).json({
+              success: true,
+              message: "User " + user_save.name + " edited correctly",
+              user: user_save
+              }) 
+            }).catch(function (err) {
+              return res.status(400).json({
+              success: false,
+              message: "Error editing user" 
+              })
+            });
+          })
+      }
+    })
+  });
 
 module.exports = router;
