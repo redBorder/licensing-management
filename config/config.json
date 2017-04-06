@@ -10,7 +10,7 @@
 	  	"logging": "false",
 	  	"jwtSecret": "Secret key to JWT",
 	  	"email": {
-	  		"Server": "gmail",
+	  		"server": "Gmail",
 		  	"email": "desarrollo.dsenas@gmail.com",
 		  	"password": "desarrollodsenas"
 		  }
@@ -26,7 +26,7 @@
 	  	"logging": "true",
 	  	"jwtSecret": "Secret key to JWT",
 	  	"email": {
-	  		"Server": "gmail",	  		
+	  		"server": "Gmail",	  		
 		  	"email": "desarrollo.dsenas@gmail.com",
 		  	"password": "desarrollodsenas"
 		  }
@@ -42,7 +42,7 @@
 	  	"logging": "false",
 	  	"jwtSecret": "Secret key to JWT",
 	  	"email": {
-	  		"Server": "gmail",
+	  		"server": "Gmail",
 		  	"email": "desarrollo.dsenas@gmail.com",
 		  	"password": "desarrollodsenas"
 		  }
