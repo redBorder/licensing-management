@@ -60,7 +60,7 @@ Estructura de la aplicación
 		│	│	├── local-login.js
 		│	│	└── local-signup.js
 		│	│── static
-		│	│	└── fichero estaticos		
+		│	│	└── ficheros estaticos (css y html)	
 		│	└── middleware
 		│		└── auth-check.js		
 		└── test
