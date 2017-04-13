@@ -72,7 +72,7 @@ const EditUserForm = ({
       <FormGroup>
         <Col smOffset={2} sm={10}>
           <Button type="submit">
-            Log in
+            Edit user
           </Button>
         </Col>
       </FormGroup>

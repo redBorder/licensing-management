@@ -110,7 +110,7 @@ router.post('/changeProfile', (req, res) => {
         }
     }).then(function(user){
       if(!user.verifyPassword(req.body.password)){
-        return res.status(400).json({
+        return res.status(401).json({
             success: false,
             message: "Current password is not correct.",
           });
@@ -153,7 +153,7 @@ router.post('/createUser', (req, res, next) => {
         }
     }).then(function(user){
       if(user.role != "admin"){
-        return res.status(400).json({
+        return res.status(401).json({
             success: false,
             message: "You don't have permissions",
           });
@@ -209,7 +209,7 @@ router.post('/listUsers', (req, res) => {
         }
     }).then(function(user){
       if(user.role != "admin"){
-        return res.status(400).json({
+        return res.status(401).json({
             success: false,
             message: "You don't have permissions",
           });
@@ -235,7 +235,7 @@ router.post('/removeUser/:id', (req, res) => {
         }
     }).then(function(user){
       if(user.role != "admin"){
-        return res.status(400).json({
+        return res.status(401).json({
             success: false,
             message: "You don't have permissions",
           });
@@ -280,7 +280,7 @@ router.post('/editUsersAdmin/:id', (req, res) => {
         }
     }).then(function(user){
       if(user.role != "admin"){
-        return res.status(400).json({
+        return res.status(401).json({
             success: false,
             message: "You don't have permissions",
           });
