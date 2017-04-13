@@ -39,20 +39,24 @@ describe('Remove user Test', function() {
           .set('Authorization', `bearer ${res.body.token}`)
           .send()
           .end((err, res) => {
-           try{
+           
             res.should.have.status(200);
             res.body.should.have.property('success').eql(true);
             res.body.should.have.property('message').eql('User Usuario delete correctly');
             models.User.findAll({where: {}})
             .then(function(Users){
-              Users.length.should.eql(1);
+              try{
+                res.should.have.status(200);
+                res.body.should.have.property('success').eql(true);
+                res.body.should.have.property('message').eql('User Usuario delete correctly');
+                Users.length.should.eql(1);
+                done();
+                } catch(e){
+                done(e);
+                }        
               }, function(err){
                done(err);
-              })
-            done();
-             } catch(e){
-              done(e);
-            }           
+              })                
         });
       })
     });
@@ -70,20 +74,20 @@ describe('Remove user Test', function() {
           .set('Authorization', `bearer ${res.body.token}`)
           .send()
           .end((err, res) => {
-           try{
-            res.should.have.status(401);
-            res.body.should.have.property('success').eql(false);
-            res.body.should.have.property('message').eql("You don't have permissions");
             models.User.findAll({where: {}})
             .then(function(Users){
+              try{
+                res.should.have.status(401);
+                res.body.should.have.property('success').eql(false);
+                res.body.should.have.property('message').eql("You don't have permissions");
                 Users.length.should.eql(2);
+                done();
+              } catch(e){
+                done(e);
+              }    
               }, function(err){
                   done(err);
-              })
-            done();
-            } catch(e){
-              done(e);
-            }           
+              })       
         });
       })
     });
@@ -101,20 +105,20 @@ describe('Remove user Test', function() {
           .set('Authorization', `bearer ${res.body.token}`)
           .send()
           .end((err, res) => {
-           try{
-            res.should.have.status(400);
-            res.body.should.have.property('success').eql(false);
-            res.body.should.have.property('message').eql("User doesn't exists");
             models.User.findAll({where: {}})
             .then(function(Users){
-              Users.length.should.eql(2);
+              try{
+                res.should.have.status(400);
+                res.body.should.have.property('success').eql(false);
+                res.body.should.have.property('message').eql("User doesn't exists");
+                Users.length.should.eql(2);
+                done();
+              } catch(e){
+                done(e);
+              }       
               }, function(err){
                 done(err);
-              })
-            done();
-            } catch(e){
-              done(e);
-            }           
+              })    
         });
       })
     });
