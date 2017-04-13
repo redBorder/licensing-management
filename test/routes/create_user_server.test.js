@@ -50,15 +50,25 @@ describe('Create user Test', function() {
               res.should.have.status(200);
               res.body.should.have.property('success').eql(true);
               res.body.should.have.property('message').eql('User registered successfully. A email has been send to creado@prueba.com with the password');
-              done();
-            } catch(e){
+              } catch(e){
               done(e);
             }
-         });
-        })
-    });
+            models.User.findAll({where: {}})
+            .then(function(Users){
+                try{
+                  Users.length.should.eql(3);
+                } catch (e) {
+                   done(e);
+                }
+                 done()
+              }, function(err){
+               done(err);
+            })      
+         })
+      })
+  });
 
-  it('Should return a 400 Bad Request. Login ok but normal user', function(done) {
+  it('Should return a 401 not autorizated. Login ok but normal user', function(done) {
     const email = encodeURIComponent("normal@redborder.com");
     const password = encodeURIComponent("1234567890");
     const user = `email=${email}&password=${password}`;
@@ -79,7 +89,7 @@ describe('Create user Test', function() {
            .send(formData)
            .end((err, res) => {
             try{
-              res.should.have.status(400);
+              res.should.have.status(401);
               res.body.should.have.property('success').eql(false);
               res.body.should.have.property('message').eql("You don't have permissions");
               done();

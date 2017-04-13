@@ -31,6 +31,7 @@
     {
         "model": "User",
         "data": {
+            "id" : "12df8176-0813-49d1-8767-92f4d89f1a81",
             "name": "Usuario",
             "email": "normal@redborder.com",
             "hashed_password": "sha1$d0f78cf7$1$d245767564757467ceaf1ebc4a501b05d5691738",

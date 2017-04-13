@@ -7,7 +7,7 @@
     "start": "export MODE_RUN='development' && nodemon --use_strict ./server/index.js",
     "build:dev": "webpack -w",
     "build": "webpack",
-    "test": "export MODE_RUN='test' && node_modules/mocha/bin/mocha --compilers js:babel-core/register --recursive"
+    "test": "export MODE_RUN='test' && node_modules/mocha/bin/mocha --compilers js:babel-core/register --recursive --timeout 5000"
   },
   "repository": {
     "type": "git",
