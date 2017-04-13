@@ -15,8 +15,10 @@ Estructura de la aplicación
 		│	│	│	 ├──Base.jsx
 		│	│	│	 ├──CreateUserForm.jsx
 		│	│	│	 ├──DashBoard.jsx
+		│	│	│	 ├──EditUserForm.jsx
 		│	│	│	 ├──ForgotForm.jsx
 		│	│	│	 ├──Home.jsx
+		│	│	│	 ├──ListUsers.jsx
 		│	│	│	 ├──LoginForm.jsx		
 		│	│	│	 ├──NewPasswordForm.jsx
 		│	│	│	 └──ProfileForm.jsx
@@ -24,11 +26,14 @@ Estructura de la aplicación
 		│	│	│	 ├──BasePAge.jsx
 		│	│	│	 ├──CreateUserPage.jsx
 		│	│	│	 ├──DashBoardPage.jsx
+		│	│	│	 ├──EditUserPage.jsx
 		│	│	│	 ├──ForgotPage.jsx
 		│	│	│	 ├──HomePage.jsx
-		│	│	│	 ├──LoginFormPage.jsx		
+		│	│	│	 ├──ListUsersPage.jsx
+		│	│	│	 ├──LoginPage.jsx		
 		│	│	│	 ├──NewPasswordPage.jsx
-		│	│	│	 └──ProfilePage.jsx
+		│	│	│	 ├──ProfilePage.jsx
+		│	│	│	 └──RemoveUserPage.jsx
 		│	│	└── modules
 		│	│		 └──Auth.jsx
 		│	├──Base.jsx
@@ -163,7 +168,7 @@ const models = require('./models')(sequelize);
 Definición de modelos
 ===================================
 
-En el directorio ./server/models existen los modelos que existen en la base de datos (user.js...) y un fichero index encargado de realizar todas las relaciones entre ellos y exportarlos para que puedan ser usados a lo largo de la aplicación.
+En el directorio ./server/models existen los modelos que existen en la base de datos (user.js, organizations.js y licenses.js) y un fichero index encargado de realizar todas las relaciones entre ellos y exportarlos para que puedan ser usados a lo largo de la aplicación.
 
 
 Definición del modelo usuario
@@ -334,6 +339,10 @@ Dentro del directorio client/src/components se encuentran los siguientes compone
 
 * __CreateUser__ : Componente encargado de mostrar el formulario para crear un usuario. Este formulario contendrá un nombre, un email, una contraseña con su confirmación, una lista de todas las organizaciones disponibles y un checkbox para marcar el usuario como administrador o no.
 
+* __EditUserForm__ : Componente encargado de mostrar el formulario editar un usuario. Este formulario contendrá los campos para el nombre, el email y la organización a la que pertenecerá dicho usuario junto con un campo de 'checkbox' para indicar si es o no administrador.
+
+* __ListUser__ : Componente encargado de mostrar un listado de todos los usuario existentes. Aceptará como parámetros una tabla de objetos de tipo User junto con un mensaje de error (en caso de que exista se mostrará). Se mapeará la lista de usuarios mostrando el nombre, que será un enlace para la edición, una etiqueta para poder eliminarlo junto con la información de su email y si es o no administrador.
+
 Contenedores JSX de la aplicación
 ---------------------------------
 
@@ -355,7 +364,14 @@ En esta aplicación los contenedores se encuentran en el directorio client/src/c
 
 * __Profile__ : Contenedor encargado de definir las funciones necesarias para el tratamiento de los datos del formulario (onChange) y el tratamiento del envío del formulario para el cambio de perfil, en el cual se hace una petición AJAX al servidor para que cambie los campos nombre, email y contraseña si procede del usuario.
 
-* __CreateUserPage__ : Contenedor encargado de definir las funciones necesarias para el tratamiento de los datos del formulario (onChange) y el tratamiento del envío del formulario para el registro de un nuevo usuario, en el cual se hace una petición AJAX al servidor para que se cree un usuario con los datos suministrados en el formulario.
+* __CreateUserPage__ : Contenedor encargado de definir las funciones necesarias para el tratamiento de los datos del formulario (onChange) y el tratamiento del envío del formulario para el registro de un nuevo usuario, en el cual se hace una petición AJAX al servidor para que se cree un usuario con los datos suministrados en el formulario. FALTA LA CONSULTA DE LAS OGRANIZACIONES!!!!!!!!!!!!!!!!!!!!!
+
+* __EditUserPage__ : Contenedor encargado de definir las funciones necesarias para el tratamiento de los datos del formulario (control de cambios y validación) de edición de usuario. Se realiazará una petición AJAX al servidor para que trate los datos de edición de un usuario el enviar el formulario.
+
+* __ListUsersPage__ : Contenedor encargado de realizar una peticion AJAX justamente antes de realizar la interpretación del componente ListUsers para obtener los usuarios y suministrarselo al componente para que los muestre.
+
+* __RemoveUserPage__ : Este componente hace una peticion AJAX al servidor justo antes de interpretar el componente Dashboard para eliminar un usuario. El mensaje de respuesta se le pasa al componente Dashboard como parámetros para que lo muestre.
+
 
 Ficheros utiles para la autenticacion en el lado del cliente
 ------------------------------------------------------------
@@ -423,17 +439,33 @@ Recibe como parámetros la nueva contraseña (password) y la confirmacion (confi
 Método post, al cual solo se puede acceder si estamos autenticados, donde si no ha habido error (El formulario de cambio de perfil es correcto, es decir, está relleno correctamente y las contraseñas, si proceden, coinciden) se comprueba si la contraseña actual es correcta y si el nuevo email no existe ya en la base de datos. En el caso de haber introducido una nueva contraseña, esta se cambiará, en caso contrario se mantendrá la contraseña actual. Se cambiará el usuario que ya está autenticado.
 	Recibe como parámetros el nombre de usuario (name), el email (email), la contraseña actual (password), la nueva contraseña (new_password) y la confirmación (confir_new_password)
 
-* __/api/createUser*  : 
+* __/api/createUser__*  : 
 
 Método post, al cual solo se puede acceder si estamos autenticados, donde si no ha habido error (El formulario de creación de un usuario es correcto, es decir, está relleno correctamente y las contraseñas coinciden) se comprueba si la el usuario logueado realmente tiene permisos de usuarios, entonces se creará un usuario en la base de datos haciendo uso de passport.
 	Recibe como parámetros el nombre de usuario (name), el email (email), ls contraseña (new_password) y la confirmación (confir_new_password), la organización a la que pertenece y si es administrador o no.
 
+* __api/listUsers__* :
+
+Método post, el cual se encarga de devolver en un fichero JSON todos los usuarios que se hayan registrados en la base de datos.
+Sólo devolverá los usuarios si el usuario autenticado es de tipo admin.
+
+* __api/removeUser/:id__* :
+
+Método post, al cual solo se puede acceder si estamos autenticados y además somo administradores porque dentro de él se comprueba si el usuario que solicita eliminar un usuario es de tipo admin. 
+Este método elimina el usuario cuyo identificador se le ha enviado como parámetro en la url de la petición en el caso de que exista. Devuelve un objeto JSON con un parámetro de éxito (success) además del mensaje de exito o error.
+
+* __api/editUsersAdmin/:id__* :
+
+Método post, al cual solo se puede acceder si estamos autenticados y además somo administradores porque dentro de él se comprueba si el usuario que solicita eliminar un usuario es de tipo admin.
+Modifica el usuario cuyo identificador coincide con el parámetro que se le ha enviado en la url de la petición. 
+Recibe como parámetros de la petición post el nuevo nombre, email, rol y organización a la que pertenecerá el usuario que queremos modificar.
+Devuelve un objeto JSON con un parámetro de éxito (success) además de un mensaje de éxito o fracaso y el usuario modificado.
 
 Test de las peticiones del servidor
 -----------------------------------
-Para realizar los test de las diferentes rutas post y get definidas en los ficheros auth y api del servidor se ha utilizado la librería chai-http y se han realizado los siguientes test:
+Para realizar los test de las diferentes rutas post y get definidas en los ficheros auth y api del servidor se ha utilizado la librería chai-http, se han definido datos de pruebas en el fichero ./test/fixtures/fixtures.json y se han realizado los siguientes test:
 
-* __/auth/login__* 
+* __/auth/login__* :
 
 En el fichero ./test/routes/login_server.test.js:
 
@@ -444,7 +476,7 @@ En el fichero ./test/routes/login_server.test.js:
 3) Comprueba si introduciendo un email incorrecto pero una contraseña correcta recibimos un 400 y no podemos hacer login.
 
 	
-* __/auth/forgot__* 
+* __/auth/forgot__* :
 
 En el fichero ./test/routes/forgot_server.test.js:
 
@@ -453,7 +485,7 @@ En el fichero ./test/routes/forgot_server.test.js:
 2) Comprueba que si introducimos un email incorrecto nos devuevel un 400 Bad Request y no envía un correo electrónico al email suministrado.
 
 
-* __/auth/reset/:token__* 
+* __/auth/reset/:token__* :
 
 En el fichero ./test/routes/reset_server.test.js:
 
@@ -470,7 +502,7 @@ En el fichero ./test/routes/reset_server.test.js:
 6) Comprueba que si las contraseñas son validas, se envía un email y despues podemos hacer login con la nueva contraseña.
 
 
-* __/api/changeProfile__* 
+* __/api/changeProfile__* :
 
 En el fichero ./test/routes/change_profile_server.test.js:
 
@@ -492,7 +524,7 @@ En el fichero ./test/routes/change_profile_server.test.js:
 
 9) Comprueba que si los campos del formualario están vacíos debe salir un error y no cambiar nada.
 
-* __/api/createUser*  : 
+* __/api/createUser* : 
 
 En el fichero ./test/routes/create_user_server.test.js:
 
@@ -502,6 +534,33 @@ En el fichero ./test/routes/create_user_server.test.js:
 
 3) Comprueba que el usuario se ha creado correctamente y podemos loguearnos.
 
+* __/api/listUsers__* :
+
+En el fichero ./test/routes/list_user_server.test.js:
+
+1) Comprueba que si estamos autenticados con un usuario administrador podemos obtener la lista de usuarios existentes.
+
+2) Comprueba que si estamos autenticados con un usuario NORMAL no podemos obtener la lista de usuarios existentes.
+
+* __/api/removeUser/:id__* :
+
+En el fichero ./test/routes/delete_user_server.test.js:
+
+1) Comprueba que si estamos autenticados con un usuario administrador podemos eliminar un usuario.
+
+2) Comprueba que si estamos autenticados con un usuario NORMAL no podemos eliminar un usuario.
+
+3) Comprueba que si el usuario a eliminar no existe, se notifica el error.
+
+* __/api/editUsersAdmin/:id__ * :
+
+En el fichero ./test/routes/edit_user_server.test.js:
+
+1) Comprueba que si estamos autenticados con un usuario administrador podemos editar un usuario.
+
+2) Comprueba que si estamos autenticados con un usuario NORMAL no podemos editar un usuario.
+
+3) Comprueba que si el usuario a editar no existe, se notifica el error.
 
 Ficheros de configuración
 =========================
