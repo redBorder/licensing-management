@@ -6,6 +6,7 @@ import ForgotPage from './containers/ForgotPage.jsx';
 import NewPasswordPage from './containers/NewPasswordPage.jsx';
 import ProfilePage from './containers/ProfilePage.jsx';
 import CreateUserPage from './containers/CreateUserPage.jsx';
+import CreateOrgPage from './containers/CreateOrgPage.jsx';
 import ListUsersPage from './containers/ListUsersPage.jsx';
 import RemoveUserPage from './containers/RemoveUserPage.jsx';
 import EditUserPage from './containers/EditUserPage.jsx';
@@ -56,6 +57,10 @@ const routes = {
     {
       path: '/createUser',
       component: CreateUserPage
+    },
+    {
+      path: '/createOrg',
+      component: CreateOrgPage
     },
     {
       path: '/listUsers',

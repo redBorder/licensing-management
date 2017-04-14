@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react';
 import Auth from '../modules/Auth';
-import EditUserForm from '../components/EditUserForm.jsx';
+import CreateOrgForm from '../components/CreateOrgForm.jsx';
 
 
-class EditUserPage extends React.Component {
+class CreateOrgPage extends React.Component {
 
   /**
    * Class constructor.
@@ -14,58 +14,19 @@ class EditUserPage extends React.Component {
     // set the initial component state
     this.state = {
       errors: {
-        name: '',
-        email: ''
+        email: '',
+        name: ''
       },
-      user: {
-        name: decodeURIComponent(this.props.params.name),
-        email: decodeURIComponent(this.props.params.email),
-        organization: '',
-        admin: false
+      org: {
+        email: '',
+        name: ''
       },
-      successMessage: '',
-      organizations: [
-      {
-      }
-      ]
-    };
+      successMessage: ''
+    }
 
     this.processForm = this.processForm.bind(this);
     this.changeUser = this.changeUser.bind(this);
   }
-
-   //Justo antes de renderizar el componente se llama a este método
-  componentWillMount(){
-     //Utilizando ajax, en el constructor pedimos la lista de organizaciones registradas
-    // create an AJAX request
-    const xhr = new XMLHttpRequest();
-    xhr.open('post', '/api/listOrgs');
-    // set the authorization HTTP header
-    xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
-    xhr.responseType = 'json';
-    xhr.addEventListener('load', () => {
-      if (xhr.status === 200) {
-        // success
-        // change the component-container state
-        this.setState({
-          error: "",
-          organizations: xhr.response.orgs
-        });
-
-      } else {
-        // failure
-        // change the component state
-        error = xhr.response.message;
-
-        this.setState({
-          error
-        });
-        }
-    });
-    xhr.send();
-  }
-
-
 
   /**
    * Process the form.
@@ -75,16 +36,14 @@ class EditUserPage extends React.Component {
   processForm(event) {
     // prevent default action. in this case, action is the form submission event
     event.preventDefault();
-
     // create a string for an HTTP body message
-    const name  = encodeURIComponent(this.state.user.name);
-    const email = encodeURIComponent(this.state.user.email);
-    const role = this.state.user.admin ? "admin" : "normal";
-    const organization = this.state.user.organization;
-    const formData = `email=${email}&name=${name}&role=${role}&organization=${organization}`;
+    const name = encodeURIComponent(this.state.org.name);
+    const email = encodeURIComponent(this.state.org.email);
+    const formData = `name=${name}&email=${email}`;
+
     // create an AJAX request
     const xhr = new XMLHttpRequest();
-    xhr.open('post', '/api/editUsersAdmin/' + this.props.params.id);
+    xhr.open('post', '/api/createOrg');
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     // set the authorization HTTP header
     xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
@@ -96,17 +55,17 @@ class EditUserPage extends React.Component {
         // change the component-container state
         this.setState({
           errors: {},
-          successMessage: xhr.response.message,
-          user: xhr.response.user
+          successMessage: xhr.response.message
         });
+
       } else {
         // failure
+
         // change the component state
         const errors = xhr.response.errors ? xhr.response.errors : {};
         errors.summary = xhr.response.message;
 
         this.setState({
-          successMessage:"",
           errors
         });
       }
@@ -115,38 +74,34 @@ class EditUserPage extends React.Component {
   }
 
   /**
-   * Change the user object.
+   * Change the org object.
    *
    * @param {object} event - the JavaScript event object
    */
   changeUser(event) {
     const field = event.target.name;
-    const user = this.state.user;
+      const org = this.state.org;
     if(field!="role")
     { 
-      user[field] = event.target.value;
+      org[field] = event.target.value;
       
     }else{
-      user.admin = !user.admin;
+      org.admin = !org.admin;
     }
     this.setState({
-        user
+        org
       });
-  
-    
     //Esto es para validar el formulario visualmente, solo para el usuario
 
-    if(this.state.user.name.length!=0)
+    if(this.state.org.name.length!=0)
       this.state.errors.name="success";
     else
       this.state.errors.name="error"
 
-    if(this.state.user.email.length!=0)
+    if(this.state.org.email.length!=0)
       this.state.errors.email="success";
     else
       this.state.errors.email="error"
-
-    
   }
 
   /**
@@ -154,12 +109,11 @@ class EditUserPage extends React.Component {
    */
   render() {
     return (
-      <EditUserForm
+      <CreateOrgForm
         onSubmit={this.processForm}
         onChange={this.changeUser}
         errors={this.state.errors}
-        user={this.state.user}
-        organizations={this.state.organizations}
+        org={this.state.org}
         successMessage={this.state.successMessage}
       />
     );
@@ -167,8 +121,8 @@ class EditUserPage extends React.Component {
 
 }
 
-EditUserPage.contextTypes = {
+CreateOrgPage.contextTypes = {
   router: PropTypes.object.isRequired
 };
 
-export default EditUserPage;
+export default CreateOrgPage;

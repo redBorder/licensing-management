@@ -12,13 +12,40 @@ const sequelize = require('../db').sequelize;
 //Cargamos los modelos
 const models = require('../models')(sequelize);
 
-
 /**
- * Validate the change profile form
+ * Validate the create user form
  *
  * @param {object} payload - the HTTP body message
- * @returns {object} The result of validation. Object contains a boolean validation result,
- *                   errors tips, and a global message for the whole form.
+ * @returns {object} The result of validation. Object contains a boolean validation result
+ *                   and a global message for the whole form.
+ */
+function validateCreateOrgForm(payload) {
+  let isFormValid = true;
+  let message = '';
+  if (!payload || typeof payload.name !== 'string' || payload.name.trim().length === 0) {
+    isFormValid = false;
+    message = 'Please provide the organization name ';
+  }
+
+  if (!payload || typeof payload.email !== 'string' || payload.email.trim().length === 0) {
+    isFormValid = false;
+    message = message != "" ? message + 'and please provide a organization email address ' : "Please provide a organization email address ";
+
+  }
+
+  return {
+    success: isFormValid,
+    message
+  };
+}
+
+
+/**
+ * Validate the create user form
+ *
+ * @param {object} payload - the HTTP body message
+ * @returns {object} The result of validation. Object contains a boolean validation result
+ *                   and a global message for the whole form.
  */
 function validateCreateUserForm(payload) {
   let isFormValid = true;
@@ -52,11 +79,11 @@ function validateCreateUserForm(payload) {
 }
 
 /**
- * Validate the create user  form
+ * Validate the change profile form
  *
  * @param {object} payload - the HTTP body message
- * @returns {object} The result of validation. Object contains a boolean validation result,
- *                   errors tips, and a global message for the whole form.
+ * @returns {object} The result of validation. Object contains a boolean validation result
+ *                   and a global message for the whole form.
  */
 function validateChangeProfileForm(payload) {
   let isFormValid = true;
@@ -228,6 +255,7 @@ router.post('/listUsers', (req, res) => {
       }
     })
   });
+
 router.post('/removeUser/:id', (req, res) => {
   models.User.findOne({
         where: {
@@ -315,6 +343,73 @@ router.post('/editUsersAdmin/:id', (req, res) => {
               })
             });
           })
+      }
+    })
+  });
+
+router.post('/createOrg', (req, res, next) => {
+  const validationResult = validateCreateOrgForm(req.body);
+  if (!validationResult.success) {
+    return res.status(400).json({
+      success: false,
+      message: validationResult.message,
+    });
+  }
+  models.User.findOne({
+        where: {
+            id: req.userId
+        }
+    }).then(function(user){
+      if(user.role != "admin"){
+        return res.status(401).json({
+            success: false,
+            message: "You don't have permissions",
+          });
+      }
+      else
+      {
+          const NewOrganization = models.Organization.build({
+            name: req.body.name.trim(),
+            email: req.body.email.trim()
+          });
+          NewOrganization.save().then(function(NewOrganization) {
+            return res.status(200).json({
+              success: true,
+              message: 'Organization ' + NewOrganization.name + ' created correctly'
+            });
+          }, function(err){ 
+            return res.status(400).json({
+              success: false,
+              message: 'Error saving organization ' + req.body.name + '. Email already exists.'
+            });
+        });
+      }
+    })
+});
+
+router.post('/listOrgs', (req, res) => {
+  models.User.findOne({
+        where: {
+            id: req.userId
+        }
+    }).then(function(user){
+      if(user.role != "admin"){
+        return res.status(401).json({
+            success: false,
+            message: "You don't have permissions",
+          });
+      }
+      else
+      {
+          models.Organization.findAll({
+          where: {
+          }
+        }).then(function(list_orgs){
+          return res.status(200).json({
+            success: true,
+            orgs: list_orgs
+          })
+        })
       }
     })
   });

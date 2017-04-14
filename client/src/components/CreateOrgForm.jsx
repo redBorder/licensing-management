@@ -3,13 +3,12 @@ import {Panel, Form, FormControl, FormGroup, Col, HelpBlock, ControlLabel, Check
 import { Link } from 'react-router';
 
 
-const EditUserForm = ({
+const CreateOrgForm = ({
   onSubmit,
   onChange,
   errors,
-  user,
-  successMessage,
-  organizations
+  org,
+  successMessage
 }) => (
   <div>
     {successMessage && 
@@ -28,7 +27,7 @@ const EditUserForm = ({
           Name
         </Col>
         <Col sm={10}>
-          <FormControl name ="name" type="name" placeholder="Name" onChange={onChange} value={user.name}/>
+          <FormControl name ="name" type="name" placeholder="Organization name" onChange={onChange} value={org.name}/>
           <FormControl.Feedback />
         </Col>
       </FormGroup>
@@ -38,40 +37,14 @@ const EditUserForm = ({
           Email
         </Col>
         <Col sm={10}>
-          <FormControl name ="email" type="email" placeholder="Email" onChange={onChange} value={user.email}/>
+          <FormControl name ="email" type="email" placeholder="Organization email" onChange={onChange} value={org.email}/>
           <FormControl.Feedback />
-        </Col>
-      </FormGroup>
-
-      <FormGroup controlId="organization">
-        <Col componentClass={ControlLabel} sm={2}>
-          <ControlLabel>Organization</ControlLabel>
-        </Col>
-        <Col sm={10}>
-          <FormControl name="organization" componentClass="select" placeholder="Select organization" onChange={onChange} value={user.organization}>
-            <option value="No Organization">No organization</option>
-            {
-              organizations.map((organization) => {
-                return <option value={organization.id} key={organization.id} > {organization.name} </option>
-              })
-            }
-          </FormControl>
-        </Col>
-      </FormGroup>
-      <FormGroup controlId="organization">
-        <Col componentClass={ControlLabel} sm={2}>
-          <ControlLabel>Privileges</ControlLabel>
-        </Col>
-        <Col sm={10}>
-            <Checkbox name="role" onChange={onChange}>
-              Admin
-            </Checkbox> 
         </Col>
       </FormGroup>
       <FormGroup>
         <Col smOffset={2} sm={10}>
           <Button type="submit">
-            Edit user
+            Create Organization
           </Button>
         </Col>
       </FormGroup>
@@ -79,11 +52,11 @@ const EditUserForm = ({
   </div>
 );
 
-EditUserForm.propTypes = {
+CreateOrgForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired
+  org: PropTypes.object.isRequired
 };
 
-export default EditUserForm;
+export default CreateOrgForm;

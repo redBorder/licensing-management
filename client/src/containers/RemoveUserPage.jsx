@@ -27,7 +27,6 @@ class RemoveUserPage extends React.Component {
     xhr.responseType = 'json';
     xhr.addEventListener('load', () => {
       if (xhr.status === 200) {
-        console.log("borrado")
         // success
         // change the component-container state
         this.setState({
@@ -38,7 +37,6 @@ class RemoveUserPage extends React.Component {
 
       } else {
         // failure
-        console.log("no borrado")
         // change the component state
         error = xhr.response.message;
 
