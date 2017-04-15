@@ -203,10 +203,10 @@ router.post('/createUser', (req, res, next) => {
               }
           }
             const smtpTransport = nodemailer.createTransport({
-              service: email.server,
+              service: process.env.EMAIL_SERVER || email.server,
               auth: {
-                user: email.email,
-                pass: email.password
+                user: process.env.EMAIL_USER || email.email,
+                pass: process.env.EMAIL_PASSWORD || email.password
               }
             });
             const mailOptions = {

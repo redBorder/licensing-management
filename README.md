@@ -591,9 +591,22 @@ En este fichero se define para desarrollo, test y producción:
 2) El nombre de la base de datos a utilizar.
 3) El host y el puerto donde estará.
 4) El nombre de usuario y la contraseña del usuario que usará la base de datos.
-5) El servidor de correo electrónico a utilizar para enviar email.
-6) El email y la contraseña desde la cuenta que se enviarán los mensajes.
+5) Variable de tipo boolean que indica si queremos o no logs cada vez que se haga una gestión con la base de datos.
+6) El servidor de correo electrónico a utilizar para enviar email.
+7) El email y la contraseña desde la cuenta que se enviarán los mensajes.
 
+Este fichero sólo se utilizará si las siguientes variables de entornos no están definidas:
+
+1) DB_SERVER: Gestor de la base de datos a utilizar.
+2) DB_NAME: Nombre de la base de datos a utilizar.
+3) DB_HOST: Host donde escucha la base de datos.
+4) DB_PORT: Puerto en el que escucha la base de datos.
+5) DB_USER: Usuario que tendrá acceso a la base de datos.
+6) DB_PASSWORD: Contraseña del usuario que tendrá acceso a la base de datos.
+7) DB_LOG: Variable de tipo boolean que indica si queremos o no mensajes de logs por cada gestión con la base de datos.
+8) EMAIL_SERVER: Servidor de correo electrónico desde el que se enviarán los emails.
+9) EMAIL_USER: Correo electrónico desde el que enviar los correos electrónicos.
+10) EMAIL_PASSWORD: Contraseña del correo electrónico desde el que se enviarán los emails.
 
 
 
