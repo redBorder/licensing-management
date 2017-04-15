@@ -96,11 +96,11 @@ router.post('/forgot', function(req, res, next) {
       });
     },
     function(token, user, done) {
-      var smtpTransport = nodemailer.createTransport({
-        service: email.server,
-        auth: {
-          user: email.email,
-          pass: email.password
+    const smtpTransport = nodemailer.createTransport({
+          service: process.env.EMAIL_SERVER || email.server,
+          auth: {
+            user: process.env.EMAIL_USER || email.email, 
+            pass: process.env.EMAIL_PASSWORD || email.password
         }
       });
       var mailOptions = {
@@ -161,12 +161,12 @@ router.post('/reset/:token', function(req, res) {
         });
     },
     function(user, done) {
-      var smtpTransport = nodemailer.createTransport({
-        service: email.server,
-        auth: {
-          user: email.email,
-          pass: email.password
-        }
+      const smtpTransport = nodemailer.createTransport({
+          service: process.env.EMAIL_SERVER || email.server,
+          auth: {
+            user: process.env.EMAIL_USER || email.email,
+            pass: process.env.EMAIL_PASSWORD || email.password
+       }
       });
       var mailOptions = {
         to: user.email.toLowerCase(),

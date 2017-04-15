@@ -7,7 +7,7 @@
 	  	"password": "",
 	  	"port": "3306",
 	  	"host": "127.0.0.1",
-	  	"logging": "false",
+	  	"log": "false",
 	  	"jwtSecret": "Secret key to JWT",
 	  	"email": {
 	  		"server": "Gmail",
@@ -23,7 +23,7 @@
 	  	"password": "",
 	  	"host": "127.0.0.1",
 	  	"port": "3306",
-	  	"logging": "true",
+	  	"log": "true",
 	  	"jwtSecret": "Secret key to JWT",
 	  	"email": {
 	  		"server": "Gmail",	  		
@@ -39,7 +39,7 @@
 	  	"password": "",
 	  	"host": "127.0.0.1",
 	  	"port": "3306",
-	  	"logging": "false",
+	  	"log": "false",
 	  	"jwtSecret": "Secret key to JWT",
 	  	"email": {
 	  		"server": "Gmail",
