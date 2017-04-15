@@ -212,7 +212,7 @@ router.post('/createUser', (req, res, next) => {
             const mailOptions = {
               to: req.body.email.toLowerCase(),
               from: 'userCreate@demo.com',
-              subject: 'Your password has been changed',
+              subject: 'Your email has been registered in RedBorder licenses',
               text: 'Hello,\n\n' +
                 'You have been registered RedBorder. Your email is ' + req.body.email.toLowerCase() + ' and your password ' + req.body.password + '.\n'
                  + "Please, log in and change your password"

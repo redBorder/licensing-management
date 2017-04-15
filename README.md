@@ -23,7 +23,7 @@ Estructura de la aplicación
 		│	│	│	 ├──NewPasswordForm.jsx
 		│	│	│	 └──ProfileForm.jsx
 		│	│	├── containers
-		│	│	│	 ├──BasePAge.jsx
+		│	│	│	 ├──BasePage.jsx
 		│	│	│	 ├──CreateUserPage.jsx
 		│	│	│	 ├──DashBoardPage.jsx
 		│	│	│	 ├──EditUserPage.jsx
@@ -388,7 +388,7 @@ Principales ficheros del servidor
 
 En el lado del servidor existe 1 fichero principal, el fichero index.js, el cual es el fichero al que accede el servidor al arrancarse en el se reliza lo siguiente:
 	
-1) Se inicializa sequelize, se añaden los modelos y se sincroniza en función de la variable de entorno
+1) Se inicializa sequelize, se añaden los modelos y se sincroniza en función de la variable de entorno. Si estamos en el modo de produción y no existe ningún usuario de tipo administrador se creará uno nuevo con el correo admin@redborder.com y la contraseña adminadmin por defecto.
 		
 2) Se definen las rutas estáticas para el servidor
 
@@ -575,7 +575,7 @@ Fichero de configuración de travis para los test. En este fichero se le dice a 
 
 Package.json
 ------------
-Fichero que contiene las librerías necesarias para el proyecto, tanto para el modo de desarrollo como para el modo deproduccion. 
+Fichero que contiene las librerías necesarias para el proyecto, tanto para el modo de desarrollo como para el modo de produccion. 
 Además contiene los scripts necesarios para el testeo y arranque de la aplicación
 
 webpack.config.js
