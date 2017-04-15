@@ -31,13 +31,28 @@
     {
         "model": "User",
         "data": {
+            "id" : "12df8176-0813-49d1-8767-92f4d89f1a81",
             "name": "Usuario",
             "email": "normal@redborder.com",
-            "hashed_password": "sha1$cd3bcf46$1$86b6fa296cffa21993bdc5c305a4e5dd6a2a47bd",
+            "hashed_password": "sha1$d0f78cf7$1$d245767564757467ceaf1ebc4a501b05d5691738",
             "role": "normal",
             "Organization" : {
                 "name" : "Organizacion con usuarios"
             }
+        }
+    },
+    {
+        "model": "Organization",
+        "data": {
+            "name": "Organizacion con licencias",
+            "email": "org_licenses@cor.com"
+        }
+    },
+    {
+        "model": "Organization",
+        "data": {
+            "name": "Organizacion sin licencias",
+            "email": "org_no_licenses@cor.com"
         }
     },
     {
@@ -46,7 +61,27 @@
             "cluster_id": "12df8176-0813-49d1-8767-92f4d89f1a80",
             "expires_at": "2018-01-01",
             "Organization" : {
-                "name" : "Organizacion con usuarios"
+                "name" : "Organizacion con licencias"
+            }
+        }
+    },
+    {
+        "model": "Licenses",
+        "data": {
+            "cluster_id": "12df8176-0813-49d1-8767-92f4d89f1a81",
+            "expires_at": "2018-01-01",
+            "Organization" : {
+                "name" : "Organizacion con licencias"
+            }
+        }
+    },
+    {
+        "model": "Licenses",
+        "data": {
+            "cluster_id": "12df8176-0813-49d1-8767-92f4d89f1a82",
+            "expires_at": "2018-01-01",
+            "Organization" : {
+                "name" : "Organizacion con licencias"
             }
         }
     }

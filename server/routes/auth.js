@@ -60,6 +60,7 @@ router.post('/login', (req, res, next) => {
       token,
       user: {
         name: userData.name,
+        role: userData.role,
         email: req.body.email.toLowerCase()
        } 
     });
@@ -96,7 +97,7 @@ router.post('/forgot', function(req, res, next) {
     },
     function(token, user, done) {
       var smtpTransport = nodemailer.createTransport({
-        service: 'Gmail',
+        service: email.server,
         auth: {
           user: email.email,
           pass: email.password
@@ -161,7 +162,7 @@ router.post('/reset/:token', function(req, res) {
     },
     function(user, done) {
       var smtpTransport = nodemailer.createTransport({
-        service: 'Gmail',
+        service: email.server,
         auth: {
           user: email.email,
           pass: email.password

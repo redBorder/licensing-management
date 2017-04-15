@@ -38,7 +38,8 @@ module.exports = new PassportLocalStrategy({
               // create a token string
               const token = jwt.sign(payload, config.jwtSecret); //Algoritmo por defecto HS256
               const data = {
-                name: Found_User.name
+                name: Found_User.name,
+                role: Found_User.role
               };
               return done(null, token, data);
             }

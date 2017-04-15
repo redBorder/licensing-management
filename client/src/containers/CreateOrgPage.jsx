@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react';
 import Auth from '../modules/Auth';
-import LoginForm from '../components/LoginForm.jsx';
+import CreateOrgForm from '../components/CreateOrgForm.jsx';
 
 
-class LoginPage extends React.Component {
+class CreateOrgPage extends React.Component {
 
   /**
    * Class constructor.
@@ -11,26 +11,18 @@ class LoginPage extends React.Component {
   constructor(props, context) {
     super(props, context);
 
-    const storedMessage = localStorage.getItem('successMessage');
-    let successMessage = '';
-
-    if (storedMessage) {
-      successMessage = storedMessage;
-      localStorage.removeItem('successMessage');
-    }
-
     // set the initial component state
     this.state = {
       errors: {
         email: '',
-        password: ''
+        name: ''
       },
-      user: {
+      org: {
         email: '',
-        password: ''
+        name: ''
       },
-      successMessage: successMessage
-    };
+      successMessage: ''
+    }
 
     this.processForm = this.processForm.bind(this);
     this.changeUser = this.changeUser.bind(this);
@@ -44,16 +36,17 @@ class LoginPage extends React.Component {
   processForm(event) {
     // prevent default action. in this case, action is the form submission event
     event.preventDefault();
-    
-        // create a string for an HTTP body message
-    const email = encodeURIComponent(this.state.user.email);
-    const password = encodeURIComponent(this.state.user.password);
-    const formData = `email=${email}&password=${password}`;
+    // create a string for an HTTP body message
+    const name = encodeURIComponent(this.state.org.name);
+    const email = encodeURIComponent(this.state.org.email);
+    const formData = `name=${name}&email=${email}`;
 
     // create an AJAX request
     const xhr = new XMLHttpRequest();
-    xhr.open('post', '/auth/login');
+    xhr.open('post', '/api/createOrg');
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    // set the authorization HTTP header
+    xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
     xhr.responseType = 'json';
     xhr.addEventListener('load', () => {
       if (xhr.status === 200) {
@@ -61,20 +54,10 @@ class LoginPage extends React.Component {
 
         // change the component-container state
         this.setState({
-          errors: {}
+          errors: {},
+          successMessage: xhr.response.message
         });
 
-        // set a user profile items
-        localStorage.setItem('userProfileName', xhr.response.user.name);
-        localStorage.setItem('userProfileEmail', xhr.response.user.email);
-        localStorage.setItem('userProfileRole', xhr.response.user.role);
-
-        // save the token
-        Auth.authenticateUser(xhr.response.token);
-
-
-        // change the current URL to /
-        this.context.router.replace('/');
       } else {
         // failure
 
@@ -88,31 +71,37 @@ class LoginPage extends React.Component {
       }
     });
     xhr.send(formData);
-    
   }
 
   /**
-   * Change the user object.
+   * Change the org object.
    *
    * @param {object} event - the JavaScript event object
    */
   changeUser(event) {
     const field = event.target.name;
-    const user = this.state.user;
-    user[field] = event.target.value;
+      const org = this.state.org;
+    if(field!="role")
+    { 
+      org[field] = event.target.value;
+      
+    }else{
+      org.admin = !org.admin;
+    }
     this.setState({
-      user
-    });
-
+        org
+      });
     //Esto es para validar el formulario visualmente, solo para el usuario
 
-    
-    if(event.target.name=="password" && user[field].length < 8 || user[field].length > 15)
-      this.state.errors.password="error";
+    if(this.state.org.name.length!=0)
+      this.state.errors.name="success";
     else
-      this.state.errors.password="success"
+      this.state.errors.name="error"
 
-    
+    if(this.state.org.email.length!=0)
+      this.state.errors.email="success";
+    else
+      this.state.errors.email="error"
   }
 
   /**
@@ -120,11 +109,11 @@ class LoginPage extends React.Component {
    */
   render() {
     return (
-      <LoginForm
+      <CreateOrgForm
         onSubmit={this.processForm}
         onChange={this.changeUser}
         errors={this.state.errors}
-        user={this.state.user}
+        org={this.state.org}
         successMessage={this.state.successMessage}
       />
     );
@@ -132,8 +121,8 @@ class LoginPage extends React.Component {
 
 }
 
-LoginPage.contextTypes = {
+CreateOrgPage.contextTypes = {
   router: PropTypes.object.isRequired
 };
 
-export default LoginPage;
+export default CreateOrgPage;

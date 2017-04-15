@@ -57,7 +57,7 @@ describe('Profile Test', function() {
         })
     });
 
-  it('Should return a 400 Bad Request. Login ok and current password incorrect', function(done) {
+  it('Should return a 401 Not Autorizated Login ok and current password incorrect', function(done) {
     const email = encodeURIComponent("admin@redborder.com");
     const password = encodeURIComponent("adminadmin");
     const user = `email=${email}&password=${password}`;
@@ -77,7 +77,7 @@ describe('Profile Test', function() {
            .send(data)
            .end((err, res) => {
             try{
-              res.should.have.status(400);
+              res.should.have.status(401);
               res.body.should.have.property('success').eql(false);
               res.body.should.have.property('message').eql('Current password is not correct.');
               done();

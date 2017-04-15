@@ -36,6 +36,15 @@ class Auth {
     return localStorage.getItem('token');
   }
 
+  /**
+   * Check if a user is admin.
+   *
+   * @returns {true}
+   */
+
+  static isAdmin() {
+    return localStorage.getItem('userProfileRole')=="admin" ? true : false;
+  }
 }
 
 export default Auth;

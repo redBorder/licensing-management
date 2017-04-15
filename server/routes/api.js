@@ -1,6 +1,10 @@
 const jwt = require('jsonwebtoken');
 const express = require('express');
 const router = new express.Router();
+const passport = require('passport');
+const email = require('../../config/config.json')[process.env.MODE_RUN].email;
+const nodemailer = require('nodemailer');
+
 
 //Incializamos sequelize
 const sequelize = require('../db').sequelize;
@@ -8,13 +12,78 @@ const sequelize = require('../db').sequelize;
 //Cargamos los modelos
 const models = require('../models')(sequelize);
 
+/**
+ * Validate the create user form
+ *
+ * @param {object} payload - the HTTP body message
+ * @returns {object} The result of validation. Object contains a boolean validation result
+ *                   and a global message for the whole form.
+ */
+function validateCreateOrgForm(payload) {
+  let isFormValid = true;
+  let message = '';
+  if (!payload || typeof payload.name !== 'string' || payload.name.trim().length === 0) {
+    isFormValid = false;
+    message = 'Please provide the organization name ';
+  }
+
+  if (!payload || typeof payload.email !== 'string' || payload.email.trim().length === 0) {
+    isFormValid = false;
+    message = message != "" ? message + 'and please provide a organization email address ' : "Please provide a organization email address ";
+
+  }
+
+  return {
+    success: isFormValid,
+    message
+  };
+}
+
+
+/**
+ * Validate the create user form
+ *
+ * @param {object} payload - the HTTP body message
+ * @returns {object} The result of validation. Object contains a boolean validation result
+ *                   and a global message for the whole form.
+ */
+function validateCreateUserForm(payload) {
+  let isFormValid = true;
+  let message = '';
+  if (!payload || typeof payload.name !== 'string' || payload.name.trim().length === 0) {
+    isFormValid = false;
+    message = 'Please provide your name ';
+  }
+
+  if (!payload || typeof payload.email !== 'string' || payload.email.trim().length === 0) {
+    isFormValid = false;
+    message = message != "" ? message + 'and please provide your email address ' : "Please provide your email address ";
+
+  }
+
+  if (!(payload.confir_password.trim()===payload.password.trim())){
+    isFormValid = false;
+    message = message != "" ? message + 'and new passwords must be the same ' : 'New passwords must be the same ';
+  }
+
+  if ((typeof payload.password !== 'string' || payload.password.trim().length < 8) ||
+   (typeof payload.confir_password !== 'string' || payload.confir_password.trim().length < 8)) {
+    isFormValid = false;
+    message = message != "" ? message + 'and new password should be between 8 and 15 alphanumeric characters ' : 'New password should be between 8 and 15 alphanumeric characters ';
+  }
+
+  return {
+    success: isFormValid,
+    message
+  };
+}
 
 /**
  * Validate the change profile form
  *
  * @param {object} payload - the HTTP body message
- * @returns {object} The result of validation. Object contains a boolean validation result,
- *                   errors tips, and a global message for the whole form.
+ * @returns {object} The result of validation. Object contains a boolean validation result
+ *                   and a global message for the whole form.
  */
 function validateChangeProfileForm(payload) {
   let isFormValid = true;
@@ -54,7 +123,6 @@ function validateChangeProfileForm(payload) {
   };
 }
 
-
 router.post('/changeProfile', (req, res) => {
   const validationResult = validateChangeProfileForm(req.body);
   if (!validationResult.success) {
@@ -69,7 +137,7 @@ router.post('/changeProfile', (req, res) => {
         }
     }).then(function(user){
       if(!user.verifyPassword(req.body.password)){
-        return res.status(400).json({
+        return res.status(401).json({
             success: false,
             message: "Current password is not correct.",
           });
@@ -98,5 +166,252 @@ router.post('/changeProfile', (req, res) => {
       })
 });
 
+router.post('/createUser', (req, res, next) => {
+  const validationResult = validateCreateUserForm(req.body);
+  if (!validationResult.success) {
+    return res.status(400).json({
+      success: false,
+      message: validationResult.message,
+    });
+  }
+  models.User.findOne({
+        where: {
+            id: req.userId
+        }
+    }).then(function(user){
+      if(user.role != "admin"){
+        return res.status(401).json({
+            success: false,
+            message: "You don't have permissions",
+          });
+      }
+      else
+      {
+        return passport.authenticate('local-signup', (err) => {
+          if(err){
+            if (err.message=="Validation error") {
+                return res.status(409).json({
+                  success: false,
+                  message: "This email is already registered"
+                });
+              }
+            else {
+                  return res.status(409).json({
+                  success: false,
+                  message: err.message
+                });
+              }
+          }
+            const smtpTransport = nodemailer.createTransport({
+              service: email.server,
+              auth: {
+                user: email.email,
+                pass: email.password
+              }
+            });
+            const mailOptions = {
+              to: req.body.email.toLowerCase(),
+              from: 'userCreate@demo.com',
+              subject: 'Your password has been changed',
+              text: 'Hello,\n\n' +
+                'You have been registered RedBorder. Your email is ' + req.body.email.toLowerCase() + ' and your password ' + req.body.password + '.\n'
+                 + "Please, log in and change your password"
+            };
+            smtpTransport.sendMail(mailOptions,function(err) {
+              res.status(200).json({
+              success: true,
+              message: 'User registered successfully. A email has been send to ' + req.body.email.trim() + ' with the password'
+              });
+            });
+
+        })(req, res, next);
+      }
+    })
+});
+
+router.post('/listUsers', (req, res) => {
+  models.User.findOne({
+        where: {
+            id: req.userId
+        }
+    }).then(function(user){
+      if(user.role != "admin"){
+        return res.status(401).json({
+            success: false,
+            message: "You don't have permissions",
+          });
+      }
+      else
+      {
+          models.User.findAll({
+          where: {
+          }
+        }).then(function(list_users){
+          return res.status(200).json({
+            success: true,
+            users: list_users
+          })
+        })
+      }
+    })
+  });
+
+router.post('/removeUser/:id', (req, res) => {
+  models.User.findOne({
+        where: {
+            id: req.userId
+        }
+    }).then(function(user){
+      if(user.role != "admin"){
+        return res.status(401).json({
+            success: false,
+            message: "You don't have permissions",
+          });
+      }
+      else
+      {
+          models.User.findOne({
+            where: {
+              id: req.params.id
+            }
+          }).then(function(user_delete){
+            if(!user_delete)
+              return res.status(400).json({
+                success: false,
+                message: "User doesn't exists"
+              })
+            const name = user_delete.name;
+            models.User.destroy({
+            where: {id: req.params.id} 
+           }).then(function(affectedRows){
+            if(affectedRows==1)
+              return res.status(200).json({
+              success: true,
+              message: "User " + name + " delete correctly"
+            })
+            else
+              return res.status(400).json({
+              success: false,
+              message: "Error removing user" 
+            })
+          })
+        })
+      }
+    })
+  });
+
+
+router.post('/editUsersAdmin/:id', (req, res) => {
+  models.User.findOne({
+        where: {
+            id: req.userId
+        }
+    }).then(function(user){
+      if(user.role != "admin"){
+        return res.status(401).json({
+            success: false,
+            message: "You don't have permissions",
+          });
+      }
+      else
+      {
+          models.User.findOne({
+            where: {
+              id: req.params.id
+            }
+          }).then(function(user_edit){
+            if(!user_edit)
+              return res.status(400).json({
+                success: false,
+                message: "User doesn't exists"
+              })
+            user_edit.name=req.body.name;
+            user_edit.email=req.body.email;
+            user_edit.role=req.body.role;
+            user_edit.OrganizationId=req.body.organization == "" ? null: req.body.organization;
+            user_edit.save()
+            .then(function(user_save){
+              return res.status(200).json({
+              success: true,
+              message: "User " + user_save.name + " edited correctly",
+              user: user_save
+              }) 
+            }).catch(function (err) {
+              return res.status(400).json({
+              success: false,
+              message: "Error editing user" 
+              })
+            });
+          })
+      }
+    })
+  });
+
+router.post('/createOrg', (req, res, next) => {
+  const validationResult = validateCreateOrgForm(req.body);
+  if (!validationResult.success) {
+    return res.status(400).json({
+      success: false,
+      message: validationResult.message,
+    });
+  }
+  models.User.findOne({
+        where: {
+            id: req.userId
+        }
+    }).then(function(user){
+      if(user.role != "admin"){
+        return res.status(401).json({
+            success: false,
+            message: "You don't have permissions",
+          });
+      }
+      else
+      {
+          const NewOrganization = models.Organization.build({
+            name: req.body.name.trim(),
+            email: req.body.email.trim()
+          });
+          NewOrganization.save().then(function(NewOrganization) {
+            return res.status(200).json({
+              success: true,
+              message: 'Organization ' + NewOrganization.name + ' created correctly'
+            });
+          }, function(err){ 
+            return res.status(400).json({
+              success: false,
+              message: 'Error saving organization ' + req.body.name + '. Email already exists.'
+            });
+        });
+      }
+    })
+});
+
+router.post('/listOrgs', (req, res) => {
+  models.User.findOne({
+        where: {
+            id: req.userId
+        }
+    }).then(function(user){
+      if(user.role != "admin"){
+        return res.status(401).json({
+            success: false,
+            message: "You don't have permissions",
+          });
+      }
+      else
+      {
+          models.Organization.findAll({
+          where: {
+          }
+        }).then(function(list_orgs){
+          return res.status(200).json({
+            success: true,
+            orgs: list_orgs
+          })
+        })
+      }
+    })
+  });
 
 module.exports = router;
