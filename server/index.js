@@ -13,8 +13,32 @@ const models = require('./models')(sequelize);
 if (process.env.MODE_RUN == "test"){
 	sequelize.sync({force:true});
 }
-else{
+else if (process.env.MODE_RUN == "development"){
 	sequelize.sync();
+}else{
+	sequelize.sync()
+	.then(() =>{
+		//If there aren't users, create one admin user by default in production mode...
+		models.User.findAll({where: {
+			role: "admin"
+		}})
+		.then(function (users){
+			if(users.length == 0){
+				const NewUser = models.User.build({
+				  name: "Admin",
+				  email: "admin@redborder.com", 
+				  password: "adminadmin",
+				  role: "admin"
+				})
+		  	NewUser.save().then(function() {
+		  		console.log("New default admin user created.");
+		  		console.log("	Email: admin@redborder.com");
+		  		console.log("	Password: adminadmin");
+		  		console.log("Please, change this user profile");
+		  	});
+		  }
+		})
+	})
 }
 
 
