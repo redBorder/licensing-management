@@ -70,8 +70,8 @@ const CreateUserForm = ({
           <FormControl name="organization" componentClass="select" placeholder="Select organization" onChange={onChange} value={user.organization}>
             <option value="No Organization" key={"2"}> No organization</option>
             {
-                organizations.map((organization) => {
-                  return <option value={organization.id} key={organization.id}> {organization.name} </option>
+                organizations.map((organization, key) => {
+                  return <option value={organization.id} key={key}> {organization.name} </option>
                 })
             }
           </FormControl>
