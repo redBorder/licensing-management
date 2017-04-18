@@ -11,11 +11,6 @@ const ProfileForm = ({
   user
 }) => (
   <div>
-    {errors.summary && 
-            <Panel header="Error message" bsStyle="danger">
-              {errors.summary}
-            </Panel>
-    }
     <div className="row">
       <h2 className="text-center" style={{color:"blue"}}> My profile form </h2>
       <br></br>

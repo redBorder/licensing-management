@@ -9,11 +9,6 @@ const NewPasswordForm = ({
   user
 }) => (
   <div>
-    {errors.summary && 
-            <Panel header="Error message" bsStyle="danger">
-              {errors.summary}
-            </Panel>
-    }
     <div className="row">
       <h2 className="text-center" style={{color:"blue"}}> New password form </h2>
       <br></br>

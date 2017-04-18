@@ -3,26 +3,14 @@ import {Panel, Form, FormControl, FormGroup, Col, HelpBlock, ControlLabel, Check
 import { Link } from 'react-router';
 import PropTypes  from 'prop-types';
 
-
 const CreateUserForm = ({
   onSubmit,
   onChange,
   errors,
   user,
-  successMessage,
   organizations
 }) => (
   <div>
-    {successMessage && 
-      <Panel header="Success message" bsStyle="success">
-        {successMessage}
-      </Panel>
-    }
-    {errors.summary && 
-            <Panel header="Error message" bsStyle="danger">
-              {errors.summary}
-            </Panel>
-    }
     <div className="row">
       <h2 className="text-center" style={{color:"blue"}}> Create user form </h2>
       <br></br>

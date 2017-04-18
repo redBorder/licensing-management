@@ -11,24 +11,13 @@ class HomePage extends React.Component {
   constructor(props) {
     super(props);
 
-    const storedMessage = localStorage.getItem('successMessage');
-    let successMessage = '';
-
-    if (storedMessage) {
-      successMessage = storedMessage;
-      localStorage.removeItem('successMessage');
-    }
-
-    this.state = {
-      successMessage: successMessage
-    };
   }
-
+  
   /**
    * Render the component.
    */
   render() {
-    return (<Home successMessage={this.state.successMessage} />);
+    return (<Home/>);
   }
 
 }

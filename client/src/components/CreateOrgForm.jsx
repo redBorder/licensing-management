@@ -2,27 +2,16 @@ import React from 'react';
 import {Panel, Form, FormControl, FormGroup, Col, HelpBlock, ControlLabel, Checkbox, Button, FeedBack} from 'react-bootstrap';
 import { Link } from 'react-router';
 import PropTypes  from 'prop-types';
-
+import toastr from 'toastr';
 
 const CreateOrgForm = ({
   onSubmit,
   onChange,
   errors,
-  org,
-  successMessage
+  org
 }) => (
   <div>
     <div className="row">
-      {successMessage && 
-        <Panel header="Success message" bsStyle="success">
-          {successMessage}
-        </Panel>
-      }
-      {errors.summary && 
-              <Panel header="Error message" bsStyle="danger">
-                {errors.summary}
-              </Panel>
-      }
     </div>
 
     <div className="row">

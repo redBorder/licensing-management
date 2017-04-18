@@ -3,7 +3,6 @@ import {Panel, Form, FormControl, FormGroup, Col, HelpBlock, ControlLabel, Check
 import { Link } from 'react-router';
 import PropTypes  from 'prop-types';
 
-
 const LoginForm = ({
   onSubmit,
   onChange,
@@ -12,16 +11,6 @@ const LoginForm = ({
   successMessage
 }) => (
   <div className="container">
-    {successMessage && 
-      <Panel header="Success message" bsStyle="success">
-        {successMessage}
-      </Panel>
-    }
-    {errors.summary && 
-            <Panel header="Error message" bsStyle="danger">
-              {errors.summary}
-            </Panel>
-    }
     <div className="row">
       <h2 className="text-center" style={{color:"blue"}}> Log in form </h2>
       <br></br>

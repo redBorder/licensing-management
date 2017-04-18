@@ -2,6 +2,7 @@ import React from 'react';
 import Auth from '../modules/Auth';
 import CreateUserForm from '../components/CreateUserForm.jsx';
 import PropTypes  from 'prop-types';
+import toastr from 'toastr';
 
 
 class CreateUserPage extends React.Component {
@@ -11,7 +12,11 @@ class CreateUserPage extends React.Component {
    */
   constructor(props, context) {
     super(props, context);
-
+    toastr.options={
+      "closeButton": true,
+      "preventDuplicates": true,
+      "newestOnTop": true
+    }
     // set the initial component state
     this.state = {
       errors: {
@@ -29,7 +34,6 @@ class CreateUserPage extends React.Component {
         name: '', 
         admin: false
       },
-      successMessage: '',
       organizations: []
     };
     this.processForm = this.processForm.bind(this);
@@ -48,6 +52,7 @@ class CreateUserPage extends React.Component {
     xhr.addEventListener('load', () => {
       if (xhr.status === 200) {
         // success
+        {xhr.response.message && toastr.success(xhr.response.message)}
         // change the component-container state
         this.setState({
           error: "",
@@ -56,12 +61,8 @@ class CreateUserPage extends React.Component {
 
       } else {
         // failure
-        // change the component state
-        error = xhr.response.message;
+        {xhr.response.message && toastr.error(xhr.response.message)}
 
-        this.setState({
-          error
-        });
         }
     });
     xhr.send();
@@ -94,16 +95,15 @@ class CreateUserPage extends React.Component {
     xhr.addEventListener('load', () => {
       if (xhr.status === 200) {
         // success
-
+        {xhr.response.message && toastr.success(xhr.response.message)}
         // change the component-container state
         this.setState({
-          errors: {},
-          successMessage: xhr.response.message
+          errors: {}
         });
 
       } else {
         // failure
-
+        {xhr.response.message && toastr.error(xhr.response.message)}
         // change the component state
         const errors = xhr.response.errors ? xhr.response.errors : {};
         errors.summary = xhr.response.message;
@@ -164,7 +164,6 @@ class CreateUserPage extends React.Component {
         onChange={this.changeUser}
         errors={this.state.errors}
         user={this.state.user}
-        successMessage={this.state.successMessage}
         organizations={this.state.organizations}
       />
     );

@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
 import ListOrgs from '../components/ListOrgs.jsx'
 import Auth from '../modules/Auth';
-
+import toastr from 'toastr';
 
 class ListOrgsPage extends Component {
   constructor() {
     super();
-
+    toastr.options={
+      "closeButton": true,
+      "preventDuplicates": true,
+      "newestOnTop": true
+    }
     this.state={
     	organizations: [
     	]
@@ -33,18 +37,13 @@ class ListOrgsPage extends Component {
 
       } else {
         // failure
-        // change the component state
-        error = xhr.response.message;
-
-        this.setState({
-          error
-        });
+        {xhr.response.message && toastr.error(xhr.response.message)}
       	}
     });
     xhr.send();
   }
   render(){
-    return <ListOrgs organizations={this.state.organizations} error={this.state.error}/>
+    return <ListOrgs organizations={this.state.organizations}/>
   }
 }
 

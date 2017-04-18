@@ -9,11 +9,6 @@ const ForgotForm = ({
   user
 }) => (
   <div>
-    {errors.summary && 
-            <Panel header="Error message" bsStyle="danger">
-              {errors.summary}
-            </Panel>
-    }
     <div className="row">
       <h2 className="text-center" style={{color:"blue"}}> Forgot password form </h2>
       <br></br>

@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
 import ListUsers from '../components/ListUsers.jsx'
 import Auth from '../modules/Auth';
-
+import toastr from 'toastr';
 
 class ListUsersPage extends Component {
   constructor() {
     super();
-
+    toastr.options={
+      "closeButton": true,
+      "preventDuplicates": true,
+      "newestOnTop": true
+    }
     this.state={
     	users: [
     	]
@@ -33,18 +37,13 @@ class ListUsersPage extends Component {
 
       } else {
         // failure
-        // change the component state
-        error = xhr.response.message;
-
-        this.setState({
-          error
-        });
+        {xhr.response.message && toastr.error(xhr.response.message)}
       	}
     });
     xhr.send();
   }
   render(){
-    return <ListUsers usuarios={this.state.users} error={this.state.error}/>
+    return <ListUsers usuarios={this.state.users}/>
   }
 }
 

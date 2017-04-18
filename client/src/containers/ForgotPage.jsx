@@ -2,7 +2,7 @@ import React from 'react';
 import Auth from '../modules/Auth';
 import ForgotForm from '../components/ForgotForm.jsx';
 import PropTypes  from 'prop-types';
-
+import toastr from 'toastr';
 
 class ForgotPage extends React.Component {
 
@@ -11,7 +11,11 @@ class ForgotPage extends React.Component {
    */
   constructor(props, context) {
     super(props, context);
-
+    toastr.options={
+      "closeButton": true,
+      "preventDuplicates": true,
+      "newestOnTop": true
+    }
     // set the initial component state
     this.state = {
       errors: {
@@ -53,8 +57,7 @@ class ForgotPage extends React.Component {
           errors: {}
         });
 
-        //Almacenamos el mensaje para mostrarlo en la pagina principal despues
-        localStorage.setItem('successMessage', xhr.response.message);
+        {xhr.response.message && toastr.success(xhr.response.message)}
 
 
 
@@ -65,7 +68,7 @@ class ForgotPage extends React.Component {
 
         // change the component state
         const errors = xhr.response.errors ? xhr.response.errors : {};
-        errors.summary = xhr.response.message;
+        {xhr.response.message && toastr.error(xhr.response.message)}
 
         this.setState({
           errors

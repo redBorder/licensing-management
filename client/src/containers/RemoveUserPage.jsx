@@ -1,7 +1,7 @@
 import React from 'react';
 import Auth from '../modules/Auth';
 import Dashboard from '../components/Dashboard.jsx';
-
+import toastr from 'toastr';
 
 class RemoveUserPage extends React.Component {
 
@@ -10,11 +10,12 @@ class RemoveUserPage extends React.Component {
    */
   constructor(props) {
     super(props);
-
-    this.state = {
-      message: '',
-      error: ''
-   };
+    
+    toastr.options={
+      "closeButton": true,
+      "preventDuplicates": true,
+      "newestOnTop": true
+    }
   }
   //Se llamará justo ants de renderizar el componente
   componentWillMount(){
@@ -28,30 +29,20 @@ class RemoveUserPage extends React.Component {
     xhr.addEventListener('load', () => {
       if (xhr.status === 200) {
         // success
-        // change the component-container state
-        this.setState({
-          error: "",
-          message: xhr.response.message
-        });
-
-
+        {xhr.response.message && toastr.success(xhr.response.message)}
       } else {
         // failure
-        // change the component state
-        error = xhr.response.message;
-
-        this.setState({
-          error
-        });
+        {xhr.response.message && toastr.error(xhr.response.message)}
         }
     });
     xhr.send();
   }
+  
   /**
    * Render the component.
    */
   render() {
-    return (<Dashboard successMessage={this.state.message} errorMessage={this.state.error}/>);
+    return (<Dashboard/>);
   }
 
 }

@@ -21,23 +21,30 @@ const Base = ({children}) => (
         <div className="collapse navbar-collapse" id="base-collapse">
        {Auth.isUserAuthenticated() ? (
           Auth.isAdmin() ? (
-          
-            <ul className="nav navbar-nav" >
-              <li>
-                <Link to="/listOrgs"> Organizations </Link>
-              </li>
-              <li>
-                <Link to="/listUsers"> Users </Link>
-              </li>
-              <li>
-                <Link to="/changeProfile"><span className="glyphicon glyphicon-user"></span> My Profile</Link>
-              </li>
-              <li>
-                <Link to="/logout"><span className="glyphicon glyphicon-log-out"></span> Log out</Link>
-              </li>
-            </ul>
+          <div>
+            <div>
+              <ul className="nav navbar-nav" >
+                <li>
+                  <Link to="/listOrgs"> Organizations </Link>
+                </li>
+                <li>
+                  <Link to="/listUsers"> Users </Link>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <ul className="nav navbar-nav navbar-right" >
+                <li>
+                  <Link to="/changeProfile"><span className="glyphicon glyphicon-user"></span> My Profile</Link>
+                </li>
+                <li>
+                  <Link to="/logout"><span className="glyphicon glyphicon-log-out"></span> Log out</Link>
+                </li>
+              </ul>
+            </div>
+          </div>
           ) : (
-            <ul className="nav navbar-nav">
+            <ul className="nav navbar-nav navbar-right">
               <li>
                 <Link to="/changeProfile"><span className="glyphicon glyphicon-user"></span> My Profile</Link>
               </li>
@@ -47,7 +54,7 @@ const Base = ({children}) => (
             </ul>
           )
         ) : (
-            <ul className="nav navbar-nav">
+            <ul className="nav navbar-nav navbar-right">
               <li>
                 <Link to="/login"><span className="glyphicon glyphicon-log-in"></span> Log in user</Link>
               </li>

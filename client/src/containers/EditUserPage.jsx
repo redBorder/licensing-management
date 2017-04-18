@@ -2,6 +2,7 @@ import React from 'react';
 import Auth from '../modules/Auth';
 import EditUserForm from '../components/EditUserForm.jsx';
 import PropTypes  from 'prop-types';
+import toastr from 'toastr';
 
 
 class EditUserPage extends React.Component {
@@ -11,7 +12,11 @@ class EditUserPage extends React.Component {
    */
   constructor(props, context) {
     super(props, context);
-
+    toastr.options={
+      "closeButton": true,
+      "preventDuplicates": true,
+      "newestOnTop": true
+    }
     // set the initial component state
     this.state = {
       errors: {
@@ -24,7 +29,6 @@ class EditUserPage extends React.Component {
         organization: '',
         admin: false
       },
-      successMessage: '',
       organizations: []
     };
 
@@ -54,7 +58,7 @@ class EditUserPage extends React.Component {
         // failure
         // change the component state
         error = xhr.response.message;
-
+        {error && toastr.success(error)}
         this.setState({
           error
         });
@@ -90,19 +94,17 @@ class EditUserPage extends React.Component {
     xhr.addEventListener('load', () => {
       if (xhr.status === 200) {
         // success
-
+        {xhr.response.message && toastr.success(xhr.response.message)}
         // change the component-container state
         this.setState({
           errors: {},
-          successMessage: xhr.response.message,
           user: xhr.response.user
         });
       } else {
         // failure
         // change the component state
         const errors = xhr.response.errors ? xhr.response.errors : {};
-        errors.summary = xhr.response.message;
-
+        {xhr.response.message && toastr.error(xhr.response.message)}
         this.setState({
           successMessage:"",
           errors
@@ -158,7 +160,6 @@ class EditUserPage extends React.Component {
         errors={this.state.errors}
         user={this.state.user}
         organizations={this.state.organizations}
-        successMessage={this.state.successMessage}
       />
     );
   }

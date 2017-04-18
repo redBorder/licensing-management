@@ -4,11 +4,6 @@ import { Link } from 'react-router';
 
 const ListUsers = ({usuarios, error }) => (
 	<div>
-		{error && 
-	            <Panel header="Error message" bsStyle="danger">
-	              {error}
-	            </Panel>
-	    }
 	    <div className="row">
 	    	<div className="col-md-10">
 	    		<h1 style={{color:"brown"}} > Users registered at database</h1>

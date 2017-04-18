@@ -2,14 +2,8 @@ import React from 'react';
 import { Panel, ListGroup, ListGroupItem } from 'react-bootstrap';
 import { Link } from 'react-router';
 
-
-const ListOrgs = ({organizations, error }) => (
+const ListOrgs = ({organizations}) => (
  	<div>
-		{error && 
-	            <Panel header="Error message" bsStyle="danger">
-	              {error}
-	            </Panel>
-	    }
 	    <div className="row">
 	    	<div className="col-md-10">
 	    		<h1 style={{color:"brown"}} > Organizations registered at database</h1>

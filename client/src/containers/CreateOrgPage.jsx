@@ -2,7 +2,7 @@ import React from 'react';
 import Auth from '../modules/Auth';
 import CreateOrgForm from '../components/CreateOrgForm.jsx';
 import PropTypes  from 'prop-types';
-
+import toastr from 'toastr';
 
 class CreateOrgPage extends React.Component {
 
@@ -11,12 +11,16 @@ class CreateOrgPage extends React.Component {
    */
   constructor(props, context) {
     super(props, context);
-
+    toastr.options={
+      "closeButton": true,
+      "preventDuplicates": true,
+      "newestOnTop": true
+    }
     // set the initial component state
     this.state = {
       errors: {
-        email: '',
-        name: ''
+        name:'',
+        email:''
       },
       org: {
         email: '',
@@ -52,23 +56,15 @@ class CreateOrgPage extends React.Component {
     xhr.addEventListener('load', () => {
       if (xhr.status === 200) {
         // success
-
-        // change the component-container state
         this.setState({
-          errors: {},
-          successMessage: xhr.response.message
+          errors:{}
         });
+        {xhr.response.message && toastr.success(xhr.response.message)}
 
       } else {
         // failure
+        {xhr.response.message && toastr.error(xhr.response.message)}
 
-        // change the component state
-        const errors = xhr.response.errors ? xhr.response.errors : {};
-        errors.summary = xhr.response.message;
-
-        this.setState({
-          errors
-        });
       }
     });
     xhr.send(formData);
@@ -115,7 +111,7 @@ class CreateOrgPage extends React.Component {
         onChange={this.changeUser}
         errors={this.state.errors}
         org={this.state.org}
-        successMessage={this.state.successMessage}
+
       />
     );
   }
