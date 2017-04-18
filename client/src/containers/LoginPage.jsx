@@ -1,7 +1,7 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import Auth from '../modules/Auth';
 import LoginForm from '../components/LoginForm.jsx';
-
+import PropTypes  from 'prop-types';
 
 class LoginPage extends React.Component {
 

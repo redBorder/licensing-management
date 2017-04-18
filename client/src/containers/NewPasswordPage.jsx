@@ -1,6 +1,7 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import Auth from '../modules/Auth';
 import NewPasswordForm from '../components/NewPasswordForm.jsx';
+import PropTypes  from 'prop-types';
 
 
 class NewPasswordPage extends React.Component {

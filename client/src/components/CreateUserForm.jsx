@@ -1,6 +1,7 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import {Panel, Form, FormControl, FormGroup, Col, HelpBlock, ControlLabel, Checkbox, Button, FeedBack} from 'react-bootstrap';
 import { Link } from 'react-router';
+import PropTypes  from 'prop-types';
 
 
 const CreateUserForm = ({
@@ -22,6 +23,10 @@ const CreateUserForm = ({
               {errors.summary}
             </Panel>
     }
+    <div className="row">
+      <h2 className="text-center" style={{color:"blue"}}> Create user form </h2>
+      <br></br>
+    </div>
     <Form horizontal onSubmit={onSubmit}>
       <FormGroup controlId="name" validationState={errors.name=="" ? null : errors.name} >
         <Col componentClass={ControlLabel} sm={2}>

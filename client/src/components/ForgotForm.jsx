@@ -1,5 +1,6 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import {Panel, Form, FormControl, FormGroup, Col, HelpBlock, ControlLabel, Checkbox, Button, FeedBack} from 'react-bootstrap';
+import PropTypes  from 'prop-types';
 
 const ForgotForm = ({
   onSubmit,
@@ -13,6 +14,10 @@ const ForgotForm = ({
               {errors.summary}
             </Panel>
     }
+    <div className="row">
+      <h2 className="text-center" style={{color:"blue"}}> Forgot password form </h2>
+      <br></br>
+    </div>
     <Form horizontal onSubmit={onSubmit}>
       <FormGroup controlId="email" validationState={errors.email=="" ? null : errors.email} >
         <Col componentClass={ControlLabel} sm={2}>

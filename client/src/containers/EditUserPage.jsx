@@ -1,6 +1,7 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import Auth from '../modules/Auth';
 import EditUserForm from '../components/EditUserForm.jsx';
+import PropTypes  from 'prop-types';
 
 
 class EditUserPage extends React.Component {

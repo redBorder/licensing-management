@@ -1,6 +1,7 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import Auth from '../modules/Auth';
 import ForgotForm from '../components/ForgotForm.jsx';
+import PropTypes  from 'prop-types';
 
 
 class ForgotPage extends React.Component {

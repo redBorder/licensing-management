@@ -1,6 +1,7 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import {Panel, Form, FormControl, FormGroup, Col, HelpBlock, ControlLabel, Checkbox, Button, FeedBack} from 'react-bootstrap';
 import { Link } from 'react-router';
+import PropTypes  from 'prop-types';
 
 
 const LoginForm = ({
@@ -10,7 +11,7 @@ const LoginForm = ({
   user,
   successMessage
 }) => (
-  <div>
+  <div className="container">
     {successMessage && 
       <Panel header="Success message" bsStyle="success">
         {successMessage}
@@ -21,6 +22,10 @@ const LoginForm = ({
               {errors.summary}
             </Panel>
     }
+    <div className="row">
+      <h2 className="text-center" style={{color:"blue"}}> Log in form </h2>
+      <br></br>
+    </div>
     <Form horizontal onSubmit={onSubmit}>
       <FormGroup controlId="email" validationState={errors.email=="" ? null : errors.email} >
         <Col componentClass={ControlLabel} sm={2}>
@@ -47,7 +52,7 @@ const LoginForm = ({
           <Button type="submit">
             Sign in
           </Button>
-          <Link to={'/forgot'}>Forgot your password?</Link>
+          <Link to={'/forgot'}> Forgot your password?</Link>
         </Col>
       </FormGroup>
     </Form> 

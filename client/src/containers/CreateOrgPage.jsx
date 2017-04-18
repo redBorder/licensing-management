@@ -1,6 +1,7 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import Auth from '../modules/Auth';
 import CreateOrgForm from '../components/CreateOrgForm.jsx';
+import PropTypes  from 'prop-types';
 
 
 class CreateOrgPage extends React.Component {
