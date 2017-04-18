@@ -24,10 +24,7 @@ class EditUserPage extends React.Component {
         admin: false
       },
       successMessage: '',
-      organizations: [
-      {
-      }
-      ]
+      organizations: []
     };
 
     this.processForm = this.processForm.bind(this);

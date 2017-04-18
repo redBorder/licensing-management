@@ -12,6 +12,7 @@ const Base = ({children}) => (
      {Auth.isUserAuthenticated() ? (
         Auth.isAdmin() ? (
         <div className="top-bar-right">
+          <Link to="/listOrgs"> List Organizations </Link>
           <Link to="/createOrg"> Create Organization </Link>
           <Link to="/createUser"> Create User </Link>
           <Link to="/listUsers"> List Users </Link>

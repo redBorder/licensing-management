@@ -29,11 +29,7 @@ class CreateUserPage extends React.Component {
         admin: false
       },
       successMessage: '',
-      organizations: [
-      {
-
-      }
-      ]
+      organizations: []
     };
     this.processForm = this.processForm.bind(this);
     this.changeUser = this.changeUser.bind(this);
