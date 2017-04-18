@@ -12,9 +12,6 @@ const models = require('./models')(sequelize);
 //Sincronizamos los modelos a la base de datos
 if (process.env.MODE_RUN == "test"){
 	sequelize.sync({force:true});
-}
-else if (process.env.MODE_RUN == "development"){
-	sequelize.sync();
 }else{
 	sequelize.sync()
 	.then(() =>{

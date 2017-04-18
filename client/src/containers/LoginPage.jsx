@@ -65,6 +65,7 @@ class LoginPage extends React.Component {
         });
 
         // set a user profile items
+        localStorage.setItem('userProfileId', xhr.response.user.id);
         localStorage.setItem('userProfileName', xhr.response.user.name);
         localStorage.setItem('userProfileEmail', xhr.response.user.email);
         localStorage.setItem('userProfileRole', xhr.response.user.role);

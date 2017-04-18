@@ -4,7 +4,8 @@ const router = new express.Router();
 const nodemailer = require('nodemailer');
 const async = require('async');
 const crypto = require('crypto');
-const email = require('../../config/config.json')[process.env.MODE_RUN].email;
+const MODE_RUN = process.env.MODE_RUN || "development"
+const email = require('../../config/config.json')[MODE_RUN].email;
 
 //Incializamos sequelize
 const sequelize = require('../db').sequelize;
@@ -61,6 +62,7 @@ router.post('/login', (req, res, next) => {
       user: {
         name: userData.name,
         role: userData.role,
+        id: userData.id,
         email: req.body.email.toLowerCase()
        } 
     });

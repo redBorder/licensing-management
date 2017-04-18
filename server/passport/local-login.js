@@ -1,7 +1,8 @@
 const jwt = require('jsonwebtoken');
 const PassportLocalStrategy = require('passport-local').Strategy;
 const config_json = require('../../config/config.json');
-const config = config_json[process.env.MODE_RUN]
+const MODE_RUN = process.env.MODE_RUN || "development"
+const config = config_json[MODE_RUN]
 
 //Incializamos sequelize
 const sequelize = require('../db').sequelize;
@@ -39,7 +40,8 @@ module.exports = new PassportLocalStrategy({
               const token = jwt.sign(payload, config.jwtSecret); //Algoritmo por defecto HS256
               const data = {
                 name: Found_User.name,
-                role: Found_User.role
+                role: Found_User.role,
+                id: Found_User.id
               };
               return done(null, token, data);
             }

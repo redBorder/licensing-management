@@ -19,8 +19,8 @@ const ListUsers = ({usuarios, error }) => (
 			return (
 				<ListGroupItem key={usuario.id} >
 					<div key={usuario.id}> 
-						<Link style={{color:"red"}} to={"/removeUsersAdmin/" + usuario.id}> 
-						Remove user </Link> <span>Name: </span><Link to={"/editUserAdmins/" + 
+						{usuario.id!=localStorage.getItem('userProfileId') ? <Link style={{color:"red"}} to={"/removeUsersAdmin/" + usuario.id} > Remove user </Link> : null }
+						<span>Name: </span><Link to={"/editUserAdmins/" + 
 						usuario.id + "/" + encodeURIComponent(usuario.name) + "/" + encodeURIComponent(usuario.email)}> {usuario.name} </Link> <span>{"Email: " + usuario.email + ". Role: " + usuario.role}</span> 
 					</div>
 	    		</ListGroupItem>

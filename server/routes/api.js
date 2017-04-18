@@ -2,7 +2,8 @@ const jwt = require('jsonwebtoken');
 const express = require('express');
 const router = new express.Router();
 const passport = require('passport');
-const email = require('../../config/config.json')[process.env.MODE_RUN].email;
+const MODE_RUN = process.env.MODE_RUN || "development"
+const email = require('../../config/config.json')[MODE_RUN].email;
 const nodemailer = require('nodemailer');
 
 
