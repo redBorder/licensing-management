@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Auth from '../modules/Auth';
 import ForgotForm from '../components/ForgotForm.jsx';
 import PropTypes  from 'prop-types';
 import toastr from 'toastr';
 
-class ForgotPage extends React.Component {
+class ForgotPage extends Component {
 
   /**
    * Class constructor.
@@ -58,9 +58,6 @@ class ForgotPage extends React.Component {
         });
 
         {xhr.response.message && toastr.success(xhr.response.message)}
-
-
-
         // change the current URL to /
         this.context.router.replace('/');
       } else {

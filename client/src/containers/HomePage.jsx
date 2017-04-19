@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Auth from '../modules/Auth';
 import Home from '../components/Home.jsx';
 
 
-class HomePage extends React.Component {
+class HomePage extends Component {
 
   /**
    * Class constructor.

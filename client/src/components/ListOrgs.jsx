@@ -1,8 +1,9 @@
 import React from 'react';
 import { Panel, ListGroup, ListGroupItem } from 'react-bootstrap';
 import { Link } from 'react-router';
+import PropTypes from 'prop-types';
 
-const ListOrgs = ({organizations}) => (
+const ListOrgs = ({organizations, removeOrg}) => (
  	<div>
 	    <div className="row">
 	    	<div className="col-md-10">
@@ -20,9 +21,6 @@ const ListOrgs = ({organizations}) => (
 					return (
 						<ListGroupItem key={organization.id} >
 							<div className="row" key={organization.id}> 
-								<div className="col-md-2">
-									<span style={{color:"blue"}}>Org {key} </span>
-								</div>
 								<div className="col-md-5">
 									<span style={{color:"blue"}}>Name: </span> 
 									<span>{organization.name}</span> 
@@ -30,6 +28,9 @@ const ListOrgs = ({organizations}) => (
 								<div className="col-md-5">
 									<span style={{color:"blue"}}>Email: </span>
 									<span>{organization.email}</span> 
+								</div>
+								<div className="col-md-2">
+									<Link style={{color:"red"}} onClick={() => removeOrg(organization.id,organization.name, organization.email)} className="glyphicon glyphicon-remove"></Link>
 								</div>
 							</div>
 			    		</ListGroupItem>
@@ -41,5 +42,9 @@ const ListOrgs = ({organizations}) => (
  	</div>
 );
 
+ListOrgs.propTypes = {
+	removeOrg: PropTypes.func.isRequired,
+	organizations: PropTypes.array.isRequired
+}
 
 export default ListOrgs;

@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Auth from '../modules/Auth';
 import ProfileForm from '../components/ProfileForm.jsx';
 import PropTypes  from 'prop-types';
 import toastr from 'toastr';
 
-class ProfilePage extends React.Component {
+class ProfilePage extends Component {
 
   /**
    * Class constructor.

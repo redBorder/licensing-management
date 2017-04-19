@@ -51,6 +51,7 @@ const ListUsers = ({usuarios, removeUser }) => (
 );
 
 ListUsers.propTypes = {
-	removeUser: PropTypes.func.isRequired
+	removeUser: PropTypes.func.isRequired,
+	usuarios: PropTypes.array.isRequired
 }
 export default ListUsers;

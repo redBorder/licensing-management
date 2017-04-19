@@ -394,7 +394,8 @@ router.post('/createOrg', (req, res, next) => {
     })
 });
 
-router.post('/listOrgs', (req, res) => {
+//Si la pagina solicitada es la 0 se le devolverán todas las organizaciones (para la creacion de usuarios)
+router.post('/listOrgs/:page', (req, res) => {
   models.User.findOne({
         where: {
             id: req.userId
@@ -409,15 +410,68 @@ router.post('/listOrgs', (req, res) => {
       else
       {
           models.Organization.findAll({
+          limit: req.params.page != 0 ? 10 : null,
+          offset: req.params.page != 0 ? 10*(req.params.page-1) : 0,
           order: 'name'
         }).then(function(list_orgs){
-          return res.status(200).json({
-            success: true,
-            orgs: list_orgs
+          models.Organization.count()
+            .then(function(number_orgs){
+              return res.status(200).json({
+                success: true,
+                orgs: list_orgs,
+                number_orgs: number_orgs
+              })
+            })
+          })
+      }
+    })
+  });
+
+
+router.post('/removeOrg/:id', (req, res) => {
+  models.User.findOne({
+        where: {
+            id: req.userId
+        }
+    }).then(function(user){
+      if(user.role != "admin"){
+        return res.status(401).json({
+            success: false,
+            message: "You don't have permissions",
+          });
+      }
+      else
+      {
+          models.Organization.findOne({
+            where: {
+              id: req.params.id
+            }
+          }).then(function(org_delete){
+            if(!org_delete)
+              return res.status(400).json({
+                success: false,
+                message: "Org doesn't exists"
+              })
+            const name = org_delete.name;
+            const email = org_delete.email;
+            models.Organization.destroy({
+            where: {id: req.params.id} 
+           }).then(function(affectedRows){
+            if(affectedRows==1)
+              return res.status(200).json({
+              success: true,
+              message: "organization " + name + " (" + email + ") delete correctly"
+            })
+            else
+              return res.status(400).json({
+              success: false,
+              message: "Error removing organization " + name 
+            })
           })
         })
       }
     })
   });
+
 
 module.exports = router;

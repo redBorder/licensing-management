@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Auth from '../modules/Auth';
 import EditUserForm from '../components/EditUserForm.jsx';
 import PropTypes  from 'prop-types';
 import toastr from 'toastr';
 
 
-class EditUserPage extends React.Component {
+class EditUserPage extends Component {
 
   /**
    * Class constructor.
@@ -41,7 +41,7 @@ class EditUserPage extends React.Component {
      //Utilizando ajax, en el constructor pedimos la lista de organizaciones registradas
     // create an AJAX request
     const xhr = new XMLHttpRequest();
-    xhr.open('post', '/api/listOrgs');
+    xhr.open('post', '/api/listOrgs/0');
     // set the authorization HTTP header
     xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
     xhr.responseType = 'json';

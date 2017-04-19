@@ -20,7 +20,7 @@ class ListUsersPage extends Component {
     }
     this.handleSelectPage=this.handleSelectPage.bind(this);
     //Obtenemos el mensaje si hemos eliminado un usuario correctamente, lo notificamos y eliminamos
-    localStorage.getItem('successRemove') && toastr.success(localStorage.getItem('successRemove')) && localStorage.removeItem('successRemove')
+    localStorage.getItem('successRemoveUser') && toastr.success(localStorage.getItem('successRemoveUser')) && localStorage.removeItem('successRemoveUser')
   }
 
   //Justo antes de renderizar el componente se llama a este método
@@ -67,7 +67,7 @@ class ListUsersPage extends Component {
       xhr.addEventListener('load', () => {
         if (xhr.status === 200) {
           //Almacenamos el mensaje de respuesta
-          localStorage.setItem('successRemove', xhr.response.message);
+          localStorage.setItem('successRemoveUser', xhr.response.message);
           //Recargamos la página para que recargue la lista de usuarios
           window.location.reload();
         } else {
@@ -90,21 +90,24 @@ class ListUsersPage extends Component {
 
   render(){
     return (
-      <div className="text-center">
-        <Pagination
-          first 
-          last 
-          next
-          prev
-          ellipsis
-          boundaryLinks
-          bsSize="large"
-          items={Math.ceil(this.state.number_users/10)} //10 usuarios por página. Redondeamos para arriba
-          maxButtons={5}
-          activePage={this.state.activePage}
-          onSelect={this.handleSelectPage} />
-        <br />
-        <ListUsers usuarios={this.state.users} removeUser={this.removeUser}/>
+      <div className="container">
+        <div>
+          <ListUsers usuarios={this.state.users} removeUser={this.removeUser}/>
+        </div>
+        <div className="text-center">
+          <Pagination
+            first 
+            last 
+            next
+            prev
+            ellipsis
+            boundaryLinks
+            bsSize="medium"
+            items={Math.ceil(this.state.number_users/10)} //10 usuarios por página. Redondeamos para arriba
+            maxButtons={5}
+            activePage={this.state.activePage}
+            onSelect={this.handleSelectPage} />
+        </div>
       </div>
         )
   }

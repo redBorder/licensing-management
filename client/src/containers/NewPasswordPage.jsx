@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Auth from '../modules/Auth';
 import NewPasswordForm from '../components/NewPasswordForm.jsx';
 import PropTypes  from 'prop-types';
 import toastr from 'toastr';
 
-class NewPasswordPage extends React.Component {
+class NewPasswordPage extends Component {
 
   /**
    * Class constructor.

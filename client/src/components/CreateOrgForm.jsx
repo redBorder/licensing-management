@@ -2,7 +2,6 @@ import React from 'react';
 import {Panel, Form, FormControl, FormGroup, Col, HelpBlock, ControlLabel, Checkbox, Button, FeedBack} from 'react-bootstrap';
 import { Link } from 'react-router';
 import PropTypes  from 'prop-types';
-import toastr from 'toastr';
 
 const CreateOrgForm = ({
   onSubmit,

@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Auth from '../modules/Auth';
 import CreateOrgForm from '../components/CreateOrgForm.jsx';
 import PropTypes  from 'prop-types';
 import toastr from 'toastr';
 
-class CreateOrgPage extends React.Component {
+class CreateOrgPage extends Component {
 
   /**
    * Class constructor.

@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Auth from '../modules/Auth';
 import Dashboard from '../components/Dashboard.jsx';
 import toastr from 'toastr';
 
 
-class DashboardPage extends React.Component {
+class DashboardPage extends Component {
 
   /**
    * Class constructor.
