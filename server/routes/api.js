@@ -282,18 +282,19 @@ router.post('/removeUser/:id', (req, res) => {
                 message: "User doesn't exists"
               })
             const name = user_delete.name;
+            const email = user_delete.email;
             models.User.destroy({
             where: {id: req.params.id} 
            }).then(function(affectedRows){
             if(affectedRows==1)
               return res.status(200).json({
               success: true,
-              message: "User " + name + " delete correctly"
+              message: "User " + name + " (" + email + ") delete correctly"
             })
             else
               return res.status(400).json({
               success: false,
-              message: "Error removing user" 
+              message: "Error removing user " + name 
             })
           })
         })

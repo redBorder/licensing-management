@@ -28,7 +28,7 @@ const ListOrgs = ({organizations}) => (
 									<span>{organization.name}</span> 
 								</div>
 								<div className="col-md-5">
-									<span style={{color:"blue"}}>Name: </span>
+									<span style={{color:"blue"}}>Email: </span>
 									<span>{organization.email}</span> 
 								</div>
 							</div>

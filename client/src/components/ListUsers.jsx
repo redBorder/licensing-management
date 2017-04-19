@@ -1,8 +1,9 @@
 import React from 'react';
 import { Panel, ListGroup, ListGroupItem } from 'react-bootstrap';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
-const ListUsers = ({usuarios, error }) => (
+const ListUsers = ({usuarios, removeUser }) => (
 	<div>
 	    <div className="row">
 	    	<div className="col-md-10">
@@ -28,7 +29,7 @@ const ListUsers = ({usuarios, error }) => (
 									<span>{usuario.name}</span> 
 								</div>
 								<div className="col-md-3">
-									<span style={{color:"blue"}}>Name: </span>
+									<span style={{color:"blue"}}>Email: </span>
 									<span>{usuario.email}</span> 
 								</div>
 								<div className="col-md-3">
@@ -36,11 +37,11 @@ const ListUsers = ({usuarios, error }) => (
 									<span>{usuario.role}</span> 
 								</div>
 								<div className="col-md-1">
-									{usuario.id!=localStorage.getItem('userProfileId') ? <Link style={{color:"red"}} to={"/removeUsersAdmin/" + usuario.id} ><span className="glyphicon glyphicon-remove"></span></Link> : <span style={{color:"blue"}} className="glyphicon glyphicon-user"> You</span> }
+									{usuario.id!=localStorage.getItem('userProfileId') ? <Link style={{color:"red"}} onClick={() => removeUser(usuario.id,usuario.name, usuario.email)} className="glyphicon glyphicon-remove"></Link> : <span style={{color:"blue"}} className="glyphicon glyphicon-user"> You</span> }
 								</div>
 								<div className="col-md-1">
 									<Link to={"/editUserAdmins/" + 
-									usuario.id + "/" + encodeURIComponent(usuario.name) + "/" + encodeURIComponent(usuario.email)} className="glyphicon glyphicon-edit" style={{color:"greenº"}} ></Link>
+									usuario.id + "/" + encodeURIComponent(usuario.name) + "/" + encodeURIComponent(usuario.email)} className="glyphicon glyphicon-edit" style={{color:"green"}} ></Link>
 								</div>
 							</div>
 			    		</ListGroupItem>
@@ -52,5 +53,7 @@ const ListUsers = ({usuarios, error }) => (
  	</div>
 );
 
-
+ListUsers.propTypes = {
+	removeUser: PropTypes.func.isRequired
+}
 export default ListUsers;

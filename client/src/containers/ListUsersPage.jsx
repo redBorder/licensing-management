@@ -15,11 +15,17 @@ class ListUsersPage extends Component {
     	users: [
     	]
     }
+    //Obtenemos el mensaje si hemos eliminado un usuario correctamente, lo notificamos y eliminamos
+    localStorage.getItem('successRemove') && toastr.success(localStorage.getItem('successRemove')) && localStorage.removeItem('successRemove')
   }
 
   //Justo antes de renderizar el componente se llama a este método
   componentWillMount(){
-  	 //Utilizando ajax, en el constructor pedimos la lista de usuarios registrados
+  	this.loadUsers();
+  }
+
+  loadUsers(){
+     //Utilizando ajax, en el constructor pedimos la lista de usuarios registrados
     // create an AJAX request
     const xhr = new XMLHttpRequest();
     xhr.open('post', '/api/listUsers');
@@ -38,13 +44,39 @@ class ListUsersPage extends Component {
       } else {
         // failure
         {xhr.response.message && toastr.error(xhr.response.message)}
-      	}
+        }
     });
     xhr.send();
   }
+  
+  removeUser(id, name, email){
+    if(confirm('Are you sure to remove the user ' + name + " (" + email + ")" )){
+      //Utilizando ajax, en el constructor pedimos la lista de usuarios registrados
+      // create an AJAX request
+      const xhr = new XMLHttpRequest();
+      xhr.open('post', '/api/removeUser/' + id);
+      // set the authorization HTTP header
+      xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
+      xhr.responseType = 'json';
+      xhr.addEventListener('load', () => {
+        if (xhr.status === 200) {
+          //Almacenamos el mensaje de respuesta
+          localStorage.setItem('successRemove', xhr.response.message);
+          //Recargamos la página para que recargue la lista de usuarios
+          window.location.reload();
+        } else {
+          // failure
+          {xhr.response.message && toastr.error(xhr.response.message)}
+          }
+      });
+      xhr.send();
+    }
+  }
+
   render(){
-    return <ListUsers usuarios={this.state.users}/>
+    return <ListUsers usuarios={this.state.users} removeUser={this.removeUser}/>
   }
 }
+
 
 export default ListUsersPage;

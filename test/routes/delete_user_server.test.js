@@ -39,16 +39,12 @@ describe('Remove user Test', function() {
           .set('Authorization', `bearer ${res.body.token}`)
           .send()
           .end((err, res) => {
-           
-            res.should.have.status(200);
-            res.body.should.have.property('success').eql(true);
-            res.body.should.have.property('message').eql('User Usuario delete correctly');
             models.User.findAll({where: {}})
             .then(function(Users){
               try{
                 res.should.have.status(200);
                 res.body.should.have.property('success').eql(true);
-                res.body.should.have.property('message').eql('User Usuario delete correctly');
+                res.body.should.have.property('message').eql('User Usuario (normal@redborder.com) delete correctly');
                 Users.length.should.eql(1);
                 done();
                 } catch(e){
