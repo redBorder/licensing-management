@@ -450,7 +450,7 @@ router.post('/removeOrg/:id', (req, res) => {
             if(!org_delete)
               return res.status(400).json({
                 success: false,
-                message: "Org doesn't exists"
+                message: "Organization doesn't exists"
               })
             const name = org_delete.name;
             const email = org_delete.email;
@@ -460,7 +460,7 @@ router.post('/removeOrg/:id', (req, res) => {
             if(affectedRows==1)
               return res.status(200).json({
               success: true,
-              message: "organization " + name + " (" + email + ") delete correctly"
+              message: "Organization " + name + " (" + email + ") delete correctly"
             })
             else
               return res.status(400).json({

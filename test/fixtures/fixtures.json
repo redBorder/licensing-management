@@ -2,6 +2,7 @@
     {
         "model": "Organization",
         "data": {
+            "id" : "12df8176-0813-49d1-8767-92f4d89f1c11",
             "name": "Organizacion con usuarios",
             "email": "org1@cor.com"
         }
