@@ -1,5 +1,5 @@
 import React from 'react';
-import { Panel, ListGroup, ListGroupItem } from 'react-bootstrap';
+import { Panel, ListGroup, ListGroupItem} from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
@@ -21,18 +21,15 @@ const ListUsers = ({usuarios, removeUser }) => (
 					return (
 						<ListGroupItem key={usuario.id} >
 							<div className="row" key={usuario.id}> 
-								<div className="col-md-1">
-									<span style={{color:"blue"}}>User {key} </span>
-								</div>
-								<div className="col-md-3">
+								<div className="col-md-4">
 									<span style={{color:"blue"}}>Name: </span> 
 									<span>{usuario.name}</span> 
 								</div>
-								<div className="col-md-3">
+								<div className="col-md-4">
 									<span style={{color:"blue"}}>Email: </span>
 									<span>{usuario.email}</span> 
 								</div>
-								<div className="col-md-3">
+								<div className="col-md-2">
 									<span style={{color:"blue"}}>Role: </span>
 									<span>{usuario.role}</span> 
 								</div>

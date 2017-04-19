@@ -35,7 +35,7 @@ describe('List users Test', function() {
       .send(user)
       .end((err, res) => {
         chai.request(server)
-          .post('/api/listUsers')
+          .post('/api/listUsers/1')
           .set('Authorization', `bearer ${res.body.token}`)
           .send()
           .end((err, res) => {            
@@ -65,10 +65,10 @@ describe('List users Test', function() {
       .send(user)
       .end((err, res) => {
         chai.request(server)
-          .post('/api/listUsers')
+          .post('/api/listUsers/1')
           .set('Authorization', `bearer ${res.body.token}`)
           .send()
-          .end((err, res) => {
+          .end((err, res) => { 
            try{
             res.should.have.status(401);
             res.body.should.have.property('success').eql(false);

@@ -230,7 +230,7 @@ router.post('/createUser', (req, res, next) => {
     })
 });
 
-router.post('/listUsers', (req, res) => {
+router.post('/listUsers/:page', (req, res) => {
   models.User.findOne({
         where: {
             id: req.userId
@@ -245,14 +245,19 @@ router.post('/listUsers', (req, res) => {
       else
       {
           models.User.findAll({
-          where: {
-          }
+            limit: 10,
+            offset: 10*(req.params.page-1),
+            order: 'name'
         }).then(function(list_users){
-          return res.status(200).json({
-            success: true,
-            users: list_users
+            models.User.count()
+            .then(function(number_users){
+              return res.status(200).json({
+                success: true,
+                users: list_users,
+                number_users: number_users
+              })
+            })
           })
-        })
       }
     })
   });
@@ -404,8 +409,7 @@ router.post('/listOrgs', (req, res) => {
       else
       {
           models.Organization.findAll({
-          where: {
-          }
+          order: 'name'
         }).then(function(list_orgs){
           return res.status(200).json({
             success: true,
