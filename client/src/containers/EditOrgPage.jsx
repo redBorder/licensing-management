@@ -21,11 +21,13 @@ class EditOrgPage extends Component {
     this.state = {
       errors: {
         name: '',
-        email: ''
+        email: '',
+        cluster_id: ''
       },
       organization: {
         name: decodeURIComponent(this.props.params.name),
         email: decodeURIComponent(this.props.params.email),
+        cluster_id: decodeURIComponent(this.props.params.cluster_id) //Hay que cambiar esto para que haga peticiones
       }
     };
 
@@ -96,6 +98,11 @@ class EditOrgPage extends Component {
       this.state.errors.name="success";
     else
       this.state.errors.name="error"
+
+    if(this.state.organization.cluster_id.length!=0)
+      this.state.errors.cluster_id="success";
+    else
+      this.state.errors.cluster_id="error"
 
     if(this.state.organization.email.length!=0)
       this.state.errors.email="success";

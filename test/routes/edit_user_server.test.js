@@ -40,7 +40,7 @@ describe('Edit user Test', function() {
         const organization = "";
         const formData = `email=${email}&name=${name}&role=${role}&organization=${organization}`;
         chai.request(server)
-          .post('/api/editUsersAdmin/12df8176-0813-49d1-8767-92f4d89f1a81')
+          .put('/api/users/12df8176-0813-49d1-8767-92f4d89f1a81')
           .set('Authorization', `bearer ${res.body.token}`)
           .send(formData)
           .end((err, res) => {
@@ -80,7 +80,7 @@ describe('Edit user Test', function() {
         const organization = "";
         const formData = `email=${email}&name=${name}&role=${role}&organization=${organization}`;
         chai.request(server)
-          .post('/api/editUsersAdmin/12df8176-0813-49d1-8767-92f4d89f1a88')
+          .put('/api/users/12df8176-0813-49d1-8767-92f4d89f1a88')
           .set('Authorization', `bearer ${res.body.token}`)
           .send(formData)
           .end((err, res) => {
@@ -110,7 +110,7 @@ describe('Edit user Test', function() {
         const organization = "";
         const formData = `email=${email}&name=${name}&role=${role}&organization=${organization}`;
         chai.request(server)
-          .post('/api/editUsersAdmin/12df8176-0813-49d1-8767-92f4d89f1a81')
+          .put('/api/users/12df8176-0813-49d1-8767-92f4d89f1a81')
           .set('Authorization', `bearer ${res.body.token}`)
           .send(formData)
           .end((err, res) => {
@@ -150,7 +150,7 @@ describe('Edit user Test', function() {
         const organization = "";
         const formData = `email=${email}&name=${name}&role=${role}&organization=${organization}`;
         chai.request(server)
-          .post('/api/editUsersAdmin/12df8176-0813-49d1-8767-92f4d89f1a81')
+          .put('/api/users/12df8176-0813-49d1-8767-92f4d89f1a81')
           .set('Authorization', `bearer ${res.body.token}`)
           .send(formData)
           .end((err, res) => {

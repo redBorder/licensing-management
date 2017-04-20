@@ -35,10 +35,11 @@ describe('Create organization Test', function() {
        .send(user)
        .end((err, res) => {
         const name  = encodeURIComponent("Org test");
+        const cluster_id  = encodeURIComponent("cluster id");
         const email = encodeURIComponent("org@prueba.com");
-        const formData = `name=${name}&email=${email}`;
+        const formData = `name=${name}&email=${email}&cluster_id=${cluster_id}`;
          chai.request(server)
-           .post('/api/createOrg')
+           .post('/api/organizations')
            .set('Authorization', `bearer ${res.body.token}`)
            .send(formData)
            .end((err, res) => {
@@ -70,9 +71,10 @@ describe('Create organization Test', function() {
        .end((err, res) => {
         const name  = encodeURIComponent("Org test");
         const email = encodeURIComponent("org@prueba.com");
-        const formData = `name=${name}&email=${email}`;
-         chai.request(server)
-           .post('/api/createOrg')
+        const cluster_id = "Cluster id";
+        const formData = `email=${email}&name=${name}&cluster_id=${cluster_id}`;
+        chai.request(server)
+           .post('/api/organizations')
            .set('Authorization', `bearer ${res.body.token}`)
            .send(formData)
            .end((err, res) => {

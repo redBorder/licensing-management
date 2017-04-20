@@ -38,6 +38,17 @@ const CreateOrgForm = ({
           <FormControl.Feedback />
         </Col>
       </FormGroup>
+
+      <FormGroup controlId="cluster_id" validationState={errors.cluster_id=="" ? null : errors.cluster_id} >
+        <Col componentClass={ControlLabel} sm={2}>
+          Cluster id
+        </Col>
+        <Col sm={10}>
+          <FormControl name ="cluster_id" type="cluster_id" placeholder="Cluster id" onChange={onChange} value={org.cluster_id}/>
+          <FormControl.Feedback />
+        </Col>
+      </FormGroup>
+      
       <FormGroup>
         <Col smOffset={2} sm={10}>
           <Button type="submit">

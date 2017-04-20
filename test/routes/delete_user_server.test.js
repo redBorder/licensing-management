@@ -35,7 +35,7 @@ describe('Remove user Test', function() {
       .send(user)
       .end((err, res) => {
         chai.request(server)
-          .post('/api/removeUser/12df8176-0813-49d1-8767-92f4d89f1a81')
+          .delete('/api/users/12df8176-0813-49d1-8767-92f4d89f1a81')
           .set('Authorization', `bearer ${res.body.token}`)
           .send()
           .end((err, res) => {
@@ -66,7 +66,7 @@ describe('Remove user Test', function() {
       .send(user)
       .end((err, res) => {
         chai.request(server)
-          .post('/api/removeUser/12df8176-0813-49d1-8767-92f4d89f1a81')
+          .delete('/api/users/12df8176-0813-49d1-8767-92f4d89f1a81')
           .set('Authorization', `bearer ${res.body.token}`)
           .send()
           .end((err, res) => {
@@ -97,7 +97,7 @@ describe('Remove user Test', function() {
       .send(user)
       .end((err, res) => {
         chai.request(server)
-          .post('/api/removeUser/12df8176-0813-49d1-8767-92f4d89f1a99') //This id not exists
+          .delete('/api/users/12df8176-0813-49d1-8767-92f4d89f1a99') //This id not exists
           .set('Authorization', `bearer ${res.body.token}`)
           .send()
           .end((err, res) => {

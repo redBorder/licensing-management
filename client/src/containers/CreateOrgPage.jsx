@@ -20,11 +20,13 @@ class CreateOrgPage extends Component {
     this.state = {
       errors: {
         name:'',
-        email:''
+        email:'',
+        cluster_id:''
       },
       org: {
         email: '',
-        name: ''
+        name: '',
+        cluster_id: ''
       },
       successMessage: ''
     }
@@ -42,9 +44,10 @@ class CreateOrgPage extends Component {
     // prevent default action. in this case, action is the form submission event
     event.preventDefault();
     // create a string for an HTTP body message
+    const cluster_id = encodeURIComponent(this.state.org.cluster_id);
     const name = encodeURIComponent(this.state.org.name);
     const email = encodeURIComponent(this.state.org.email);
-    const formData = `name=${name}&email=${email}`;
+    const formData = `name=${name}&email=${email}&cluster_id=${cluster_id}`;
 
     // create an AJAX request
     const xhr = new XMLHttpRequest();
@@ -94,6 +97,11 @@ class CreateOrgPage extends Component {
       this.state.errors.name="success";
     else
       this.state.errors.name="error"
+
+    if(this.state.org.cluster_id.length!=0)
+      this.state.errors.cluster_id="success";
+    else
+      this.state.errors.cluster_id="error"
 
     if(this.state.org.email.length!=0)
       this.state.errors.email="success";

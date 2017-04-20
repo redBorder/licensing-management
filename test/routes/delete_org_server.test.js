@@ -35,7 +35,7 @@ describe('Remove Organization Test', function() {
       .send(org)
       .end((err, res) => {
         chai.request(server)
-          .post('/api/removeOrg/12df8176-0813-49d1-8767-92f4d89f1c11')
+          .delete('/api/organizations/12df8176-0813-49d1-8767-92f4d89f1c11')
           .set('Authorization', `bearer ${res.body.token}`)
           .send()
           .end((err, res) => {
@@ -66,7 +66,7 @@ describe('Remove Organization Test', function() {
       .send(org)
       .end((err, res) => {
         chai.request(server)
-          .post('/api/removeOrg/12df8176-0813-49d1-8767-92f4d89f1c11')
+          .delete('/api/organizations/12df8176-0813-49d1-8767-92f4d89f1c11')
           .set('Authorization', `bearer ${res.body.token}`)
           .send()
           .end((err, res) => {
@@ -97,7 +97,7 @@ describe('Remove Organization Test', function() {
       .send(org)
       .end((err, res) => {
         chai.request(server)
-          .post('/api/removeOrg/12df8176-0813-49d1-8767-92f4d89f1c12') //This id not exists
+          .delete('/api/organizations/12df8176-0813-49d1-8767-92f4d89f1c12') //This id not exists
           .set('Authorization', `bearer ${res.body.token}`)
           .send()
           .end((err, res) => {

@@ -42,7 +42,7 @@ describe('Create user Test', function() {
         const organization = "";
         const formData = `role=${role}&name=${name}&organization=${organization}&email=${email}&password=${password}&confir_password=${confir_password}`;
          chai.request(server)
-           .post('/api/createUser')
+           .post('/api/users')
            .set('Authorization', `bearer ${res.body.token}`)
            .send(formData)
            .end((err, res) => {
@@ -84,7 +84,7 @@ describe('Create user Test', function() {
         const organization = "";
         const formData = `role=${role}&name=${name}&organization=${organization}&email=${email}&password=${password}&confir_password=${confir_password}`;
          chai.request(server)
-           .post('/api/createUser')
+           .post('/api/users')
            .set('Authorization', `bearer ${res.body.token}`)
            .send(formData)
            .end((err, res) => {
@@ -116,7 +116,7 @@ describe('Create user Test', function() {
         const organization = "";
         const formData = `role=${role}&name=${name}&organization=${organization}&email=${email}&password=${password}&confir_password=${confir_password}`;
          chai.request(server)
-           .post('/api/createUser')
+           .post('/api/users')
            .set('Authorization', `bearer ${res.body.token}`)
            .send(formData)
            .end((err, res) => {

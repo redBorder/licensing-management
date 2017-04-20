@@ -41,7 +41,7 @@ class EditUserPage extends Component {
      //Utilizando ajax, en el constructor pedimos la lista de organizaciones registradas
     // create an AJAX request
     const xhr = new XMLHttpRequest();
-    xhr.open('get', '/organizations/0'); //Cambiar por users/new
+    xhr.open('get', '/api/organizations/0'); //Cambiar por users/new
     // set the authorization HTTP header
     xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
     xhr.responseType = 'json';

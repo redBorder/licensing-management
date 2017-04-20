@@ -36,9 +36,10 @@ describe('Edit organization Test', function() {
       .end((err, res) => {
         const name  = "Cambiado";
         const email = "Cambiado@redborder.com";
-        const formData = `email=${email}&name=${name}`;
+        const cluster_id = "Cluster id";
+        const formData = `email=${email}&name=${name}&cluster_id=${cluster_id}`;
         chai.request(server)
-          .post('/api/editOrgsAdmin/12df8176-0813-49d1-8767-92f4d89f1c11')
+          .put('/api/organizations/12df8176-0813-49d1-8767-92f4d89f1c11')
           .set('Authorization', `bearer ${res.body.token}`)
           .send(formData)
           .end((err, res) => {
@@ -47,7 +48,7 @@ describe('Edit organization Test', function() {
             res.body.should.have.property('success').eql(true);
             res.body.should.have.property('message').eql('Organization Cambiado edited correctly');
             models.Organization.findOne({where: {
-              id: "12df8176-0813-49d1-8767-92f4d89f1a81"
+              id: "12df8176-0813-49d1-8767-92f4d89f1c11"
             }})
             .then(function(org){
               org.should.have.property('name').eql('Cambiado');
@@ -73,9 +74,10 @@ describe('Edit organization Test', function() {
       .end((err, res) => {
         const name  = "Cambiado";
         const email = "Cambiado@redborder.com";
-        const formData = `email=${email}&name=${name}`;
+        const cluster_id = "Cluster id";
+        const formData = `email=${email}&name=${name}&cluster_id=${cluster_id}`;
         chai.request(server)
-          .post('/api/editOrgsAdmin/12df8176-0813-49d1-8767-92f4d89f1a18')
+          .put('/api/organizations/12df8176-0813-49d1-8767-92f4d89f1a18')
           .set('Authorization', `bearer ${res.body.token}`)
           .send(formData)
           .end((err, res) => {
@@ -101,9 +103,10 @@ describe('Edit organization Test', function() {
       .end((err, res) => {
         const name  = "Cambiado";
         const email = "Cambiado@redborder.com";
-        const formData = `email=${email}&name=${name}`;
+        const cluster_id = "Cluster id";
+        const formData = `email=${email}&name=${name}&cluster_id=${cluster_id}`;
         chai.request(server)
-          .post('/api/editOrgsAdmin/12df8176-0813-49d1-8767-92f4d89f1c11')
+          .put('/api/organizations/12df8176-0813-49d1-8767-92f4d89f1c11')
           .set('Authorization', `bearer ${res.body.token}`)
           .send(formData)
           .end((err, res) => {
@@ -138,9 +141,10 @@ describe('Edit organization Test', function() {
       .end((err, res) => {
         const name  = "Cambiado";
         const email = "org2@cor.com";
-        const formData = `email=${email}&name=${name}`;
+        const cluster_id = "Cluster id";
+        const formData = `email=${email}&name=${name}&cluster_id=${cluster_id}`;
         chai.request(server)
-          .post('/api/editOrgsAdmin/12df8176-0813-49d1-8767-92f4d89f1c11')
+          .put('/api/organizations/12df8176-0813-49d1-8767-92f4d89f1c11')
           .set('Authorization', `bearer ${res.body.token}`)
           .send(formData)
           .end((err, res) => {

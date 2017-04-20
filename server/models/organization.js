@@ -11,9 +11,16 @@ module.exports = function(sequelize) {
                 isUUID: 4
             }            
         },
+        cluster_id: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            validate: {
+                notEmpty: { msg: "Field cluster id shouldn't be empty" }
+            }
+        },
         name: {
             type: DataTypes.STRING,
-            aallowNull: false,
+            allowNull: false,
             validate: {
                 notEmpty: { msg: "Field name shouldn't be empty" }
             }

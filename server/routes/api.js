@@ -34,6 +34,12 @@ function validateCreateOrgForm(payload) {
 
   }
 
+  if (!payload || typeof payload.cluster_id !== 'string' || payload.cluster_id.trim().length === 0) {
+    isFormValid = false;
+    message = message != "" ? message + 'and please provide a cluster id ' : "Please provide a cluster id ";
+
+  }
+
   return {
     success: isFormValid,
     message
@@ -376,6 +382,7 @@ router.post('/organizations', (req, res) => {
       else
       {
           const NewOrganization = models.Organization.build({
+            cluster_id: req.body.cluster_id.trim(),
             name: req.body.name.trim(),
             email: req.body.email.trim()
           });
