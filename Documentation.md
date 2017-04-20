@@ -441,39 +441,52 @@ Recibe como parámetros la nueva contraseña (password) y la confirmacion (confi
 Método post, al cual solo se puede acceder si estamos autenticados, donde si no ha habido error (El formulario de cambio de perfil es correcto, es decir, está relleno correctamente y las contraseñas, si proceden, coinciden) se comprueba si la contraseña actual es correcta y si el nuevo email no existe ya en la base de datos. En el caso de haber introducido una nueva contraseña, esta se cambiará, en caso contrario se mantendrá la contraseña actual. Se cambiará el usuario que ya está autenticado.
 	Recibe como parámetros el nombre de usuario (name), el email (email), la contraseña actual (password), la nueva contraseña (new_password) y la confirmación (confir_new_password)
 
-* __/api/createUser__*  : 
+* __/api/users__*  : 
 
 Método post, al cual solo se puede acceder si estamos autenticados, donde si no ha habido error (El formulario de creación de un usuario es correcto, es decir, está relleno correctamente y las contraseñas coinciden) se comprueba si la el usuario logueado realmente tiene permisos de usuarios, entonces se creará un usuario en la base de datos haciendo uso de passport.
 	Recibe como parámetros el nombre de usuario (name), el email (email), ls contraseña (new_password) y la confirmación (confir_new_password), la organización a la que pertenece y si es administrador o no.
 
-* __api/listUsers/:page__* :
 
-Método post, el cual se encarga de devolver en un fichero JSON los usuarios que se hayan registrados en la base de datos.
+* __/api/organizations*  : 
+
+Método post, al cual solo se puede acceder si estamos autenticados, donde si no ha habido error (El formulario de creación de una organización es correcto) se comprueba si la el usuario logueado realmente tiene permisos de usuarios, entonces se creará una organización en la base de datos haciendo uso de passport.
+	Recibe como parámetros el nombre de usuario (name), el email (email), y un identificador de cluster.
+
+* __api/users/:page__* :
+
+Método get, el cual se encarga de devolver en un fichero JSON los usuarios que se hayan registrados en la base de datos.
 Sólo devolverán los usuarios si el usuario autenticado es de tipo admin. Utiliza la paginación de forma que según el numero de pagina (page) devolverá los 10 primeros, los 10 segundos... usuarios ordenados por el nombre.
 Devolverá también el numero de usuarios existentes en la base de datos (number_users)
 
-* __api/listOrgs/:page__* :
+* __api/organizations/:page__* :
 
-Método post, el cual se encarga de devolver en un fichero JSON las organizaciones que se hayan registradas en la base de datos.
+Método get, el cual se encarga de devolver en un fichero JSON las organizaciones que se hayan registradas en la base de datos.
 Sólo devolverán las organizaciones si el usuario autenticado es de tipo admin. Utiliza la paginación de forma que según el número de pagina (page) devolverá las 10 primeras, las 10 segundss... organizaciones ordenadas por el nombre. En el caso de enviarle el numero de página 0 se devolverán todas las organizaciones.
 Devolverá también el numero de organizaciones existentes en la base de datos (number_orgs)
 
-* __api/removeUser/:id__* :
+* __api/users/:id__* :
 
-Método post, al cual solo se puede acceder si estamos autenticados y además somo administradores porque dentro de él se comprueba si el usuario que solicita eliminar un usuario es de tipo admin. 
+Método delete, al cual solo se puede acceder si estamos autenticados y además somo administradores porque dentro de él se comprueba si el usuario que solicita eliminar un usuario es de tipo admin. 
 Este método elimina el usuario cuyo identificador se le ha enviado como parámetro en la url de la petición en el caso de que exista. Devuelve un objeto JSON con un parámetro de éxito (success) además del mensaje de exito o error.
 
-* __api/removeOrg/:id__* :
+* __api/organizations/:id__* :
 
-Método post, al cual solo se puede acceder si estamos autenticados y además somo administradores ya que dentro de él se comprueba si el usuario que solicita eliminar una organización es de tipo admin. 
+Método delete, al cual solo se puede acceder si estamos autenticados y además somo administradores ya que dentro de él se comprueba si el usuario que solicita eliminar una organización es de tipo admin. 
 Este método elimina la organización cuyo identificador se le ha enviado como parámetro en la url de la petición en el caso de que exista. Devuelve un objeto JSON con un parámetro de éxito (success) además del mensaje de exito o error.
 
-* __api/editUsersAdmin/:id__* :
+* __api/users/:id__* :
 
-Método post, al cual solo se puede acceder si estamos autenticados y además somo administradores porque dentro de él se comprueba si el usuario que solicita eliminar un usuario es de tipo admin.
+Método put, al cual solo se puede acceder si estamos autenticados y además somo administradores porque dentro de él se comprueba si el usuario que solicita modificar un usuario es de tipo admin.
 Modifica el usuario cuyo identificador coincide con el parámetro que se le ha enviado en la url de la petición. 
 Recibe como parámetros de la petición post el nuevo nombre, email, rol y organización a la que pertenecerá el usuario que queremos modificar.
 Devuelve un objeto JSON con un parámetro de éxito (success) además de un mensaje de éxito o fracaso y el usuario modificado.
+
+* __api/organizations/:id__* :
+
+Método put, al cual solo se puede acceder si estamos autenticados y además somo administradores porque dentro de él se comprueba si el usuario que solicita modificar una organización es de tipo admin.
+Modifica la organización cuyo identificador coincide con el parámetro que se le ha enviado en la url de la petición. 
+Recibe como parámetros de la petición post el nuevo nombre, email y el cluster id de la organización que se quiere modificar.
+Devuelve un objeto JSON con un parámetro de éxito (success) además de un mensaje de éxito o fracaso y la organización modificado.
 
 Test de las peticiones del servidor
 -----------------------------------
