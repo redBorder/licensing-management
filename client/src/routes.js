@@ -72,7 +72,7 @@ const routes = {
       component: EditUserPage
     },
     {
-      path: '/editOrgAdmins/:id/:name/:email/:cluster_id',
+      path: '/editOrgAdmins/:id',
       component: EditOrgPage
     },
     {

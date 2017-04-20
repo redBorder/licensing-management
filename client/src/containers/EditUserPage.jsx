@@ -134,9 +134,7 @@ class EditUserPage extends Component {
     this.setState({
         user
       });
-    
-    console.log(this.state.user);
-    
+        
     //Esto es para validar el formulario visualmente, solo para el usuario
 
     if(this.state.user.name.length!=0)

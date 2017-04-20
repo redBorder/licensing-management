@@ -25,14 +25,48 @@ class EditOrgPage extends Component {
         cluster_id: ''
       },
       organization: {
-        name: decodeURIComponent(this.props.params.name),
-        email: decodeURIComponent(this.props.params.email),
-        cluster_id: decodeURIComponent(this.props.params.cluster_id) //Hay que cambiar esto para que haga peticiones
+        name: '',
+        email: '',
+        cluster_id: '' 
       }
     };
 
     this.processForm = this.processForm.bind(this);
     this.changeOrg = this.changeOrg.bind(this);
+  }
+
+   //Justo antes de renderizar el componente se llama a este método
+  componentWillMount(){
+     //Utilizando ajax, en el constructor pedimos la lista de organizaciones registradas
+    // create an AJAX request
+    const xhr = new XMLHttpRequest();
+    xhr.open('get', '/api/organizations/' + this.props.params.id + "/edit"); 
+    // set the authorization HTTP header
+    xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
+    xhr.responseType = 'json';
+    xhr.addEventListener('load', () => {
+      if (xhr.status === 200) {
+        // success
+        // change the component-container state
+        this.setState({
+          error: "",
+          organization: {
+            name: xhr.response.org.name,
+            email: xhr.response.org.email,
+            cluster_id: xhr.response.org.cluster_id 
+          }
+       });
+      } else {
+        // failure
+        // change the component state
+        error = xhr.response.message;
+        {error && toastr.success(error)}
+        this.setState({
+          error
+        });
+        }
+    });
+    xhr.send();
   }
 
   /**

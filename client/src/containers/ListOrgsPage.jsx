@@ -32,7 +32,7 @@ class ListOrgsPage extends Component {
      //Utilizando ajax, en el constructor pedimos la lista de organizations registrados
     // create an AJAX request
     const xhr = new XMLHttpRequest();
-    xhr.open('get', '/api/organizations/' + page);
+    xhr.open('get', '/api/organizations?page=' + page);
     // set the authorization HTTP header
     xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
     xhr.responseType = 'json';
@@ -59,9 +59,7 @@ class ListOrgsPage extends Component {
   editOrgFormat(cell, row){
       return (<div>
            <Link to={"/editOrgAdmins/" + 
-          row.id + "/" + 
-          encodeURIComponent(row.name) + "/" + 
-          encodeURIComponent(row.email)} 
+          row.id } 
           className="glyphicon glyphicon-edit" 
           style={{color:"green"}} ></Link>
          </div>);
@@ -111,6 +109,8 @@ class ListOrgsPage extends Component {
         <div>
           <ListOrgs organizations={this.state.organizations} removeOrgFormat={this.removeOrgFormat} editOrgFormat={this.editOrgFormat}/>
         </div>
+        {
+          this.state.number_orgs > 10 ? 
         <div className="text-center">
           <Pagination
             first 
@@ -125,6 +125,8 @@ class ListOrgsPage extends Component {
             activePage={this.state.activePage}
             onSelect={this.handleSelectPage} />
         </div>
+        : null
+      }
       </div>
         )
   }

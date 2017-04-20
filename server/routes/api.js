@@ -250,19 +250,16 @@ router.get('/users', (req, res) => {
       }
       else
       {
-          models.User.findAll({
+          models.User.findAndCount({
             limit: 10,
             offset: 10*(req.query.page-1),
             order: 'name'
-        }).then(function(list_users){
-            models.User.count()
-            .then(function(number_users){
+        }).then(function(result){
               return res.status(200).json({
                 success: true,
-                users: list_users,
-                number_users: number_users
+                users: result.rows,
+                number_users: result.count
               })
-            })
           })
       }
     })
@@ -401,7 +398,7 @@ router.post('/organizations', (req, res) => {
     })
 });
 
-router.get('/organizations/:page', (req, res) => {
+router.get('/organizations', (req, res) => {
   models.User.findOne({
         where: {
             id: req.userId
@@ -415,20 +412,17 @@ router.get('/organizations/:page', (req, res) => {
       }
       else
       {
-          models.Organization.findAll({
+          models.Organization.findAndCount({
           limit: 10,
-          offset: 10*(req.params.page-1),
+          offset: 10*(req.query.page-1),
           order: 'name'
-        }).then(function(list_orgs){
-          models.Organization.count()
-            .then(function(number_orgs){
-              return res.status(200).json({
-                success: true,
-                orgs: list_orgs,
-                number_orgs: number_orgs
-              })
-            })
+        }).then(function(result){
+          return res.status(200).json({
+            success: true,
+            orgs: result.rows,
+            number_orgs: result.count
           })
+        })
       }
     })
   });
@@ -581,6 +575,35 @@ router.get('/users/:id/edit', (req, res) => {
           })
         })
       })
+      }  
+    })
+  });
+
+  //Metodo get al que se llama al editar un usuario. Devuelve dicho usuario
+router.get('/organizations/:id/edit', (req, res) => {
+  models.User.findOne({
+        where: {
+            id: req.userId
+        }
+    }).then(function(user){
+      if(user.role != "admin"){
+        return res.status(401).json({
+            success: false,
+            message: "You don't have permissions",
+          });
+      }
+      else
+      {
+        models.Organization.findOne({
+          where: {
+            id: req.params.id
+          }
+        }).then(function(org){
+          return res.status(200).json({
+            success: true,
+            org: org
+          })
+        })
       }  
     })
   });

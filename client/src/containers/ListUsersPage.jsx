@@ -121,6 +121,8 @@ class ListUsersPage extends Component {
         <div>
           <ListUsers users={this.state.users} editUserFormat={this.editUserFormat} removeUserFormat={this.removeUserFormat}/>
         </div>
+        {
+        this.state.number_users > 10 ? 
         <div className="text-center">
           <Pagination
             first 
@@ -135,6 +137,8 @@ class ListUsersPage extends Component {
             activePage={this.state.activePage}
             onSelect={this.handleSelectPage} />
         </div>
+        : null
+      }
       </div>
         )
   }
