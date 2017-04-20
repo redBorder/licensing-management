@@ -68,7 +68,7 @@ const routes = {
       component: ListUsersPage
     },
     {
-      path: '/editUserAdmins/:id/:name/:email',
+      path: '/editUserAdmins/:id',
       component: EditUserPage
     },
     {

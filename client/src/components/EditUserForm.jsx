@@ -42,7 +42,7 @@ const EditUserForm = ({
         </Col>
         <Col sm={10}>
           <FormControl name="organization" componentClass="select" placeholder="Select organization" onChange={onChange} value={user.organization}>
-            <option value="No Organization">No organization</option>
+            <option value="No">No organization</option>
             {
               organizations.map((organization, key) => {
                 return <option value={organization.id} key={key} > {organization.name} </option>

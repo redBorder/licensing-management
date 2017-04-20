@@ -24,9 +24,9 @@ class EditUserPage extends Component {
         email: ''
       },
       user: {
-        name: decodeURIComponent(this.props.params.name),
-        email: decodeURIComponent(this.props.params.email),
-        organization: '',
+        name: '',
+        email: '',
+        organization: 'No',
         admin: false
       },
       organizations: []
@@ -41,7 +41,7 @@ class EditUserPage extends Component {
      //Utilizando ajax, en el constructor pedimos la lista de organizaciones registradas
     // create an AJAX request
     const xhr = new XMLHttpRequest();
-    xhr.open('get', '/api/organizations/0'); //Cambiar por users/new
+    xhr.open('get', '/api/users/' + this.props.params.id + "/edit"); 
     // set the authorization HTTP header
     xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
     xhr.responseType = 'json';
@@ -51,9 +51,13 @@ class EditUserPage extends Component {
         // change the component-container state
         this.setState({
           error: "",
-          organizations: xhr.response.orgs
-        });
-
+          organizations: xhr.response.orgs,
+          user: {
+            name: xhr.response.user.name,
+            email: xhr.response.user.email,
+            organization: xhr.response.user.organizationId || "No" //Si no tiene organización se pondrá "No" 
+          }
+       });
       } else {
         // failure
         // change the component state
@@ -77,7 +81,6 @@ class EditUserPage extends Component {
   processForm(event) {
     // prevent default action. in this case, action is the form submission event
     event.preventDefault();
-
     // create a string for an HTTP body message
     const name  = encodeURIComponent(this.state.user.name);
     const email = encodeURIComponent(this.state.user.email);
@@ -98,7 +101,6 @@ class EditUserPage extends Component {
         // change the component-container state
         this.setState({
           errors: {},
-          user: xhr.response.user
         });
       } else {
         // failure
@@ -132,7 +134,8 @@ class EditUserPage extends Component {
     this.setState({
         user
       });
-  
+    
+    console.log(this.state.user);
     
     //Esto es para validar el formulario visualmente, solo para el usuario
 

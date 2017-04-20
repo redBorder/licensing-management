@@ -461,7 +461,7 @@ Devolverá también el numero de usuarios existentes en la base de datos (number
 * __api/organizations/:page__* :
 
 Método get, el cual se encarga de devolver en un fichero JSON las organizaciones que se hayan registradas en la base de datos.
-Sólo devolverán las organizaciones si el usuario autenticado es de tipo admin. Utiliza la paginación de forma que según el número de pagina (page) devolverá las 10 primeras, las 10 segundss... organizaciones ordenadas por el nombre. En el caso de enviarle el numero de página 0 se devolverán todas las organizaciones.
+Sólo devolverán las organizaciones si el usuario autenticado es de tipo admin. Utiliza la paginación de forma que según el número de pagina (page) devolverá las 10 primeras, las 10 segundss... organizaciones ordenadas por el nombre.
 Devolverá también el numero de organizaciones existentes en la base de datos (number_orgs)
 
 * __api/users/:id__* :

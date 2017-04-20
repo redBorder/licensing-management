@@ -236,7 +236,7 @@ router.post('/users', (req, res, next) => {
     })
 });
 
-router.get('/users/:page', (req, res) => {
+router.get('/users', (req, res) => {
   models.User.findOne({
         where: {
             id: req.userId
@@ -252,7 +252,7 @@ router.get('/users/:page', (req, res) => {
       {
           models.User.findAll({
             limit: 10,
-            offset: 10*(req.params.page-1),
+            offset: 10*(req.query.page-1),
             order: 'name'
         }).then(function(list_users){
             models.User.count()
@@ -341,7 +341,7 @@ router.put('/users/:id', (req, res) => {
             user_edit.name=req.body.name;
             user_edit.email=req.body.email;
             user_edit.role=req.body.role;
-            user_edit.OrganizationId=req.body.organization == "" ? null: req.body.organization;
+            user_edit.OrganizationId= (req.body.organization == "No" || req.body.organization == "" ) ? null: req.body.organization;
             user_edit.save()
             .then(function(user_save){
               return res.status(200).json({
@@ -401,7 +401,6 @@ router.post('/organizations', (req, res) => {
     })
 });
 
-//Si la pagina solicitada es la 0 se le devolverán todas las organizaciones (para la creacion de usuarios)
 router.get('/organizations/:page', (req, res) => {
   models.User.findOne({
         where: {
@@ -417,8 +416,8 @@ router.get('/organizations/:page', (req, res) => {
       else
       {
           models.Organization.findAll({
-          limit: req.params.page != 0 ? 10 : null,
-          offset: req.params.page != 0 ? 10*(req.params.page-1) : 0,
+          limit: 10,
+          offset: 10*(req.params.page-1),
           order: 'name'
         }).then(function(list_orgs){
           models.Organization.count()
@@ -521,6 +520,68 @@ router.put('/organizations/:id', (req, res) => {
             });
           })
       }
+    })
+  });
+
+//Metodo get al que se llama al crear un usuario. Devuelve la lista de organizaciones disponibles
+router.get('/users/new', (req, res) => {
+  console.log("entra");
+  models.User.findOne({
+        where: {
+            id: req.userId
+        }
+    }).then(function(user){
+      if(user.role != "admin"){
+        return res.status(401).json({
+            success: false,
+            message: "You don't have permissions",
+          });
+      }
+      else
+      {
+          models.Organization.findAll({
+          order: 'name'
+        }).then(function(list_orgs){
+          return res.status(200).json({
+            success: true,
+            orgs: list_orgs,
+          })
+        })
+      }
+    })
+  });
+
+//Metodo get al que se llama al editar un usuario. Devuelve dicho usuario
+router.get('/users/:id/edit', (req, res) => {
+  models.User.findOne({
+        where: {
+            id: req.userId
+        }
+    }).then(function(user){
+      if(user.role != "admin"){
+        return res.status(401).json({
+            success: false,
+            message: "You don't have permissions",
+          });
+      }
+      else
+      {
+          models.Organization.findAll({
+          order: 'name'
+        }).then(function(list_orgs){
+           models.User.findOne({
+            where: {
+                id: req.params.id
+            }
+          }).then(function(user_edit){
+          return res.status(200).json({
+            success: true,
+            orgs: list_orgs,
+            user: user_edit
+          })
+        })
+      })
+      }  
     })
   });
 

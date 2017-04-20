@@ -45,7 +45,7 @@ class CreateUserPage extends Component {
      //Utilizando ajax, en el constructor pedimos la lista de organizaciones registradas
     // create an AJAX request
     const xhr = new XMLHttpRequest();
-    xhr.open('get', '/api/organizations/0'); //CAMBIAR POR /users/new
+    xhr.open('get', '/api/users/new'); //CAMBIAR POR /users/new
     // set the authorization HTTP header
     xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
     xhr.responseType = 'json';

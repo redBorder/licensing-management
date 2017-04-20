@@ -33,7 +33,7 @@ class ListUsersPage extends Component {
      //Utilizando ajax, en el constructor pedimos la lista de usuarios registrados
     // create an AJAX request
     const xhr = new XMLHttpRequest();
-    xhr.open('get', '/api/users/' + page);
+    xhr.open('get', '/api/users?page=' + page);
     // set the authorization HTTP header
     xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
     xhr.responseType = 'json';
@@ -64,9 +64,7 @@ class ListUsersPage extends Component {
             row.id!=localStorage.getItem('userProfileId') 
           ?
             <Link to={"/editUserAdmins/" + 
-            row.id + "/" + 
-            encodeURIComponent(row.name) + "/" + 
-            encodeURIComponent(row.email)} 
+            row.id} 
             className="glyphicon glyphicon-edit" 
             style={{color:"green"}} ></Link>
           : 

@@ -61,8 +61,7 @@ class ListOrgsPage extends Component {
            <Link to={"/editOrgAdmins/" + 
           row.id + "/" + 
           encodeURIComponent(row.name) + "/" + 
-          encodeURIComponent(row.email) + "/" + 
-          encodeURIComponent(row.cluster_id)} 
+          encodeURIComponent(row.email)} 
           className="glyphicon glyphicon-edit" 
           style={{color:"green"}} ></Link>
          </div>);
