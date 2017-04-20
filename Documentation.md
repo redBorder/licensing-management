@@ -343,7 +343,7 @@ Dentro del directorio client/src/components se encuentran los siguientes compone
 
 * __ListUser__ : Componente encargado de mostrar un listado de todos los usuario existentes. Aceptará como parámetros una tabla de objetos de tipo User. Se mapeará la lista de usuarios mostrando el nombre, el email y su rol. Además dispondrá de dos botones para la edición o el borrado de dicho usuario.
 
-* __ListOrgs__ : Componente encargado de mostrar un listado de todos los usuario existentes. Aceptará como parámetros una tabla de objetos de tipo Organization. Se mapeará la lista de organizaciones, mostrando su nombre y su email.
+* __ListOrgs__ : Componente encargado de mostrar un listado de todos los usuario existentes. Aceptará como parámetros una tabla de objetos de tipo Organization. Se mapeará la lista de organizaciones, mostrando su nombre y su email. Además dispondrá de un boton para la eliminación de una organización.
 
 Contenedores JSX de la aplicación
 ---------------------------------
@@ -373,7 +373,7 @@ En esta aplicación los contenedores se encuentran en el directorio client/src/c
 * __ListUsersPage__ : Contenedor encargado de realizar una peticion AJAX justamente antes de realizar la interpretación del componente ListUsers para obtener los usuarios y suministrarselo al componente para que los muestre. En él se define la función encargada de eliminar un usuario. Esta función será llamada desde la lista de usuarios al hacer click en el boton de eliminar. Recibe como parámetros el id, nombre y email del usuario a eliminar. Realiza una petición a la api para eliminar un usuario y recarga la página para volver a obtener la nueva lista de usuarios.
 
 
-* __ListOrgsPage__ : Contenedor encargado de realizar una peticion AJAX justamente antes de realizar la interpretación del componente ListOrgs para obtener las organizaciones y suministrarselas al componente para que los muestre. 
+* __ListOrgsPage__ : Contenedor encargado de realizar una peticion AJAX justamente antes de realizar la interpretación del componente ListOrgs para obtener las organizaciones y suministrarselas al componente para que los muestre. En él se define la función encargada de eliminar una organización. Esta función será llamada desde la lista de organizaciones al hacer click en el botón de eliminar. Recibirá como parámetros el identificador, nombre e email de una organización. Mostrará un mensaje de aviso y eliminará la organización de la base datos cambiando todos sus usuarios a no pertenecientes a ninguna organización.
 
 Ficheros utiles para la autenticacion en el lado del cliente
 ------------------------------------------------------------
@@ -446,15 +446,27 @@ Método post, al cual solo se puede acceder si estamos autenticados, donde si no
 Método post, al cual solo se puede acceder si estamos autenticados, donde si no ha habido error (El formulario de creación de un usuario es correcto, es decir, está relleno correctamente y las contraseñas coinciden) se comprueba si la el usuario logueado realmente tiene permisos de usuarios, entonces se creará un usuario en la base de datos haciendo uso de passport.
 	Recibe como parámetros el nombre de usuario (name), el email (email), ls contraseña (new_password) y la confirmación (confir_new_password), la organización a la que pertenece y si es administrador o no.
 
-* __api/listUsers__* :
+* __api/listUsers/:page__* :
 
-Método post, el cual se encarga de devolver en un fichero JSON todos los usuarios que se hayan registrados en la base de datos.
-Sólo devolverá los usuarios si el usuario autenticado es de tipo admin.
+Método post, el cual se encarga de devolver en un fichero JSON los usuarios que se hayan registrados en la base de datos.
+Sólo devolverán los usuarios si el usuario autenticado es de tipo admin. Utiliza la paginación de forma que según el numero de pagina (page) devolverá los 10 primeros, los 10 segundos... usuarios ordenados por el nombre.
+Devolverá también el numero de usuarios existentes en la base de datos (number_users)
+
+* __api/listOrgs/:page__* :
+
+Método post, el cual se encarga de devolver en un fichero JSON las organizaciones que se hayan registradas en la base de datos.
+Sólo devolverán las organizaciones si el usuario autenticado es de tipo admin. Utiliza la paginación de forma que según el número de pagina (page) devolverá las 10 primeras, las 10 segundss... organizaciones ordenadas por el nombre. En el caso de enviarle el numero de página 0 se devolverán todas las organizaciones.
+Devolverá también el numero de organizaciones existentes en la base de datos (number_orgs)
 
 * __api/removeUser/:id__* :
 
 Método post, al cual solo se puede acceder si estamos autenticados y además somo administradores porque dentro de él se comprueba si el usuario que solicita eliminar un usuario es de tipo admin. 
 Este método elimina el usuario cuyo identificador se le ha enviado como parámetro en la url de la petición en el caso de que exista. Devuelve un objeto JSON con un parámetro de éxito (success) además del mensaje de exito o error.
+
+* __api/removeOrg/:id__* :
+
+Método post, al cual solo se puede acceder si estamos autenticados y además somo administradores ya que dentro de él se comprueba si el usuario que solicita eliminar una organización es de tipo admin. 
+Este método elimina la organización cuyo identificador se le ha enviado como parámetro en la url de la petición en el caso de que exista. Devuelve un objeto JSON con un parámetro de éxito (success) además del mensaje de exito o error.
 
 * __api/editUsersAdmin/:id__* :
 
@@ -544,6 +556,16 @@ En el fichero ./test/routes/list_user_server.test.js:
 
 2) Comprueba que si estamos autenticados con un usuario NORMAL no podemos obtener la lista de usuarios existentes.
 
+* __/api/removeOrg/:id__* :
+
+En el fichero ./test/routes/delete_org_server.test.js:
+
+1) Comprueba que si estamos autenticados con un usuario administrador podemos eliminar una organización.
+
+2) Comprueba que si estamos autenticados con un usuario NORMAL no podemos eliminar una organización.
+
+3) Comprueba que si la organización a eliminar no existe, se notifica el error.
+
 * __/api/removeUser/:id__* :
 
 En el fichero ./test/routes/delete_user_server.test.js:
@@ -553,6 +575,7 @@ En el fichero ./test/routes/delete_user_server.test.js:
 2) Comprueba que si estamos autenticados con un usuario NORMAL no podemos eliminar un usuario.
 
 3) Comprueba que si el usuario a eliminar no existe, se notifica el error.
+
 
 * __/api/editUsersAdmin/:id__ * :
 
