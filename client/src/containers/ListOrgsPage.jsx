@@ -32,7 +32,7 @@ class ListOrgsPage extends Component {
      //Utilizando ajax, en el constructor pedimos la lista de organizations registrados
     // create an AJAX request
     const xhr = new XMLHttpRequest();
-    xhr.open('post', '/api/listOrgs/' + page);
+    xhr.open('get', '/api/organizations/' + page);
     // set the authorization HTTP header
     xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
     xhr.responseType = 'json';
@@ -75,7 +75,7 @@ class ListOrgsPage extends Component {
                 //Utilizando ajax, en el constructor pedimos la lista de usuarios registrados
                 // create an AJAX request
                 const xhr = new XMLHttpRequest();
-                xhr.open('post', '/api/removeOrg/' + row.id);
+                xhr.open('delete', '/api/organizations/' + row.id);
                 // set the authorization HTTP header
                 xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
                 xhr.responseType = 'json';

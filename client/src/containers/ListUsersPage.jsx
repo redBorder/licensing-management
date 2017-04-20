@@ -33,7 +33,7 @@ class ListUsersPage extends Component {
      //Utilizando ajax, en el constructor pedimos la lista de usuarios registrados
     // create an AJAX request
     const xhr = new XMLHttpRequest();
-    xhr.open('post', '/api/listUsers/' + page);
+    xhr.open('get', '/api/users/' + page);
     // set the authorization HTTP header
     xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
     xhr.responseType = 'json';
@@ -85,7 +85,7 @@ class ListUsersPage extends Component {
                 //Utilizando ajax, en el constructor pedimos la lista de usuarios registrados
                 // create an AJAX request
                 const xhr = new XMLHttpRequest();
-                xhr.open('post', '/api/removeUser/' + id);
+                xhr.open('delete', '/api/users/' + row.id);
                 // set the authorization HTTP header
                 xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
                 xhr.responseType = 'json';

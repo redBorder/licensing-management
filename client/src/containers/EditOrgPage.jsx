@@ -48,7 +48,7 @@ class EditOrgPage extends Component {
     const formData = `email=${email}&name=${name}`;
     // create an AJAX request
     const xhr = new XMLHttpRequest();
-    xhr.open('post', '/api/editOrgsAdmin/' + this.props.params.id);
+    xhr.open('put', '/api/organizations/' + this.props.params.id);
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     // set the authorization HTTP header
     xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);

@@ -45,7 +45,7 @@ class CreateUserPage extends Component {
      //Utilizando ajax, en el constructor pedimos la lista de organizaciones registradas
     // create an AJAX request
     const xhr = new XMLHttpRequest();
-    xhr.open('post', '/api/listOrgs/0');
+    xhr.open('get', '/api/organizations/0'); //CAMBIAR POR /users/new
     // set the authorization HTTP header
     xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
     xhr.responseType = 'json';
@@ -87,7 +87,7 @@ class CreateUserPage extends Component {
 
     // create an AJAX request
     const xhr = new XMLHttpRequest();
-    xhr.open('post', '/api/createUser');
+    xhr.open('post', '/api/users');
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     // set the authorization HTTP header
     xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
@@ -114,6 +114,7 @@ class CreateUserPage extends Component {
       }
     });
     xhr.send(formData);
+
   }
 
   /**

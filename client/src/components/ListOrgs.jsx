@@ -21,8 +21,8 @@ const ListOrgs = ({organizations, removeOrgFormat, editOrgFormat}) => (
 				<BootstrapTable data={organizations} >
 					<TableHeaderColumn dataField="name"> Name </TableHeaderColumn>
 					<TableHeaderColumn dataField="email" isKey> Email </TableHeaderColumn>
-					<TableHeaderColumn dataField="id" dataFormat={editOrgFormat}> Edit </TableHeaderColumn>
-					<TableHeaderColumn dataField="id" dataFormat={removeOrgFormat}> Remove </TableHeaderColumn>
+					<TableHeaderColumn dataField="id" dataFormat={editOrgFormat} dataAlign="center" width="90"> Edit </TableHeaderColumn>
+					<TableHeaderColumn dataField="id" dataFormat={removeOrgFormat} dataAlign="center" width="90"> Remove </TableHeaderColumn>
 				</BootstrapTable>
 			</div>
 	 	</div>

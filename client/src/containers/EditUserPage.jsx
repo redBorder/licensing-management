@@ -41,7 +41,7 @@ class EditUserPage extends Component {
      //Utilizando ajax, en el constructor pedimos la lista de organizaciones registradas
     // create an AJAX request
     const xhr = new XMLHttpRequest();
-    xhr.open('post', '/api/listOrgs/0');
+    xhr.open('get', '/organizations/0'); //Cambiar por users/new
     // set the authorization HTTP header
     xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
     xhr.responseType = 'json';
@@ -86,7 +86,7 @@ class EditUserPage extends Component {
     const formData = `email=${email}&name=${name}&role=${role}&organization=${organization}`;
     // create an AJAX request
     const xhr = new XMLHttpRequest();
-    xhr.open('post', '/api/editUsersAdmin/' + this.props.params.id);
+    xhr.open('put', '/api/users/' + this.props.params.id);
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     // set the authorization HTTP header
     xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);

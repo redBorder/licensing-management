@@ -167,7 +167,7 @@ router.post('/changeProfile', (req, res) => {
       })
 });
 
-router.post('/createUser', (req, res, next) => {
+router.post('/users', (req, res, next) => {
   const validationResult = validateCreateUserForm(req.body);
   if (!validationResult.success) {
     return res.status(400).json({
@@ -230,7 +230,7 @@ router.post('/createUser', (req, res, next) => {
     })
 });
 
-router.post('/listUsers/:page', (req, res) => {
+router.get('/users/:page', (req, res) => {
   models.User.findOne({
         where: {
             id: req.userId
@@ -262,7 +262,7 @@ router.post('/listUsers/:page', (req, res) => {
     })
   });
 
-router.post('/removeUser/:id', (req, res) => {
+router.delete('/users/:id', (req, res) => {
   models.User.findOne({
         where: {
             id: req.userId
@@ -308,13 +308,13 @@ router.post('/removeUser/:id', (req, res) => {
   });
 
 
-router.post('/editUsersAdmin/:id', (req, res) => {
+router.put('/users/:id', (req, res) => {
   models.User.findOne({
         where: {
             id: req.userId
         }
     }).then(function(user){
-      if(user.role != "admin"){
+      if(user.role != "admin"){ 
         return res.status(401).json({
             success: false,
             message: "You don't have permissions",
@@ -354,7 +354,7 @@ router.post('/editUsersAdmin/:id', (req, res) => {
     })
   });
 
-router.post('/createOrg', (req, res, next) => {
+router.post('/organizations', (req, res) => {
   const validationResult = validateCreateOrgForm(req.body);
   if (!validationResult.success) {
     return res.status(400).json({
@@ -395,7 +395,7 @@ router.post('/createOrg', (req, res, next) => {
 });
 
 //Si la pagina solicitada es la 0 se le devolverán todas las organizaciones (para la creacion de usuarios)
-router.post('/listOrgs/:page', (req, res) => {
+router.get('/organizations/:page', (req, res) => {
   models.User.findOne({
         where: {
             id: req.userId
@@ -428,7 +428,7 @@ router.post('/listOrgs/:page', (req, res) => {
   });
 
 
-router.post('/removeOrg/:id', (req, res) => {
+router.delete('/organizations/:id', (req, res) => {
   models.User.findOne({
         where: {
             id: req.userId
@@ -473,7 +473,7 @@ router.post('/removeOrg/:id', (req, res) => {
     })
   });
 
-router.post('/editOrgsAdmin/:id', (req, res) => {
+router.put('/organizations/:id', (req, res) => {
   models.User.findOne({
         where: {
             id: req.userId
