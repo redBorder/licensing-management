@@ -35,7 +35,7 @@ describe('List organizations Test', function() {
       .send(user)
       .end((err, res) => {
         chai.request(server)
-          .get('/api/organizations/0')
+          .get('/api/organizations/1')
           .set('Authorization', `bearer ${res.body.token}`)
           .send()
           .end((err, res) => {            
@@ -65,7 +65,7 @@ describe('List organizations Test', function() {
       .send(user)
       .end((err, res) => {
         chai.request(server)
-          .get('/api/organizations/0')
+          .get('/api/organizations/1')
           .set('Authorization', `bearer ${res.body.token}`)
           .send()
           .end((err, res) => {

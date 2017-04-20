@@ -35,7 +35,7 @@ describe('List users Test', function() {
       .send(user)
       .end((err, res) => {
         chai.request(server)
-          .get('/api/users/1')
+          .get('/api/users?page=1')
           .set('Authorization', `bearer ${res.body.token}`)
           .send()
           .end((err, res) => {            
@@ -65,7 +65,7 @@ describe('List users Test', function() {
       .send(user)
       .end((err, res) => {
         chai.request(server)
-          .get('/api/users/1')
+          .get('/api/users?page=1')
           .set('Authorization', `bearer ${res.body.token}`)
           .send()
           .end((err, res) => { 
