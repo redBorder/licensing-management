@@ -29,8 +29,12 @@ const ListOrgs = ({organizations, removeOrg}) => (
 									<span style={{color:"blue"}}>Email: </span>
 									<span>{organization.email}</span> 
 								</div>
-								<div className="col-md-2">
+								<div className="col-md-1">
 									<Link style={{color:"red"}} onClick={() => removeOrg(organization.id,organization.name, organization.email)} className="glyphicon glyphicon-remove"></Link>
+								</div>
+								<div className="col-md-1">
+									<Link to={"/editOrgAdmins/" + 
+									organization.id + "/" + encodeURIComponent(organization.name) + "/" + encodeURIComponent(organization.email)} className="glyphicon glyphicon-edit" style={{color:"green"}} ></Link>
 								</div>
 							</div>
 			    		</ListGroupItem>

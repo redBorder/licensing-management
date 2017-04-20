@@ -9,6 +9,7 @@ import CreateUserPage from './containers/CreateUserPage.jsx';
 import CreateOrgPage from './containers/CreateOrgPage.jsx';
 import ListUsersPage from './containers/ListUsersPage.jsx';
 import EditUserPage from './containers/EditUserPage.jsx';
+import EditOrgPage from './containers/EditOrgPage.jsx';
 import ListOrgsPage from './containers/ListOrgsPage.jsx';
 import Auth from './modules/Auth';
 
@@ -69,6 +70,10 @@ const routes = {
     {
       path: '/editUserAdmins/:id/:name/:email',
       component: EditUserPage
+    },
+    {
+      path: '/editOrgAdmins/:id/:name/:email',
+      component: EditOrgPage
     },
     {
       path: '/listOrgs',

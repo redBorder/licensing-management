@@ -473,5 +473,48 @@ router.post('/removeOrg/:id', (req, res) => {
     })
   });
 
+router.post('/editOrgsAdmin/:id', (req, res) => {
+  models.User.findOne({
+        where: {
+            id: req.userId
+        }
+    }).then(function(user){
+      if(user.role != "admin"){
+        return res.status(401).json({
+            success: false,
+            message: "You don't have permissions",
+          });
+      }
+      else
+      {
+          models.Organization.findOne({
+            where: {
+              id: req.params.id
+            }
+          }).then(function(org_edit){
+            if(!org_edit)
+              return res.status(400).json({
+                success: false,
+                message: "Organization doesn't exists"
+              })
+            org_edit.name=req.body.name;
+            org_edit.email=req.body.email;
+            org_edit.save()
+            .then(function(org_save){
+              return res.status(200).json({
+              success: true,
+              message: "Organization " + org_save.name + " edited correctly",
+              org: org_save
+              }) 
+            }).catch(function (err) {
+              return res.status(400).json({
+              success: false,
+              message: "Error editing organization" 
+              })
+            });
+          })
+      }
+    })
+  });
 
 module.exports = router;
