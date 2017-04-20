@@ -346,7 +346,7 @@ router.post('/editUsersAdmin/:id', (req, res) => {
             }).catch(function (err) {
               return res.status(400).json({
               success: false,
-              message: "Error editing user" 
+              message: "Error editing user " + user_edit.name + '. Email already exists.'
               })
             });
           })
@@ -509,7 +509,7 @@ router.post('/editOrgsAdmin/:id', (req, res) => {
             }).catch(function (err) {
               return res.status(400).json({
               success: false,
-              message: "Error editing organization" 
+              message: "Error editing organization " + org_edit.name + '. Email already exists.'
               })
             });
           })

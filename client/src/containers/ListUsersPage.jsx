@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {Pagination} from 'react-bootstrap';
 import ListUsers from '../components/ListUsers.jsx'
 import Auth from '../modules/Auth';
+import { Link } from "react-router";
 import toastr from 'toastr';
 
 class ListUsersPage extends Component {
@@ -54,30 +55,58 @@ class ListUsersPage extends Component {
     });
     xhr.send();
   }
-  
-  removeUser(id, name, email){
-    if(confirm('Are you sure to remove the user ' + name + " (" + email + ")" )){
-      //Utilizando ajax, en el constructor pedimos la lista de usuarios registrados
-      // create an AJAX request
-      const xhr = new XMLHttpRequest();
-      xhr.open('post', '/api/removeUser/' + id);
-      // set the authorization HTTP header
-      xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
-      xhr.responseType = 'json';
-      xhr.addEventListener('load', () => {
-        if (xhr.status === 200) {
-          //Almacenamos el mensaje de respuesta
-          localStorage.setItem('successRemoveUser', xhr.response.message);
-          //Recargamos la página para que recargue la lista de usuarios
-          window.location.reload();
-        } else {
-          // failure
-          {xhr.response.message && toastr.error(xhr.response.message)}
+
+   //Manejadores de la tabla
+
+  editUserFormat(cell, row){
+      return (<div>
+          {
+            row.id!=localStorage.getItem('userProfileId') 
+          ?
+            <Link to={"/editUserAdmins/" + 
+            row.id + "/" + 
+            encodeURIComponent(row.name) + "/" + 
+            encodeURIComponent(row.email)} 
+            className="glyphicon glyphicon-edit" 
+            style={{color:"green"}} ></Link>
+          : 
+          <span style={{color:"blue"}} 
+          className="glyphicon glyphicon-user"> 
+          You</span> 
           }
-      });
-      xhr.send();
-    }
+         </div>);
   }
+  
+  removeUserFormat(cell, row){
+      return (<div>
+            <Link style={{color:"red"}} 
+            onClick={() => {
+              if(confirm('Are you sure to remove the user ' + row.name + " (" + row.email + ")" )){
+                //Utilizando ajax, en el constructor pedimos la lista de usuarios registrados
+                // create an AJAX request
+                const xhr = new XMLHttpRequest();
+                xhr.open('post', '/api/removeUser/' + id);
+                // set the authorization HTTP header
+                xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
+                xhr.responseType = 'json';
+                xhr.addEventListener('load', () => {
+                  if (xhr.status === 200) {
+                    //Almacenamos el mensaje de respuesta
+                    localStorage.setItem('successRemoveUser', xhr.response.message);
+                    //Recargamos la página para que recargue la lista de usuarios
+                    window.location.reload();
+                  } else {
+                    // failure
+                    {xhr.response.message && toastr.error(xhr.response.message)}
+                    }
+                });
+                xhr.send();
+              }
+            }} 
+            className="glyphicon glyphicon-remove"></Link> 
+         </div>);
+  }
+
 
   //Manejador para seleccionar la pagina a visualizar
   handleSelectPage(eventKey) {
@@ -92,7 +121,7 @@ class ListUsersPage extends Component {
     return (
       <div className="container">
         <div>
-          <ListUsers usuarios={this.state.users} removeUser={this.removeUser}/>
+          <ListUsers users={this.state.users} editUserFormat={this.editUserFormat} removeUserFormat={this.removeUserFormat}/>
         </div>
         <div className="text-center">
           <Pagination

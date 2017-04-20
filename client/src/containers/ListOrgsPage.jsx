@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {Pagination} from 'react-bootstrap';
 import ListOrgs from '../components/ListOrgs.jsx'
 import Auth from '../modules/Auth';
+import { Link } from 'react-router';
 import toastr from 'toastr';
 
 class ListOrgsPage extends Component {
@@ -52,28 +53,48 @@ class ListOrgsPage extends Component {
     xhr.send();
   }
 
-   removeOrg(id, name, email){
-    if(confirm('Are you sure to remove the organization ' + name + " (" + email + "). This will remove all user references to this organization"  )){
-      //Utilizando ajax, en el constructor pedimos la lista de usuarios registrados
-      // create an AJAX request
-      const xhr = new XMLHttpRequest();
-      xhr.open('post', '/api/removeOrg/' + id);
-      // set the authorization HTTP header
-      xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
-      xhr.responseType = 'json';
-      xhr.addEventListener('load', () => {
-        if (xhr.status === 200) {
-          //Almacenamos el mensaje de respuesta
-          localStorage.setItem('successRemoveOrg', xhr.response.message);
-          //Recargamos la página para que recargue la lista de usuarios
-          window.location.reload();
-        } else {
-          // failure
-          {xhr.response.message && toastr.error(xhr.response.message)}
-          }
-      });
-      xhr.send();
-    }
+
+  //Manejadores de la tabla
+
+  editOrgFormat(cell, row){
+      return (<div>
+           <Link to={"/editOrgAdmins/" + 
+          row.id + "/" + 
+          encodeURIComponent(row.name) + "/" + 
+          encodeURIComponent(row.email)} 
+          className="glyphicon glyphicon-edit" 
+          style={{color:"green"}} ></Link>
+         </div>);
+  }
+  
+  removeOrgFormat(cell, row){
+      return (<div>
+            <Link style={{color:"red"}} 
+            onClick={() => {
+              if(confirm('Are you sure to remove the organization ' + row.name + " (" + row.email + "). This will remove all user references to this organization"  )){
+                //Utilizando ajax, en el constructor pedimos la lista de usuarios registrados
+                // create an AJAX request
+                const xhr = new XMLHttpRequest();
+                xhr.open('post', '/api/removeOrg/' + row.id);
+                // set the authorization HTTP header
+                xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
+                xhr.responseType = 'json';
+                xhr.addEventListener('load', () => {
+                  if (xhr.status === 200) {
+                    //Almacenamos el mensaje de respuesta
+                    localStorage.setItem('successRemoveOrg', xhr.response.message);
+                    //Recargamos la página para que recargue la lista de usuarios
+                    window.location.reload();
+                  } else {
+                    // failure
+                    {xhr.response.message && toastr.error(xhr.response.message)}
+                    }
+                });
+                xhr.send();
+              }
+            }} 
+            className="glyphicon glyphicon-remove"></Link> 
+         </div>);
   }
 
   //Manejador para seleccionar la pagina a visualizar
@@ -88,7 +109,7 @@ class ListOrgsPage extends Component {
     return (
       <div className="container">
         <div>
-          <ListOrgs organizations={this.state.organizations} removeOrg={this.removeOrg}/>
+          <ListOrgs organizations={this.state.organizations} removeOrgFormat={this.removeOrgFormat} editOrgFormat={this.editOrgFormat}/>
         </div>
         <div className="text-center">
           <Pagination
