@@ -81,7 +81,8 @@ class EditOrgPage extends Component {
     // create a string for an HTTP body message
     const name  = encodeURIComponent(this.state.organization.name);
     const email = encodeURIComponent(this.state.organization.email);
-    const formData = `email=${email}&name=${name}`;
+    const cluster_id = encodeURIComponent(this.state.organization.cluster_id);
+    const formData = `email=${email}&name=${name}&cluster_id=${cluster_id}`;
     // create an AJAX request
     const xhr = new XMLHttpRequest();
     xhr.open('put', '/api/organizations/' + this.props.params.id);

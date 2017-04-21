@@ -3,11 +3,15 @@ import { Panel, ListGroup, ListGroupItem} from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
-const ListUsers = ({users, removeUserFormat, editUserFormat }) => (
+const ListUsers = ({users, removeUserFormat, editUserFormat, orgName }) => (
 	<div>
 	    <div className="row">
 	    	<div className="col-md-10">
-	    		<h1 className="text-left" style={{color:"brown"}} > Users </h1>
+	    		{ orgName === "all" ?
+	    			<h1 className="text-left" style={{color:"brown"}} > All users </h1>
+	    			:
+	    			<h1 className="text-left" style={{color:"brown"}} > Users of {orgName} </h1>
+	    		}
 	    	</div>
 	    	<div className="col-md-2" >
 				<button className="btn btn-primary text-right"><Link style={{color:"white"}} to="/createUser">Create new user </Link></button>

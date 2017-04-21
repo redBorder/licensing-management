@@ -26,11 +26,11 @@ class ListOrgsPage extends Component {
   //Justo antes de renderizar el componente se llama a este método
   componentWillMount(){
   	this.loadOrgs(this.state.activePage);
+    this.state.organizations
   }
 
   loadOrgs(page){
      //Utilizando ajax, en el constructor pedimos la lista de organizations registrados
-    // create an AJAX request
     const xhr = new XMLHttpRequest();
     xhr.open('get', '/api/organizations?page=' + page);
     // set the authorization HTTP header
@@ -71,7 +71,6 @@ class ListOrgsPage extends Component {
             onClick={() => {
               if(confirm('Are you sure to remove the organization ' + row.name + " (" + row.email + "). This will remove all user references to this organization"  )){
                 //Utilizando ajax, en el constructor pedimos la lista de usuarios registrados
-                // create an AJAX request
                 const xhr = new XMLHttpRequest();
                 xhr.open('delete', '/api/organizations/' + row.id);
                 // set the authorization HTTP header
@@ -95,6 +94,10 @@ class ListOrgsPage extends Component {
          </div>);
   }
 
+  countUsersFormat(cell,row){
+    return (<Link style={{color:"blue"}} to={"/listUsers/" + row.id + "/" + encodeURIComponent(row.name) }>{row.Users.length}</Link>);
+  }
+
   //Manejador para seleccionar la pagina a visualizar
   handleSelectPage(eventKey) {
     this.loadOrgs(eventKey)
@@ -107,7 +110,7 @@ class ListOrgsPage extends Component {
     return (
       <div className="container">
         <div>
-          <ListOrgs organizations={this.state.organizations} removeOrgFormat={this.removeOrgFormat} editOrgFormat={this.editOrgFormat}/>
+          <ListOrgs organizations={this.state.organizations} removeOrgFormat={this.removeOrgFormat} editOrgFormat={this.editOrgFormat} countUsersFormat={this.countUsersFormat}/>
         </div>
         {
           this.state.number_orgs > 10 ? 

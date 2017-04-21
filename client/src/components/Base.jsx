@@ -28,7 +28,7 @@ const Base = ({children}) => (
                   <Link to="/listOrgs"> Organizations </Link>
                 </li>
                 <li>
-                  <Link to="/listUsers"> Users </Link>
+                  <Link to="/listUsers/all/all"> Users </Link>
                 </li>
               </ul>
             </div>

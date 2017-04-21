@@ -412,16 +412,21 @@ router.get('/organizations', (req, res) => {
       }
       else
       {
-          models.Organization.findAndCount({
+          models.Organization.findAll({
+          include: [{
+            "model": models.User
+          }],
           limit: 10,
           offset: 10*(req.query.page-1),
           order: 'name'
-        }).then(function(result){
-          return res.status(200).json({
-            success: true,
-            orgs: result.rows,
-            number_orgs: result.count
-          })
+        }).then(function(orgs){
+          models.Organization.count({}).then(function(number_orgs){
+            return res.status(200).json({
+              success: true,
+              orgs: orgs,
+              number_orgs: number_orgs
+            })
+          });
         })
       }
     })
@@ -499,6 +504,7 @@ router.put('/organizations/:id', (req, res) => {
               })
             org_edit.name=req.body.name;
             org_edit.email=req.body.email;
+            org_edit.cluster_id=req.body.cluster_id;
             org_edit.save()
             .then(function(org_save){
               return res.status(200).json({
@@ -507,9 +513,10 @@ router.put('/organizations/:id', (req, res) => {
               org: org_save
               }) 
             }).catch(function (err) {
+              const message = err.message=="Validation error" ? "Email already exists." : err.message; 
               return res.status(400).json({
               success: false,
-              message: "Error editing organization " + org_edit.name + '. Email already exists.'
+              message: "Error editing organization " + org_edit.name + '. ' + message
               })
             });
           })
@@ -607,5 +614,37 @@ router.get('/organizations/:id/edit', (req, res) => {
       }  
     })
   });
+
+router.get('/organizations/:id/users', (req, res) => {
+ models.User.findOne({
+        where: {
+            id: req.userId
+        }
+    }).then(function(user){
+      if(user.role != "admin"){
+        return res.status(401).json({
+            success: false,
+            message: "You don't have permissions",
+          });
+      }
+      else
+      {
+          models.User.findAndCount({
+            where : {
+              OrganizationId: req.params.id=="null" ? null : req.params.id
+            },
+            limit: 10,
+            offset: 10*(req.query.page-1),
+            order: 'name'
+        }).then(function(result){
+              return res.status(200).json({
+                success: true,
+                users: result.rows,
+                number_users: result.count
+              })
+          })
+      }
+    })
+});
 
 module.exports = router;

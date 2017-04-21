@@ -64,7 +64,7 @@ const routes = {
       component: CreateOrgPage
     },
     {
-      path: '/listUsers',
+      path: '/listUsers/:id/:orgName',
       component: ListUsersPage
     },
     {

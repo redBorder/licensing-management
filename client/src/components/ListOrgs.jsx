@@ -6,7 +6,7 @@ import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 
 
 
-const ListOrgs = ({organizations, removeOrgFormat, editOrgFormat}) => (
+const ListOrgs = ({organizations, removeOrgFormat, editOrgFormat, countUsersFormat}) => (
 	 	<div>
 		    <div className="row">
 		    	<div className="col-md-10">
@@ -22,9 +22,15 @@ const ListOrgs = ({organizations, removeOrgFormat, editOrgFormat}) => (
 					<TableHeaderColumn dataField="name"> Name </TableHeaderColumn>
 					<TableHeaderColumn dataField="email" isKey> Email </TableHeaderColumn>
 					<TableHeaderColumn dataField="cluster_id"> Cluster Id </TableHeaderColumn>
+					<TableHeaderColumn dataField="id" dataFormat={countUsersFormat} dataAlign="center" width="90"> Users </TableHeaderColumn>
 					<TableHeaderColumn dataField="id" dataFormat={editOrgFormat} dataAlign="center" width="90"> Edit </TableHeaderColumn>
 					<TableHeaderColumn dataField="id" dataFormat={removeOrgFormat} dataAlign="center" width="90"> Remove </TableHeaderColumn>
 				</BootstrapTable>
+			</div>
+			<div className="row">
+				<div className="col-md-2 text-right" >
+					<button className="btn btn-secondary text-right"><Link style={{color:"white"}} to={"/listUsers/null/" +  encodeURIComponent("No Organization")}>User without organization </Link></button>
+		   		</div>
 			</div>
 	 	</div>
  	);
@@ -32,6 +38,7 @@ const ListOrgs = ({organizations, removeOrgFormat, editOrgFormat}) => (
 ListOrgs.propTypes = {
 	removeOrgFormat: PropTypes.func.isRequired,
 	editOrgFormat: PropTypes.func.isRequired,
+	countUsersFormat: PropTypes.func.isRequired,
 	organizations: PropTypes.array.isRequired
 }
 

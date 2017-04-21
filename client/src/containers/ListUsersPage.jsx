@@ -17,7 +17,8 @@ class ListUsersPage extends Component {
     	users: [
     	],
       activePage: 1, 
-      number_users: ''
+      number_users: '',
+      orgName: ''
     }
     this.handleSelectPage=this.handleSelectPage.bind(this);
     //Obtenemos el mensaje si hemos eliminado un usuario correctamente, lo notificamos y eliminamos
@@ -26,10 +27,12 @@ class ListUsersPage extends Component {
 
   //Justo antes de renderizar el componente se llama a este método
   componentWillMount(){
-  	this.loadUsers(this.state.activePage);
+    this.state.orgName=this.props.params.orgName;
+  	this.loadUsers(this.state.activePage, this.props.params.id);
   }
 
-  loadUsers(page){
+  loadUsers(page, id){
+    if(id=="all"){
      //Utilizando ajax, en el constructor pedimos la lista de usuarios registrados
     // create an AJAX request
     const xhr = new XMLHttpRequest();
@@ -54,6 +57,59 @@ class ListUsersPage extends Component {
         }
     });
     xhr.send();
+    }
+    else if(id="null"){
+    //Utilizando ajax, en el constructor pedimos la lista de usuarios registrados
+    // create an AJAX request
+    const xhr = new XMLHttpRequest();
+    xhr.open('get', '/api/organizations/null/users?page=' + page);
+    // set the authorization HTTP header
+    xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
+    xhr.responseType = 'json';
+    xhr.addEventListener('load', () => {
+      if (xhr.status === 200) {
+        // success
+        // change the component-container state
+        this.setState({
+          error: "",
+          users: xhr.response.users,
+          number_users: xhr.response.number_users, 
+        });
+
+      } else {
+        // failure
+        {
+          xhr.response.message && toastr.error(xhr.response.message)}
+        }
+    });
+    xhr.send();
+    }else 
+    {
+    //Utilizando ajax, en el constructor pedimos la lista de usuarios registrados
+    // create an AJAX request
+    const xhr = new XMLHttpRequest();
+    xhr.open('get', '/api/organizations/' + id + '/users?page=' + page);
+    // set the authorization HTTP header
+    xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
+    xhr.responseType = 'json';
+    xhr.addEventListener('load', () => {
+      if (xhr.status === 200) {
+        // success
+        // change the component-container state
+        this.setState({
+          error: "",
+          users: xhr.response.users,
+          number_users: xhr.response.number_users, 
+        });
+
+      } else {
+        // failure
+        {
+          xhr.response.message && toastr.error(xhr.response.message)}
+        }
+    });
+    xhr.send();
+    }
   }
 
    //Manejadores de la tabla
@@ -119,7 +175,7 @@ class ListUsersPage extends Component {
     return (
       <div className="container">
         <div>
-          <ListUsers users={this.state.users} editUserFormat={this.editUserFormat} removeUserFormat={this.removeUserFormat}/>
+          <ListUsers orgName={this.state.orgName} users={this.state.users} editUserFormat={this.editUserFormat} removeUserFormat={this.removeUserFormat}/>
         </div>
         {
         this.state.number_users > 10 ? 
