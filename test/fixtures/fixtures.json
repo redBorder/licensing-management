@@ -11,12 +11,30 @@
     {
         "model": "Organization",
         "data": {
+            "id" : "12df8176-0813-49d1-8767-92f4d89f1c122",
             "cluster_id": "12df8176-0813-49d1-8867-77f4d89f1c11",
             "name": "Organizacion sin usuarios",
             "email": "org2@cor.com"
         }
     },
-    
+    {
+        "model": "Organization",
+        "data": {
+            "id" : "12df8176-0813-49d1-8767-92f4d89f1c15",
+            "name": "Organizacion con licencias",
+            "cluster_id": "12df8176-0813-49d1-8867-77f4d89f1c11",
+            "email": "org_licenses@cor.com"
+        }
+    },
+    {
+        "model": "Organization",
+        "data": {
+            "id" : "12df8176-0813-49d1-8767-92f4d89f1c14",
+            "name": "Organizacion sin licencias",
+            "cluster_id": "12df8176-0813-49d1-8867-77f4d89f1c33",
+            "email": "org_no_licenses@cor.com"
+        }
+    }, 
     {
         "model": "User",
         "data": {
@@ -45,46 +63,25 @@
         }
     },
     {
-        "model": "Organization",
+        "model": "Licenses",
         "data": {
-            "name": "Organizacion con licencias",
-            "cluster_id": "12df8176-0813-49d1-8867-77f4d89f1c11",
-            "email": "org_licenses@cor.com"
-        }
-    },
-    {
-        "model": "Organization",
-        "data": {
-            "name": "Organizacion sin licencias",
-            "cluster_id": "12df8176-0813-49d1-8867-77f4d89f1c33",
-            "email": "org_no_licenses@cor.com"
+            "expires_at": "2018-01-01",
+            "OrganizationId" : "12df8176-0813-49d1-8767-92f4d89f1c15"
         }
     },
     {
         "model": "Licenses",
         "data": {
             "expires_at": "2018-01-01",
-            "Organization" : {
-                "name" : "Organizacion con licencias"
-            }
+            "OrganizationId" : "12df8176-0813-49d1-8767-92f4d89f1c15"
+
         }
     },
     {
         "model": "Licenses",
         "data": {
             "expires_at": "2018-01-01",
-            "Organization" : {
-                "name" : "Organizacion con licencias"
-            }
-        }
-    },
-    {
-        "model": "Licenses",
-        "data": {
-            "expires_at": "2018-01-01",
-            "Organization" : {
-                "name" : "Organizacion con licencias"
-            }
+            "OrganizationId" : "12df8176-0813-49d1-8767-92f4d89f1c15"
         }
     }
 ]
