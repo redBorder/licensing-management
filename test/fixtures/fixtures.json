@@ -11,7 +11,6 @@
     {
         "model": "Organization",
         "data": {
-            "id" : "12df8176-0813-49d1-8767-92f4d89f1c122",
             "cluster_id": "12df8176-0813-49d1-8867-77f4d89f1c11",
             "name": "Organizacion sin usuarios",
             "email": "org2@cor.com"
@@ -29,7 +28,6 @@
     {
         "model": "Organization",
         "data": {
-            "id" : "12df8176-0813-49d1-8767-92f4d89f1c14",
             "name": "Organizacion sin licencias",
             "cluster_id": "12df8176-0813-49d1-8867-77f4d89f1c33",
             "email": "org_no_licenses@cor.com"
