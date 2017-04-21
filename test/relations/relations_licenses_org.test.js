@@ -67,6 +67,7 @@ it("Should exists an organization without licenses.", function(done) {
            where: {OrganizationId: Found_org.id}
          })
          .then(function(Found_licenses){
+          console.log(Found_licenses);
            try{
              assert.equal(Found_licenses.length,3);
              return done();
