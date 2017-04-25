@@ -1,7 +1,14 @@
 import React from 'react';
-import {Panel, Form, FormControl, FormGroup, Col, HelpBlock, ControlLabel, Checkbox, Button, FeedBack} from 'react-bootstrap';
+import {Form, FormControl, FormGroup, Col, ControlLabel, Button, FeedBack} from 'react-bootstrap';
 import PropTypes  from 'prop-types';
 
+/* Componente NewPasswordForm encargado de crear el formulario para la creación de una nueva contraseña olvidada.
+Recibirá los siguientes parámetros:
+  1) onSubmit: Función llamada al presionar el boton 'submit' del formulario.
+  2) onChange: Función encargada de manejar los cambios en los campos de entrada de texto del formulario.
+  3) errors: Objeto utilizado para la validación visual del formulario. 
+  4) user: Objeto que contendrá el usuario con la nueva contraseña
+*/
 const NewPasswordForm = ({
   onSubmit,
   onChange,
@@ -43,6 +50,7 @@ const NewPasswordForm = ({
   </div>
 );
 
+//Haciendo uso de propTypes se comprueban que todos los parámetros son recibidos correctamente
 NewPasswordForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,

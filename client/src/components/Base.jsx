@@ -3,11 +3,16 @@ import { Link, IndexLink } from 'react-router';
 import Auth from '../modules/Auth';
 import PropTypes  from 'prop-types';
 
+/* Componente Base encargado de crear la barra de navegación superior.
+Hará uso de React router para la navegación entre las diferentes opciones del menú
+Recibirá los siguientes parámetros:
+  1) Children: Componente que se mostrará haciendo uso de React-Router bajo la barra de navegación
+*/
+
 const Base = ({children}) => (
   <div>
     <nav className="navbar navbar-inverse navbar-fixed-top">
       <div className="container">
-
         <div className="navbar-header">
           <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#base-collapse" aria-expanded="false" aria-controls="navbar">
             <span className="sr-only">Toggle navigation</span>
@@ -17,7 +22,6 @@ const Base = ({children}) => (
           </button>
           <IndexLink className="navbar-brand" to="/" style={{color: 'blue'}}><span className="glyphicon glyphicon-home"></span></IndexLink>
         </div>
-
         <div className="collapse navbar-collapse" id="base-collapse">
        {Auth.isUserAuthenticated() ? (
           Auth.isAdmin() ? (
@@ -64,12 +68,12 @@ const Base = ({children}) => (
       </div>
     </nav>
     <div className="container">
-    { /* child component will be rendered here */ }
     {children}
     </div>
   </div>
 );
 
+//Haciendo uso de propTypes se comprueba que existe el componente 'children', ya que es obligatorio
 Base.propTypes = {
   children: PropTypes.object.isRequired,
 };

@@ -1,7 +1,8 @@
 const jwt = require('jsonwebtoken');
 const config_json = require('../../config/config.json');
 
-const config = config_json[process.env.MODE_RUN]
+const MODE_RUN = process.env.MODE_RUN || "development"
+const config = config_json[MODE_RUN]
 
 //Incializamos sequelize
 const sequelize = require('../db').sequelize;

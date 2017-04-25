@@ -1,7 +1,14 @@
 import React from 'react';
-import {Panel, Form, FormControl, FormGroup, Col, HelpBlock, ControlLabel, Checkbox, Button, FeedBack} from 'react-bootstrap';
-import { Link } from 'react-router';
+import { Form, FormControl, FormGroup, Col, ControlLabel, Button, FeedBack} from 'react-bootstrap';
 import PropTypes  from 'prop-types';
+
+/* Componente CreateOrgForm encargado de crear el formulario de creación de una organización
+Recibirá los siguientes parámetros:
+  1) onSubmit: Función llamada al presionar el boton 'submit' del formulario.
+  2) onChange: Función encargada de manejar los cambios en los campos de entrada de texto del formulario.
+  3) errors: Objeto utilizado para la validación visual del formulario. 
+  4) org: Objeto donde se almacenará la organización a crear
+*/
 
 const CreateOrgForm = ({
   onSubmit,
@@ -17,7 +24,6 @@ const CreateOrgForm = ({
       <h2 className="text-center" style={{color:"blue"}}> Create organization form </h2>
       <br></br>
     </div>
-
     <Form horizontal onSubmit={onSubmit}>
       <FormGroup controlId="name" validationState={errors.name=="" ? null : errors.name} >
         <Col componentClass={ControlLabel} sm={2}>
@@ -28,7 +34,7 @@ const CreateOrgForm = ({
           <FormControl.Feedback />
         </Col>
       </FormGroup>
-
+      
       <FormGroup controlId="email" validationState={errors.email=="" ? null : errors.email} >
         <Col componentClass={ControlLabel} sm={2}>
           Email
@@ -38,7 +44,7 @@ const CreateOrgForm = ({
           <FormControl.Feedback />
         </Col>
       </FormGroup>
-
+      
       <FormGroup controlId="cluster_id" validationState={errors.cluster_id=="" ? null : errors.cluster_id} >
         <Col componentClass={ControlLabel} sm={2}>
           Cluster id
@@ -60,6 +66,7 @@ const CreateOrgForm = ({
   </div>
 );
 
+//Mediante propTypes se comprueba que el componente recibe correctamente todos los parámetros
 CreateOrgForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,

@@ -1,8 +1,15 @@
 import React from 'react';
-import {Panel, Form, FormControl, FormGroup, Col, HelpBlock, ControlLabel, Checkbox, Button, FeedBack} from 'react-bootstrap';
-import { Link } from 'react-router';
+import {Form, FormControl, FormGroup, Col, ControlLabel, Checkbox, Button, FeedBack} from 'react-bootstrap';
 import PropTypes  from 'prop-types';
 
+/* Componente CreateUserForm encargado de crear el formulario para la creación de un usuario.
+Recibirá los siguientes parámetros:
+  1) onSubmit: Función llamada al presionar el boton 'submit' del formulario.
+  2) onChange: Función encargada de manejar los cambios en los campos de entrada de texto del formulario.
+  3) errors: Objeto utilizado para la validación visual del formulario. 
+  4) user: Objeto donde se almacenará el usuario a crear.
+  5) organizations: Lista de las organizaciones disponibles.
+*/
 const CreateUserForm = ({
   onSubmit,
   onChange,
@@ -55,14 +62,17 @@ const CreateUserForm = ({
           <FormControl.Feedback />
         </Col>
       </FormGroup>
+
       <FormGroup controlId="organization">
         <Col componentClass={ControlLabel} sm={2}>
           <ControlLabel>Organization</ControlLabel>
         </Col>
         <Col sm={10}>
           <FormControl name="organization" componentClass="select" placeholder="Select organization" onChange={onChange} value={user.organization}>
-            <option value="No Organization" key={"2"}> No organization</option>
+
+            <option value="No" key={"2"}> No organization</option>
             {
+
                 organizations.map((organization, key) => {
                   return <option value={organization.id} key={key}> {organization.name} </option>
                 })
@@ -70,7 +80,8 @@ const CreateUserForm = ({
           </FormControl>
         </Col>
       </FormGroup>
-      <FormGroup controlId="organization">
+
+      <FormGroup controlId="role">
         <Col componentClass={ControlLabel} sm={2}>
           <ControlLabel>Privileges</ControlLabel>
         </Col>
@@ -80,6 +91,7 @@ const CreateUserForm = ({
             </Checkbox> 
         </Col>
       </FormGroup>
+
       <FormGroup>
         <Col smOffset={2} sm={10}>
           <Button type="submit">
@@ -91,6 +103,7 @@ const CreateUserForm = ({
   </div>
 );
 
+//Haciendo uso de propTypes comprobamos si todos los parámetros son recibidos por el componente y en el formato correcto
 CreateUserForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,

@@ -20,6 +20,8 @@ class ListUsersPage extends Component {
       number_users: '',
       orgName: ''
     }
+
+
     this.handleSelectPage=this.handleSelectPage.bind(this);
     //Obtenemos el mensaje si hemos eliminado un usuario correctamente, lo notificamos y eliminamos
     localStorage.getItem('successRemoveUser') && toastr.success(localStorage.getItem('successRemoveUser')) && localStorage.removeItem('successRemoveUser')
@@ -58,7 +60,7 @@ class ListUsersPage extends Component {
     });
     xhr.send();
     }
-    else if(id="null"){
+    else if(id=="null"){
     //Utilizando ajax, en el constructor pedimos la lista de usuarios registrados
     // create an AJAX request
     const xhr = new XMLHttpRequest();
@@ -164,7 +166,7 @@ class ListUsersPage extends Component {
 
   //Manejador para seleccionar la pagina a visualizar
   handleSelectPage(eventKey) {
-    this.loadUsers(eventKey)
+    this.loadUsers(eventKey, this.props.params.id)
     this.setState({
       activePage: eventKey,
     });

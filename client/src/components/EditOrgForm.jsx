@@ -1,8 +1,15 @@
 import React from 'react';
-import {Panel, Form, FormControl, FormGroup, Col, HelpBlock, ControlLabel, Checkbox, Button, FeedBack} from 'react-bootstrap';
-import { Link } from 'react-router';
+import {Form, FormControl, FormGroup, Col, ControlLabel, Checkbox, Button, FeedBack} from 'react-bootstrap';
 import PropTypes  from 'prop-types';
 
+/*
+Componente encargado de crear el formulario para la edición de una organización
+Recibirá los siguientes parámetros:
+  1) onSubmit: Función llamada al presionar el boton 'submit' del formulario.
+  2) onChange: Función encargada de manejar los cambios en los campos de entrad de texto del formulario.
+  3) errors: Objeto utilizado para la validación visual del formulario. 
+  4) organization: Objeto con la información de la organización a editar.
+*/
 const EditOrgForm = ({
   onSubmit,
   onChange,
@@ -10,11 +17,13 @@ const EditOrgForm = ({
   organization
 }) => (
   <div>
+
     <div className="row">
       <h2 className="text-center" style={{color:"blue"}}> Edit organization form </h2>
       <br></br>
     </div>
     <Form horizontal onSubmit={onSubmit}>
+
       <FormGroup controlId="name" validationState={errors.name=="" ? null : errors.name} >
         <Col componentClass={ControlLabel} sm={2}>
           Name
@@ -56,6 +65,7 @@ const EditOrgForm = ({
   </div>
 );
 
+//Utilización de propTypes para verificar que los parámetros son recibidos y de forma correcta
 EditOrgForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,

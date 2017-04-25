@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Base from '../components/Base.jsx'
-
+/*
+Clase BasePage encargada de crear un componente Base con un compenten 'children' recibido mediante reac-router
+*/
 class BasePage extends Component {
   constructor() {
     super();

@@ -19,7 +19,7 @@ module.exports = new PassportLocalStrategy({
       name: req.body.name.trim(),
       email: email.trim(), 
       password: password.trim(),
-      OrganizationId: req.body.organization=='' ? null : req.body.organization,
+      OrganizationId: (req.body.organization=='' || req.body.organization=="No") ? null : req.body.organization,
       role: req.body.role 
     });
   NewUser.save().then(function(NewUser) {

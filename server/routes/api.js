@@ -237,6 +237,7 @@ router.post('/users', (req, res, next) => {
 });
 
 router.get('/users', (req, res) => {
+  console.log(req.query.page);
   models.User.findOne({
         where: {
             id: req.userId
@@ -526,7 +527,6 @@ router.put('/organizations/:id', (req, res) => {
 
 //Metodo get al que se llama al crear un usuario. Devuelve la lista de organizaciones disponibles
 router.get('/users/new', (req, res) => {
-  console.log("entra");
   models.User.findOne({
         where: {
             id: req.userId
