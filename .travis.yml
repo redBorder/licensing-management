@@ -1,8 +1,6 @@
 language: node_js
 node_js:
     - "stable"
-services:
-    - mysql
 before_install:
     - bash .travis.install-mysql-5.7.sh
     - mysql -e 'CREATE DATABASE IF NOT EXISTS licenses_management_test;'
