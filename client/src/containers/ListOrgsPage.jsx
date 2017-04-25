@@ -56,6 +56,15 @@ class ListOrgsPage extends Component {
 
   //Manejadores de la tabla
 
+  listLicensesFormat(cell, row){
+      return (<div>
+           <Link to={"/listLicenses/" + 
+          row.id + "/" + encodeURIComponent(row.name)} 
+          className="glyphicon glyphicon-folder-open" 
+          style={{color:"green"}} ></Link>
+         </div>);
+  }
+
   editOrgFormat(cell, row){
       return (<div>
            <Link to={"/editOrgAdmins/" + 
@@ -110,7 +119,7 @@ class ListOrgsPage extends Component {
     return (
       <div className="container">
         <div>
-          <ListOrgs organizations={this.state.organizations} removeOrgFormat={this.removeOrgFormat} editOrgFormat={this.editOrgFormat} countUsersFormat={this.countUsersFormat}/>
+          <ListOrgs organizations={this.state.organizations} removeOrgFormat={this.removeOrgFormat} editOrgFormat={this.editOrgFormat} countUsersFormat={this.countUsersFormat} listLicensesFormat={this.listLicensesFormat}/>
         </div>
         {
           this.state.number_orgs > 10 ? 

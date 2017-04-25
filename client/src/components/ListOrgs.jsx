@@ -14,6 +14,7 @@ Recibe los siguientes parámetros:
 const ListOrgs = ({
 	organizations, 
 	removeOrgFormat, 
+	listLicensesFormat, 
 	editOrgFormat, 
 	countUsersFormat}) => (
 	 	<div>
@@ -34,6 +35,7 @@ const ListOrgs = ({
 					<TableHeaderColumn dataField="name"> Name </TableHeaderColumn>
 					<TableHeaderColumn dataField="email" isKey> Email </TableHeaderColumn>
 					<TableHeaderColumn dataField="cluster_id"> Cluster Id </TableHeaderColumn>
+					<TableHeaderColumn dataField="id" dataFormat={listLicensesFormat} dataAlign="center" width="90"> Licenses </TableHeaderColumn>
 					<TableHeaderColumn dataField="id" dataFormat={countUsersFormat} dataAlign="center" width="90"> Users </TableHeaderColumn>
 					<TableHeaderColumn dataField="id" dataFormat={editOrgFormat} dataAlign="center" width="90"> Edit </TableHeaderColumn>
 					<TableHeaderColumn dataField="id" dataFormat={removeOrgFormat} dataAlign="center" width="90"> Remove </TableHeaderColumn>
@@ -52,6 +54,7 @@ const ListOrgs = ({
 ListOrgs.propTypes = {
 	removeOrgFormat: PropTypes.func.isRequired,
 	editOrgFormat: PropTypes.func.isRequired,
+	listLicensesFormat: PropTypes.func.isRequired,
 	countUsersFormat: PropTypes.func.isRequired,
 	organizations: PropTypes.array.isRequired
 }

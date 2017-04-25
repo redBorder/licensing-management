@@ -71,7 +71,7 @@ class ListLicensesPage extends Component {
     return (
       <div className="container">
         <div>
-          <ListLicenses orgName={this.state.orgName} licenses={this.state.licenses}/>
+          <ListLicenses orgName={this.state.orgName} licenses={this.state.licenses} orgId={this.props.params.id}/>
         </div>
         {
         this.state.number_licenses > 10 ? 

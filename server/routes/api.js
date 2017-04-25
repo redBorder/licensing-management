@@ -737,7 +737,7 @@ router.post('/license', (req, res) => {
         }
     }).then(function(user){
       //Si la licencia que se quiere crear no es para la organización a la que pertenecemos... no podemos
-      if(user.OrganizationId != req.body.OrganizationId ){
+      if(user.OrganizationId != req.body.OrganizationId && user.role != "admin"){
         return res.status(401).json({
             success: false,
             message: "You don't have permissions",
