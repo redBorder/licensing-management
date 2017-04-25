@@ -237,7 +237,6 @@ router.post('/users', (req, res, next) => {
 });
 
 router.get('/users', (req, res) => {
-  console.log(req.query.page);
   models.User.findOne({
         where: {
             id: req.userId

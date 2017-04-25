@@ -32,7 +32,7 @@ it("Should exists an organization without licenses.", function(done) {
          }catch (e){
          return done(e);
        }
-         models.Licenses.findAll({
+         models.License.findAll({
            where: {OrganizationId: Found_org.id}
          })
          .then(function(Found_licenses){
@@ -63,7 +63,7 @@ it("Should exists an organization without licenses.", function(done) {
          }catch (e){
          return done(e);
        }
-         models.Licenses.findAll({
+         models.License.findAll({
            where: {OrganizationId: Found_org.id}
          })
          .then(function(Found_licenses){
