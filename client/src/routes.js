@@ -8,8 +8,8 @@ import ProfilePage from './containers/ProfilePage.jsx';
 import CreateUserPage from './containers/CreateUserPage.jsx';
 import CreateOrgPage from './containers/CreateOrgPage.jsx';
 import ListUsersPage from './containers/ListUsersPage.jsx';
-import RemoveUserPage from './containers/RemoveUserPage.jsx';
 import EditUserPage from './containers/EditUserPage.jsx';
+import EditOrgPage from './containers/EditOrgPage.jsx';
 import ListOrgsPage from './containers/ListOrgsPage.jsx';
 import Auth from './modules/Auth';
 
@@ -64,16 +64,16 @@ const routes = {
       component: CreateOrgPage
     },
     {
-      path: '/listUsers',
+      path: '/listUsers/:id/:orgName',
       component: ListUsersPage
     },
     {
-      path: '/removeUsersAdmin/:id',
-      component: RemoveUserPage
+      path: '/editUserAdmins/:id',
+      component: EditUserPage
     },
     {
-      path: '/editUserAdmins/:id/:name/:email',
-      component: EditUserPage
+      path: '/editOrgAdmins/:id',
+      component: EditOrgPage
     },
     {
       path: '/listOrgs',

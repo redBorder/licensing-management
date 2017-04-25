@@ -1,6 +1,6 @@
 const path = require('path');
-
-
+//process.traceDeprecation = true; //Trace the router of deprecated errors
+process.noDeprecation = true; //No deprecation warnings
 module.exports = {
   // the entry file for the bundle
   entry: path.join(__dirname, '/client/src/index.jsx'),

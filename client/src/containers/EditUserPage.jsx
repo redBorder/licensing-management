@@ -1,16 +1,22 @@
-import React, { PropTypes } from 'react';
+import React, { Component } from 'react';
 import Auth from '../modules/Auth';
 import EditUserForm from '../components/EditUserForm.jsx';
+import PropTypes  from 'prop-types';
+import toastr from 'toastr';
 
 
-class EditUserPage extends React.Component {
+class EditUserPage extends Component {
 
   /**
    * Class constructor.
    */
   constructor(props, context) {
     super(props, context);
-
+    toastr.options={
+      "closeButton": true,
+      "preventDuplicates": true,
+      "newestOnTop": true
+    }
     // set the initial component state
     this.state = {
       errors: {
@@ -18,12 +24,11 @@ class EditUserPage extends React.Component {
         email: ''
       },
       user: {
-        name: decodeURIComponent(this.props.params.name),
-        email: decodeURIComponent(this.props.params.email),
-        organization: '',
+        name: '',
+        email: '',
+        organization: 'No',
         admin: false
       },
-      successMessage: '',
       organizations: []
     };
 
@@ -36,7 +41,7 @@ class EditUserPage extends React.Component {
      //Utilizando ajax, en el constructor pedimos la lista de organizaciones registradas
     // create an AJAX request
     const xhr = new XMLHttpRequest();
-    xhr.open('post', '/api/listOrgs');
+    xhr.open('get', '/api/users/' + this.props.params.id + "/edit"); 
     // set the authorization HTTP header
     xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
     xhr.responseType = 'json';
@@ -46,14 +51,18 @@ class EditUserPage extends React.Component {
         // change the component-container state
         this.setState({
           error: "",
-          organizations: xhr.response.orgs
-        });
-
+          organizations: xhr.response.orgs,
+          user: {
+            name: xhr.response.user.name,
+            email: xhr.response.user.email,
+            organization: xhr.response.user.organizationId || "No" //Si no tiene organización se pondrá "No" 
+          }
+       });
       } else {
         // failure
         // change the component state
         error = xhr.response.message;
-
+        {error && toastr.success(error)}
         this.setState({
           error
         });
@@ -72,7 +81,6 @@ class EditUserPage extends React.Component {
   processForm(event) {
     // prevent default action. in this case, action is the form submission event
     event.preventDefault();
-
     // create a string for an HTTP body message
     const name  = encodeURIComponent(this.state.user.name);
     const email = encodeURIComponent(this.state.user.email);
@@ -81,7 +89,7 @@ class EditUserPage extends React.Component {
     const formData = `email=${email}&name=${name}&role=${role}&organization=${organization}`;
     // create an AJAX request
     const xhr = new XMLHttpRequest();
-    xhr.open('post', '/api/editUsersAdmin/' + this.props.params.id);
+    xhr.open('put', '/api/users/' + this.props.params.id);
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     // set the authorization HTTP header
     xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
@@ -89,19 +97,16 @@ class EditUserPage extends React.Component {
     xhr.addEventListener('load', () => {
       if (xhr.status === 200) {
         // success
-
+        {xhr.response.message && toastr.success(xhr.response.message)}
         // change the component-container state
         this.setState({
           errors: {},
-          successMessage: xhr.response.message,
-          user: xhr.response.user
         });
       } else {
         // failure
         // change the component state
         const errors = xhr.response.errors ? xhr.response.errors : {};
-        errors.summary = xhr.response.message;
-
+        {xhr.response.message && toastr.error(xhr.response.message)}
         this.setState({
           successMessage:"",
           errors
@@ -129,8 +134,7 @@ class EditUserPage extends React.Component {
     this.setState({
         user
       });
-  
-    
+        
     //Esto es para validar el formulario visualmente, solo para el usuario
 
     if(this.state.user.name.length!=0)
@@ -157,7 +161,6 @@ class EditUserPage extends React.Component {
         errors={this.state.errors}
         user={this.state.user}
         organizations={this.state.organizations}
-        successMessage={this.state.successMessage}
       />
     );
   }

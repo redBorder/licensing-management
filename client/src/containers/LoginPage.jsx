@@ -1,24 +1,21 @@
-import React, { PropTypes } from 'react';
+import React, { Component } from 'react';
 import Auth from '../modules/Auth';
 import LoginForm from '../components/LoginForm.jsx';
+import PropTypes  from 'prop-types';
+import toastr from 'toastr';
 
-
-class LoginPage extends React.Component {
+class LoginPage extends Component {
 
   /**
    * Class constructor.
    */
   constructor(props, context) {
     super(props, context);
-
-    const storedMessage = localStorage.getItem('successMessage');
-    let successMessage = '';
-
-    if (storedMessage) {
-      successMessage = storedMessage;
-      localStorage.removeItem('successMessage');
+    toastr.options={
+      "closeButton": true,
+      "preventDuplicates": true,
+      "newestOnTop": true
     }
-
     // set the initial component state
     this.state = {
       errors: {
@@ -28,8 +25,7 @@ class LoginPage extends React.Component {
       user: {
         email: '',
         password: ''
-      },
-      successMessage: successMessage
+      } 
     };
 
     this.processForm = this.processForm.bind(this);
@@ -63,7 +59,7 @@ class LoginPage extends React.Component {
         this.setState({
           errors: {}
         });
-
+        {xhr.response.message && toastr.success(xhr.response.message)}
         // set a user profile items
         localStorage.setItem('userProfileId', xhr.response.user.id);
         localStorage.setItem('userProfileName', xhr.response.user.name);
@@ -81,8 +77,7 @@ class LoginPage extends React.Component {
 
         // change the component state
         const errors = xhr.response.errors ? xhr.response.errors : {};
-        errors.summary = xhr.response.message;
-
+        {xhr.response.message && toastr.error(xhr.response.message)}
         this.setState({
           errors
         });
@@ -126,7 +121,6 @@ class LoginPage extends React.Component {
         onChange={this.changeUser}
         errors={this.state.errors}
         user={this.state.user}
-        successMessage={this.state.successMessage}
       />
     );
   }

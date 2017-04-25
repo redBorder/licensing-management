@@ -1,16 +1,21 @@
-import React, { PropTypes } from 'react';
+import React, { Component } from 'react';
 import Auth from '../modules/Auth';
 import ProfileForm from '../components/ProfileForm.jsx';
+import PropTypes  from 'prop-types';
+import toastr from 'toastr';
 
-
-class ProfilePage extends React.Component {
+class ProfilePage extends Component {
 
   /**
    * Class constructor.
    */
   constructor(props, context) {
     super(props, context);
-
+    toastr.options={
+      "closeButton": true,
+      "preventDuplicates": true,
+      "newestOnTop": true
+    }
     const name = localStorage.getItem('userProfileName');
     const email = localStorage.getItem('userProfileEmail')
 
@@ -72,9 +77,7 @@ class ProfilePage extends React.Component {
         localStorage.setItem('userProfileName', xhr.response.user.name);
         localStorage.setItem('userProfileEmail', xhr.response.user.email);
 
-         // set a message
-        localStorage.setItem('successMessage', xhr.response.message);
-
+        {xhr.response.message && toastr.success(xhr.response.message)}
         //Cerramos sesion para iniciar con los nuevos datos
         Auth.deauthenticateUser();
 
@@ -86,8 +89,7 @@ class ProfilePage extends React.Component {
 
         // change the component state
         const errors = xhr.response.errors ? xhr.response.errors : {};
-        errors.summary = xhr.response.message;
-
+        {xhr.response.message && toastr.error(xhr.response.message)}
         this.setState({
           errors
         });

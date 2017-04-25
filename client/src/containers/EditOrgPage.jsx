@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import Auth from '../modules/Auth';
-import CreateUserForm from '../components/CreateUserForm.jsx';
+import EditOrgForm from '../components/EditOrgForm.jsx';
 import PropTypes  from 'prop-types';
 import toastr from 'toastr';
 
 
-class CreateUserPage extends Component {
+class EditOrgPage extends Component {
 
   /**
    * Class constructor.
@@ -20,49 +20,50 @@ class CreateUserPage extends Component {
     // set the initial component state
     this.state = {
       errors: {
+        name: '',
         email: '',
-        password: '',
-        organization: '',
-        confir_password: '',
-        name: ''
+        cluster_id: ''
       },
-      user: {
+      organization: {
+        name: '',
         email: '',
-        password: '',
-        organization: '',
-        confir_password: '',
-        name: '', 
-        admin: false
-      },
-      organizations: []
+        cluster_id: '' 
+      }
     };
+
     this.processForm = this.processForm.bind(this);
-    this.changeUser = this.changeUser.bind(this);
+    this.changeOrg = this.changeOrg.bind(this);
   }
 
-  //Justo antes de renderizar el componente se llama a este método
+   //Justo antes de renderizar el componente se llama a este método
   componentWillMount(){
      //Utilizando ajax, en el constructor pedimos la lista de organizaciones registradas
     // create an AJAX request
     const xhr = new XMLHttpRequest();
-    xhr.open('get', '/api/users/new'); //CAMBIAR POR /users/new
+    xhr.open('get', '/api/organizations/' + this.props.params.id + "/edit"); 
     // set the authorization HTTP header
     xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
     xhr.responseType = 'json';
     xhr.addEventListener('load', () => {
       if (xhr.status === 200) {
         // success
-        {xhr.response.message && toastr.success(xhr.response.message)}
         // change the component-container state
         this.setState({
           error: "",
-          organizations: xhr.response.orgs
-        });
-
+          organization: {
+            name: xhr.response.org.name,
+            email: xhr.response.org.email,
+            cluster_id: xhr.response.org.cluster_id 
+          }
+       });
       } else {
         // failure
-        {xhr.response.message && toastr.error(xhr.response.message)}
-
+        // change the component state
+        error = xhr.response.message;
+        {error && toastr.success(error)}
+        this.setState({
+          error
+        });
         }
     });
     xhr.send();
@@ -76,18 +77,15 @@ class CreateUserPage extends Component {
   processForm(event) {
     // prevent default action. in this case, action is the form submission event
     event.preventDefault();
-    // create a string for an HTTP body message
-    const name = encodeURIComponent(this.state.user.name);
-    const email = encodeURIComponent(this.state.user.email);
-    const password = encodeURIComponent(this.state.user.password);
-    const confir_password = encodeURIComponent(this.state.user.confir_password);
-    const organization = encodeURIComponent(this.state.user.organization);
-    const role = this.state.user.admin ? "admin" : "normal";
-    const formData = `role=${role}&name=${name}&organization=${organization}&email=${email}&password=${password}&confir_password=${confir_password}`;
 
+    // create a string for an HTTP body message
+    const name  = encodeURIComponent(this.state.organization.name);
+    const email = encodeURIComponent(this.state.organization.email);
+    const cluster_id = encodeURIComponent(this.state.organization.cluster_id);
+    const formData = `email=${email}&name=${name}&cluster_id=${cluster_id}`;
     // create an AJAX request
     const xhr = new XMLHttpRequest();
-    xhr.open('post', '/api/users');
+    xhr.open('put', '/api/organizations/' + this.props.params.id);
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     // set the authorization HTTP header
     xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
@@ -98,61 +96,55 @@ class CreateUserPage extends Component {
         {xhr.response.message && toastr.success(xhr.response.message)}
         // change the component-container state
         this.setState({
-          errors: {}
+          errors: {},
+          organization: xhr.response.org
         });
-
       } else {
         // failure
-        {xhr.response.message && toastr.error(xhr.response.message)}
         // change the component state
         const errors = xhr.response.errors ? xhr.response.errors : {};
-        errors.summary = xhr.response.message;
-
+        {xhr.response.message && toastr.error(xhr.response.message)}
         this.setState({
+          successMessage:"",
           errors
         });
       }
     });
     xhr.send(formData);
-
   }
 
   /**
-   * Change the user object.
+   * Change the organization object.
    *
    * @param {object} event - the JavaScript event object
    */
-  changeUser(event) {
+  changeOrg(event) {
     const field = event.target.name;
-      const user = this.state.user;
-    if(field!="role")
-    { 
-      user[field] = event.target.value;
-      
-    }else{
-      user.admin = !user.admin;
-    }
+    const organization = this.state.organization;
+    organization[field] = event.target.value;
     this.setState({
-        user
+        organization
       });
+  
+    
     //Esto es para validar el formulario visualmente, solo para el usuario
-    if(this.state.user.password !== this.state.user.confir_password){
-      this.state.errors.password="error";
-      this.state.errors.confir_password="error";
-    }
-    else{
-      this.state.errors.password="success";
-      this.state.errors.confir_password="success";
-    }
-    if(this.state.user.password.length < 8 || this.state.user.password.length > 15)
-      this.state.errors.password="error";
-    if(this.state.user.confir_password.length <8 || this.state.user.confir_password.length > 15)
-      this.state.errors.confir_password="error";
 
-    if(this.state.user.name.length!=0)
+    if(this.state.organization.name.length!=0)
       this.state.errors.name="success";
     else
       this.state.errors.name="error"
+
+    if(this.state.organization.cluster_id.length!=0)
+      this.state.errors.cluster_id="success";
+    else
+      this.state.errors.cluster_id="error"
+
+    if(this.state.organization.email.length!=0)
+      this.state.errors.email="success";
+    else
+      this.state.errors.email="error"
+
+    
   }
 
   /**
@@ -160,20 +152,19 @@ class CreateUserPage extends Component {
    */
   render() {
     return (
-      <CreateUserForm
+      <EditOrgForm
         onSubmit={this.processForm}
-        onChange={this.changeUser}
+        onChange={this.changeOrg}
         errors={this.state.errors}
-        user={this.state.user}
-        organizations={this.state.organizations}
+        organization={this.state.organization}
       />
     );
   }
 
 }
 
-CreateUserPage.contextTypes = {
+EditOrgPage.contextTypes = {
   router: PropTypes.object.isRequired
 };
 
-export default CreateUserPage;
+export default EditOrgPage;

@@ -1,26 +1,23 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import {Panel, Form, FormControl, FormGroup, Col, HelpBlock, ControlLabel, Checkbox, Button, FeedBack} from 'react-bootstrap';
 import { Link } from 'react-router';
-
+import PropTypes  from 'prop-types';
 
 const CreateOrgForm = ({
   onSubmit,
   onChange,
   errors,
-  org,
-  successMessage
+  org
 }) => (
   <div>
-    {successMessage && 
-      <Panel header="Success message" bsStyle="success">
-        {successMessage}
-      </Panel>
-    }
-    {errors.summary && 
-            <Panel header="Error message" bsStyle="danger">
-              {errors.summary}
-            </Panel>
-    }
+    <div className="row">
+    </div>
+
+    <div className="row">
+      <h2 className="text-center" style={{color:"blue"}}> Create organization form </h2>
+      <br></br>
+    </div>
+
     <Form horizontal onSubmit={onSubmit}>
       <FormGroup controlId="name" validationState={errors.name=="" ? null : errors.name} >
         <Col componentClass={ControlLabel} sm={2}>
@@ -41,6 +38,17 @@ const CreateOrgForm = ({
           <FormControl.Feedback />
         </Col>
       </FormGroup>
+
+      <FormGroup controlId="cluster_id" validationState={errors.cluster_id=="" ? null : errors.cluster_id} >
+        <Col componentClass={ControlLabel} sm={2}>
+          Cluster id
+        </Col>
+        <Col sm={10}>
+          <FormControl name ="cluster_id" type="cluster_id" placeholder="Cluster id" onChange={onChange} value={org.cluster_id}/>
+          <FormControl.Feedback />
+        </Col>
+      </FormGroup>
+      
       <FormGroup>
         <Col smOffset={2} sm={10}>
           <Button type="submit">

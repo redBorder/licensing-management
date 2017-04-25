@@ -34,6 +34,12 @@ function validateCreateOrgForm(payload) {
 
   }
 
+  if (!payload || typeof payload.cluster_id !== 'string' || payload.cluster_id.trim().length === 0) {
+    isFormValid = false;
+    message = message != "" ? message + 'and please provide a cluster id ' : "Please provide a cluster id ";
+
+  }
+
   return {
     success: isFormValid,
     message
@@ -167,7 +173,7 @@ router.post('/changeProfile', (req, res) => {
       })
 });
 
-router.post('/createUser', (req, res, next) => {
+router.post('/users', (req, res, next) => {
   const validationResult = validateCreateUserForm(req.body);
   if (!validationResult.success) {
     return res.status(400).json({
@@ -230,7 +236,7 @@ router.post('/createUser', (req, res, next) => {
     })
 });
 
-router.post('/listUsers', (req, res) => {
+router.get('/users', (req, res) => {
   models.User.findOne({
         where: {
             id: req.userId
@@ -244,20 +250,22 @@ router.post('/listUsers', (req, res) => {
       }
       else
       {
-          models.User.findAll({
-          where: {
-          }
-        }).then(function(list_users){
-          return res.status(200).json({
-            success: true,
-            users: list_users
+          models.User.findAndCount({
+            limit: 10,
+            offset: 10*(req.query.page-1),
+            order: 'name'
+        }).then(function(result){
+              return res.status(200).json({
+                success: true,
+                users: result.rows,
+                number_users: result.count
+              })
           })
-        })
       }
     })
   });
 
-router.post('/removeUser/:id', (req, res) => {
+router.delete('/users/:id', (req, res) => {
   models.User.findOne({
         where: {
             id: req.userId
@@ -282,18 +290,19 @@ router.post('/removeUser/:id', (req, res) => {
                 message: "User doesn't exists"
               })
             const name = user_delete.name;
+            const email = user_delete.email;
             models.User.destroy({
             where: {id: req.params.id} 
            }).then(function(affectedRows){
             if(affectedRows==1)
               return res.status(200).json({
               success: true,
-              message: "User " + name + " delete correctly"
+              message: "User " + name + " (" + email + ") delete correctly"
             })
             else
               return res.status(400).json({
               success: false,
-              message: "Error removing user" 
+              message: "Error removing user " + name 
             })
           })
         })
@@ -302,13 +311,13 @@ router.post('/removeUser/:id', (req, res) => {
   });
 
 
-router.post('/editUsersAdmin/:id', (req, res) => {
+router.put('/users/:id', (req, res) => {
   models.User.findOne({
         where: {
             id: req.userId
         }
     }).then(function(user){
-      if(user.role != "admin"){
+      if(user.role != "admin"){ 
         return res.status(401).json({
             success: false,
             message: "You don't have permissions",
@@ -329,7 +338,7 @@ router.post('/editUsersAdmin/:id', (req, res) => {
             user_edit.name=req.body.name;
             user_edit.email=req.body.email;
             user_edit.role=req.body.role;
-            user_edit.OrganizationId=req.body.organization == "" ? null: req.body.organization;
+            user_edit.OrganizationId= (req.body.organization == "No" || req.body.organization == "" ) ? null: req.body.organization;
             user_edit.save()
             .then(function(user_save){
               return res.status(200).json({
@@ -340,7 +349,7 @@ router.post('/editUsersAdmin/:id', (req, res) => {
             }).catch(function (err) {
               return res.status(400).json({
               success: false,
-              message: "Error editing user" 
+              message: "Error editing user " + user_edit.name + '. Email already exists.'
               })
             });
           })
@@ -348,7 +357,7 @@ router.post('/editUsersAdmin/:id', (req, res) => {
     })
   });
 
-router.post('/createOrg', (req, res, next) => {
+router.post('/organizations', (req, res) => {
   const validationResult = validateCreateOrgForm(req.body);
   if (!validationResult.success) {
     return res.status(400).json({
@@ -370,6 +379,7 @@ router.post('/createOrg', (req, res, next) => {
       else
       {
           const NewOrganization = models.Organization.build({
+            cluster_id: req.body.cluster_id.trim(),
             name: req.body.name.trim(),
             email: req.body.email.trim()
           });
@@ -388,7 +398,7 @@ router.post('/createOrg', (req, res, next) => {
     })
 });
 
-router.post('/listOrgs', (req, res) => {
+router.get('/organizations', (req, res) => {
   models.User.findOne({
         where: {
             id: req.userId
@@ -403,16 +413,238 @@ router.post('/listOrgs', (req, res) => {
       else
       {
           models.Organization.findAll({
-          where: {
-          }
-        }).then(function(list_orgs){
-          return res.status(200).json({
-            success: true,
-            orgs: list_orgs
+          include: [{
+            "model": models.User
+          }],
+          limit: 10,
+          offset: 10*(req.query.page-1),
+          order: 'name'
+        }).then(function(orgs){
+          models.Organization.count({}).then(function(number_orgs){
+            return res.status(200).json({
+              success: true,
+              orgs: orgs,
+              number_orgs: number_orgs
+            })
+          });
+        })
+      }
+    })
+  });
+
+
+router.delete('/organizations/:id', (req, res) => {
+  models.User.findOne({
+        where: {
+            id: req.userId
+        }
+    }).then(function(user){
+      if(user.role != "admin"){
+        return res.status(401).json({
+            success: false,
+            message: "You don't have permissions",
+          });
+      }
+      else
+      {
+          models.Organization.findOne({
+            where: {
+              id: req.params.id
+            }
+          }).then(function(org_delete){
+            if(!org_delete)
+              return res.status(400).json({
+                success: false,
+                message: "Organization doesn't exists"
+              })
+            const name = org_delete.name;
+            const email = org_delete.email;
+            models.Organization.destroy({
+            where: {id: req.params.id} 
+           }).then(function(affectedRows){
+            if(affectedRows==1)
+              return res.status(200).json({
+              success: true,
+              message: "Organization " + name + " (" + email + ") delete correctly"
+            })
+            else
+              return res.status(400).json({
+              success: false,
+              message: "Error removing organization " + name 
+            })
           })
         })
       }
     })
   });
+
+router.put('/organizations/:id', (req, res) => {
+  models.User.findOne({
+        where: {
+            id: req.userId
+        }
+    }).then(function(user){
+      if(user.role != "admin"){
+        return res.status(401).json({
+            success: false,
+            message: "You don't have permissions",
+          });
+      }
+      else
+      {
+          models.Organization.findOne({
+            where: {
+              id: req.params.id
+            }
+          }).then(function(org_edit){
+            if(!org_edit)
+              return res.status(400).json({
+                success: false,
+                message: "Organization doesn't exists"
+              })
+            org_edit.name=req.body.name;
+            org_edit.email=req.body.email;
+            org_edit.cluster_id=req.body.cluster_id;
+            org_edit.save()
+            .then(function(org_save){
+              return res.status(200).json({
+              success: true,
+              message: "Organization " + org_save.name + " edited correctly",
+              org: org_save
+              }) 
+            }).catch(function (err) {
+              const message = err.message=="Validation error" ? "Email already exists." : err.message; 
+              return res.status(400).json({
+              success: false,
+              message: "Error editing organization " + org_edit.name + '. ' + message
+              })
+            });
+          })
+      }
+    })
+  });
+
+//Metodo get al que se llama al crear un usuario. Devuelve la lista de organizaciones disponibles
+router.get('/users/new', (req, res) => {
+  console.log("entra");
+  models.User.findOne({
+        where: {
+            id: req.userId
+        }
+    }).then(function(user){
+      if(user.role != "admin"){
+        return res.status(401).json({
+            success: false,
+            message: "You don't have permissions",
+          });
+      }
+      else
+      {
+          models.Organization.findAll({
+          order: 'name'
+        }).then(function(list_orgs){
+          return res.status(200).json({
+            success: true,
+            orgs: list_orgs,
+          })
+        })
+      }
+    })
+  });
+
+//Metodo get al que se llama al editar un usuario. Devuelve dicho usuario
+router.get('/users/:id/edit', (req, res) => {
+  models.User.findOne({
+        where: {
+            id: req.userId
+        }
+    }).then(function(user){
+      if(user.role != "admin"){
+        return res.status(401).json({
+            success: false,
+            message: "You don't have permissions",
+          });
+      }
+      else
+      {
+          models.Organization.findAll({
+          order: 'name'
+        }).then(function(list_orgs){
+           models.User.findOne({
+            where: {
+                id: req.params.id
+            }
+          }).then(function(user_edit){
+          return res.status(200).json({
+            success: true,
+            orgs: list_orgs,
+            user: user_edit
+          })
+        })
+      })
+      }  
+    })
+  });
+
+  //Metodo get al que se llama al editar un usuario. Devuelve dicho usuario
+router.get('/organizations/:id/edit', (req, res) => {
+  models.User.findOne({
+        where: {
+            id: req.userId
+        }
+    }).then(function(user){
+      if(user.role != "admin"){
+        return res.status(401).json({
+            success: false,
+            message: "You don't have permissions",
+          });
+      }
+      else
+      {
+        models.Organization.findOne({
+          where: {
+            id: req.params.id
+          }
+        }).then(function(org){
+          return res.status(200).json({
+            success: true,
+            org: org
+          })
+        })
+      }  
+    })
+  });
+
+router.get('/organizations/:id/users', (req, res) => {
+ models.User.findOne({
+        where: {
+            id: req.userId
+        }
+    }).then(function(user){
+      if(user.role != "admin"){
+        return res.status(401).json({
+            success: false,
+            message: "You don't have permissions",
+          });
+      }
+      else
+      {
+          models.User.findAndCount({
+            where : {
+              OrganizationId: req.params.id=="null" ? null : req.params.id
+            },
+            limit: 10,
+            offset: 10*(req.query.page-1),
+            order: 'name'
+        }).then(function(result){
+              return res.status(200).json({
+                success: true,
+                users: result.rows,
+                number_users: result.count
+              })
+          })
+      }
+    })
+});
 
 module.exports = router;

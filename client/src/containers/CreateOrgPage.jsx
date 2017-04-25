@@ -1,25 +1,32 @@
-import React, { PropTypes } from 'react';
+import React, { Component } from 'react';
 import Auth from '../modules/Auth';
 import CreateOrgForm from '../components/CreateOrgForm.jsx';
+import PropTypes  from 'prop-types';
+import toastr from 'toastr';
 
-
-class CreateOrgPage extends React.Component {
+class CreateOrgPage extends Component {
 
   /**
    * Class constructor.
    */
   constructor(props, context) {
     super(props, context);
-
+    toastr.options={
+      "closeButton": true,
+      "preventDuplicates": true,
+      "newestOnTop": true
+    }
     // set the initial component state
     this.state = {
       errors: {
-        email: '',
-        name: ''
+        name:'',
+        email:'',
+        cluster_id:''
       },
       org: {
         email: '',
-        name: ''
+        name: '',
+        cluster_id: ''
       },
       successMessage: ''
     }
@@ -37,13 +44,14 @@ class CreateOrgPage extends React.Component {
     // prevent default action. in this case, action is the form submission event
     event.preventDefault();
     // create a string for an HTTP body message
+    const cluster_id = encodeURIComponent(this.state.org.cluster_id);
     const name = encodeURIComponent(this.state.org.name);
     const email = encodeURIComponent(this.state.org.email);
-    const formData = `name=${name}&email=${email}`;
+    const formData = `name=${name}&email=${email}&cluster_id=${cluster_id}`;
 
     // create an AJAX request
     const xhr = new XMLHttpRequest();
-    xhr.open('post', '/api/createOrg');
+    xhr.open('post', '/api/organizations');
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     // set the authorization HTTP header
     xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
@@ -51,23 +59,15 @@ class CreateOrgPage extends React.Component {
     xhr.addEventListener('load', () => {
       if (xhr.status === 200) {
         // success
-
-        // change the component-container state
         this.setState({
-          errors: {},
-          successMessage: xhr.response.message
+          errors:{}
         });
+        {xhr.response.message && toastr.success(xhr.response.message)}
 
       } else {
         // failure
+        {xhr.response.message && toastr.error(xhr.response.message)}
 
-        // change the component state
-        const errors = xhr.response.errors ? xhr.response.errors : {};
-        errors.summary = xhr.response.message;
-
-        this.setState({
-          errors
-        });
       }
     });
     xhr.send(formData);
@@ -98,6 +98,11 @@ class CreateOrgPage extends React.Component {
     else
       this.state.errors.name="error"
 
+    if(this.state.org.cluster_id.length!=0)
+      this.state.errors.cluster_id="success";
+    else
+      this.state.errors.cluster_id="error"
+
     if(this.state.org.email.length!=0)
       this.state.errors.email="success";
     else
@@ -114,7 +119,7 @@ class CreateOrgPage extends React.Component {
         onChange={this.changeUser}
         errors={this.state.errors}
         org={this.state.org}
-        successMessage={this.state.successMessage}
+
       />
     );
   }

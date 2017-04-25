@@ -1,16 +1,21 @@
-import React, { PropTypes } from 'react';
+import React, { Component } from 'react';
 import Auth from '../modules/Auth';
 import NewPasswordForm from '../components/NewPasswordForm.jsx';
+import PropTypes  from 'prop-types';
+import toastr from 'toastr';
 
-
-class NewPasswordPage extends React.Component {
+class NewPasswordPage extends Component {
 
   /**
    * Class constructor.
    */
   constructor(props, context) {
     super(props, context);
-
+    toastr.options={
+      "closeButton": true,
+      "preventDuplicates": true,
+      "newestOnTop": true
+    }
     // set the initial component state
     this.state = {
       errors: {
@@ -57,9 +62,7 @@ class NewPasswordPage extends React.Component {
         this.setState({
           errors: {}
         });
-
-        //Almacenamos el mensaje para mostrarlo en la pagina principal despues
-        localStorage.setItem('successMessage', xhr.response.message);
+        {xhr.response.message && toastr.success(xhr.response.message)}
 
         // change the current URL to /
         this.context.router.replace('/');
@@ -68,8 +71,7 @@ class NewPasswordPage extends React.Component {
 
         // change the component state
         const errors = xhr.response.errors ? xhr.response.errors : {};
-        errors.summary = xhr.response.message;
-
+        {xhr.response.message && toastr.error(xhr.response.message)}
         this.setState({
           errors
         });

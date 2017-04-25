@@ -56,7 +56,6 @@ describe('Model Licenses', function() {
 
 it("Shouldn't create one Licenses. OrganizationId doesn't exists", function(done) {
   	const NewLicenses = models.Licenses.build({
-		  cluster_id: "1ed52e37-51af-4d34-b814-13a7e9b5c389",
 		  expires_at: new Date(),
 		  OrganizationId: "not exists"
 		});
@@ -84,6 +83,7 @@ it("Shouldn't create one Licenses. OrganizationId doesn't exists", function(done
 
   	it("Should create Licenses. OrganizationId exists", function(done) {
 	  	const NewOrganization = models.Organization.build({
+			  cluster_id: "1ed52e37-51af-4d34-b814-13a7e9b5c389",
 			  name: "Organizacion",
 			  email: "org@cor.com"
 			});
@@ -95,7 +95,6 @@ it("Shouldn't create one Licenses. OrganizationId doesn't exists", function(done
 			})
 	  		.then(function(Organization){
 	  			const NewLicenses = models.Licenses.build({
-				cluster_id: "1ed52e37-51af-4d34-b814-13a7e9b5c389",
 				expires_at: new Date(),
 				OrganizationId: Organization.id
 				});

@@ -1,5 +1,5 @@
 {
-  "name": "portal_licencias",
+  "name": "licenses_management",
   "version": "1.0.0",
   "description": "Portal web de licencias de RedBorder",
   "main": "index.js",
@@ -18,20 +18,26 @@
   "dependencies": {
     "async": "^2.2.0",
     "body-parser": "^1.17.1",
+    "create-react-class": "^15.5.2",
     "crypto": "0.0.3",
     "express": "^4.15.2",
+    "jquery": "^3.2.1",
     "jsonwebtoken": "^7.3.0",
     "mysql": "^2.13.0",
-    "nodemailer": "^3.1.8",
+    "nodemailer": "^4.0.1",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
     "password-hash": "^1.2.2",
-    "react": "^15.4.2",
-    "react-bootstrap": "^0.30.8",
-    "react-dom": "^15.4.2",
-    "react-router": "^3.0.2",
+    "prop-types": "^15.5.8",
+    "react": "^15.5.4",
+    "react-bootstrap": "^0.30.9",
+    "react-bootstrap-table": "^3.2.0",
+    "react-dom": "^15.5.4",
+    "react-router": "^3",
+    "react-router-bootstrap": "^0.24.2",
     "react-tap-event-plugin": "^2.0.1",
     "sequelize": "^3.30.2",
+    "toastr": "^2.1.2",
     "validator": "^7.0.0"
   },
   "devDependencies": {
@@ -39,12 +45,12 @@
     "babel-core": "^6.24.0",
     "babel-loader": "^6.4.1",
     "babel-preset-es2015": "^6.24.0",
-    "babel-preset-react": "^6.23.0",
+    "babel-preset-react": "^6.24.0",
     "chai": "^3.5.0",
     "chai-http": "^3.0.0",
     "mocha": "^3.2.0",
     "nodemon": "^1.11.0",
     "sequelize-fixtures": "^0.5.6",
-    "webpack": "^2.2.1"
+    "webpack": "^2.4.1"
   }
 }
