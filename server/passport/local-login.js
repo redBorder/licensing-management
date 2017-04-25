@@ -41,7 +41,8 @@ module.exports = new PassportLocalStrategy({
               const data = {
                 name: Found_User.name,
                 role: Found_User.role,
-                id: Found_User.id
+                id: Found_User.id,
+                OrganizationId: Found_User.OrganizationId
               };
               return done(null, token, data);
             }

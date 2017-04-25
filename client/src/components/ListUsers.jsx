@@ -6,7 +6,7 @@ import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 /*
 Componente encargado de mostrar una tabla con los usuarios recibidos por parámetros.
 Recibe los siguientes parámetros:
-	1) organizations: Lista de organizaciones a listar.
+	1) users: Lista de usuarios a listar.
 	2) removeUserFormat: Función encargada de dar formato a la entrada de la tabla correspondiente a la eliminación de un usuario
 	3) editUserFormat: Función encargada de dar formato a la entrada de la tabla correspondiente a la edición de un usuario
 	4) orgName: Nombre de la organización a la que pertenecen los usuarios que se están mostrando.

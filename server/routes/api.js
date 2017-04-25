@@ -14,6 +14,48 @@ const sequelize = require('../db').sequelize;
 const models = require('../models')(sequelize);
 
 /**
+ * Validate the create license form
+ *
+ * @param {object} payload - the HTTP body message
+ * @returns {object} The result of validation. Object contains a boolean validation result
+ *                   and a global message for the whole form.
+ */
+function validateCreateLicenseForm(payload) {
+  let isFormValid = true;
+  let message = '';
+
+  if (!payload || typeof payload.expires_at !== 'string' || payload.expires_at.trim().length === 0) {
+    isFormValid = false;
+    message = 'Please provide the expires date ';
+  }
+
+  if (!payload || typeof payload.limit_bytes !== 'string' || payload.limit_bytes.trim().length === 0) {
+    isFormValid = false;
+    message = message != "" ? message + 'and please provide a limit bytes correct ' : "Please provide a limit bytes correct ";
+
+  }
+  if (!payload || typeof payload.sensors !== 'string') {
+    isFormValid = false;
+    message = message != "" ? message + 'and please provide sensors ' : "Please provide sensors ";
+
+  }
+  else{
+      const sensors_object = JSON.parse(payload.sensors);
+      for(const sensor in sensors_object){
+          if(sensors_object[sensor].length == 0){
+            isFormValid = false
+            message = message != "" ? message + 'and please provide a number of sensor ' + sensor + " " : 'Please provide a number of sensor ' + sensor
+          }
+        }
+  }
+
+  return {
+    success: isFormValid,
+    message
+  };
+}
+
+/**
  * Validate the create user form
  *
  * @param {object} payload - the HTTP body message
@@ -644,6 +686,85 @@ router.get('/organizations/:id/users', (req, res) => {
           })
       }
     })
-});
+  });
 
+  //Devuelve las licencias que pertenecen a una organización.
+  //Solo pueden acceder a él usuarios administradores y que pertenezcan a la organización que mostrará las licencias
+  router.get('/organizations/:id/licenses', (req, res) => {
+  models.User.findOne({
+        where: {
+            id: req.userId
+        }
+    }).then(function(user){
+      if(user.role != "admin" && user.OrganizationId != req.params.id ){
+        return res.status(401).json({
+            success: false,
+            message: "You don't have permissions",
+          });
+      }
+      else
+      {
+          models.License.findAndCount({
+            where : {
+              OrganizationId: req.params.id
+            },
+            limit: 10,
+            offset: 10*(req.query.page-1),
+            order: 'expires_at'
+        }).then(function(result){
+              return res.status(200).json({
+                success: true,
+                licenses: result.rows,
+                number_licenses: result.count
+              })
+          })
+      }
+    })
+  });
+
+router.post('/license', (req, res) => {
+  console.log("Creando licencia...");
+  const validationResult = validateCreateLicenseForm(req.body);
+  if (!validationResult.success) {
+    return res.status(400).json({
+      success: false,
+      message: validationResult.message,
+    });
+  }
+  models.User.findOne({
+        where: {
+            id: req.userId
+        }
+    }).then(function(user){
+      //Si la licencia que se quiere crear no es para la organización a la que pertenecemos... no podemos
+      if(user.OrganizationId != req.body.OrganizationId ){
+        return res.status(401).json({
+            success: false,
+            message: "You don't have permissions",
+          });
+      }
+      else
+      {
+          const NewLicense = models.License.build({
+            expires_at: req.body.expires_at.trim(),
+            limit_bytes: req.body.limit_bytes.trim(),
+            OrganizationId: req.body.OrganizationId.trim(),
+            UserId: user.id,
+            sensors: req.body.sensors 
+          });
+          NewLicense.save().then(function(NewLicense) {
+            return res.status(200).json({
+              success: true,
+              message: 'License created correctly'
+            });
+          }, function(err){ 
+            console.log(err);
+            return res.status(400).json({
+              success: false,
+              message: 'Error creating license.<br></br> The sensors and limit bytes must be numbers'
+            });
+        });
+      }
+    })
+  });
 module.exports = router;

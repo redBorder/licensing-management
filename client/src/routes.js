@@ -7,10 +7,12 @@ import NewPasswordPage from './containers/NewPasswordPage.jsx';
 import ProfilePage from './containers/ProfilePage.jsx';
 import CreateUserPage from './containers/CreateUserPage.jsx';
 import CreateOrgPage from './containers/CreateOrgPage.jsx';
+import CreateLicensePage from './containers/CreateLicensePage.jsx';
 import ListUsersPage from './containers/ListUsersPage.jsx';
 import EditUserPage from './containers/EditUserPage.jsx';
 import EditOrgPage from './containers/EditOrgPage.jsx';
 import ListOrgsPage from './containers/ListOrgsPage.jsx';
+import ListLicensesPage from './containers/ListLicensesPage.jsx';
 import Auth from './modules/Auth';
 
 const routes = {
@@ -64,8 +66,16 @@ const routes = {
       component: CreateOrgPage
     },
     {
+      path: '/createLicense/:UserId/:OrgId',
+      component: CreateLicensePage
+    },
+    {
       path: '/listUsers/:id/:orgName',
       component: ListUsersPage
+    },
+    {
+      path: '/listLicenses/:id/:orgName',
+      component: ListLicensesPage
     },
     {
       path: '/editUserAdmins/:id',

@@ -63,6 +63,7 @@ router.post('/login', (req, res, next) => {
         name: userData.name,
         role: userData.role,
         id: userData.id,
+        OrganizationId: userData.OrganizationId,
         email: req.body.email.toLowerCase()
        } 
     });

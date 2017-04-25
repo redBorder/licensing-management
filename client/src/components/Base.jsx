@@ -48,14 +48,21 @@ const Base = ({children}) => (
             </div>
           </div>
           ) : (
-            <ul className="nav navbar-nav navbar-right">
-              <li>
-                <Link to="/changeProfile"><span className="glyphicon glyphicon-user"></span> My Profile</Link>
-              </li>
-              <li>
-                <Link to="/logout"><span className="glyphicon glyphicon-log-out"></span> Log out</Link>
-              </li>
-            </ul>
+            <div>
+              <ul className="nav navbar-nav" >
+                <li>
+                  <Link to={"/listLicenses/" + localStorage.getItem('userProfileOrg') + "/" + encodeURIComponent("my organization")}> My licenses </Link>
+                </li>
+              </ul>
+              <ul className="nav navbar-nav navbar-right">
+                <li>
+                  <Link to="/changeProfile"><span className="glyphicon glyphicon-user"></span> My Profile</Link>
+                </li>
+                <li>
+                  <Link to="/logout"><span className="glyphicon glyphicon-log-out"></span> Log out</Link>
+                </li>
+              </ul>
+            </div>
           )
         ) : (
             <ul className="nav navbar-nav navbar-right">

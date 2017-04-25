@@ -14,6 +14,7 @@ module.exports = function(sequelize) {
         license_uuid : {
             type : DataTypes.UUID,
             allowNull: false,
+            defaultValue: DataTypes.UUIDV4,
             validate : {
                 notEmpty: {
                     msg: "Field licenses uuid shouldn't be empty"
