@@ -140,12 +140,12 @@ it("Shouldn't create one Licenses. OrganizationId doesn't exists", function(done
 				})
 			}, function(err){ 
 				try{
-				assert.equal(err.message, "ER_NO_REFERENCED_ROW_2: Cannot add or update a child row: a foreign key constraint fails (`licenses_management_test`.`licenses`, CONSTRAINT `licenses_ibfk_1` FOREIGN KEY (`UserId`) REFERENCES `Users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE)");
-				}catch (e){
+					assert.notEqual(err.message,null); //Tiene que haber error
+					return done(!err);
+				}catch(e){
 					return done(e);
-				}
-	         	return done(!err);
-	        	});
+					}
+	      });
 			});
 	  });
 	})
