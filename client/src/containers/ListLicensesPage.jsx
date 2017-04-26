@@ -21,7 +21,7 @@ class ListLicensesPage extends Component {
       orgName: ''
     }
 
-
+    this.sensorsFormat=this.sensorsFormat.bind(this);
     this.handleSelectPage=this.handleSelectPage.bind(this);
   }
 
@@ -58,6 +58,20 @@ class ListLicensesPage extends Component {
     xhr.send();
   }
 
+  sensorsFormat(cell, row){
+    const sensores = JSON.parse(JSON.parse(cell));
+    let lista = [];
+
+    for(const sensor in sensores){
+          lista.push(<li key={sensor}>{sensor}: {sensores[sensor]}</li>);
+    }
+    return (<div>
+        <ul>
+        {lista}
+        </ul>
+    </div>);
+  }
+
   //Manejador para seleccionar la pagina a visualizar
   handleSelectPage(eventKey) {
     this.loadLicenses(eventKey, this.props.params.id)
@@ -71,7 +85,7 @@ class ListLicensesPage extends Component {
     return (
       <div className="container">
         <div>
-          <ListLicenses orgName={this.state.orgName} licenses={this.state.licenses} orgId={this.props.params.id} expiresFormat={this.expiresFormat}/>
+          <ListLicenses orgName={this.state.orgName} licenses={this.state.licenses} orgId={this.props.params.id} sensorsFormat={this.sensorsFormat}/>
         </div>
         {
         this.state.number_licenses > 10 ? 

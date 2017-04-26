@@ -64,7 +64,7 @@ class CreateLicensePage extends Component {
     const limit_bytes = encodeURIComponent(this.state.license.limit_bytes);
     const OrganizationId = encodeURIComponent(this.state.license.OrganizationId);
     const UserId = encodeURIComponent(this.state.license.UserId);
-    const sensors = JSON.stringify(this.state.license.sensors);
+    const sensors = encodeURIComponent(this.state.license.sensors);
     const formData = `sensors=${sensors}&expires_at=${expires_at}&UserId=${UserId}&limit_bytes=${limit_bytes}&OrganizationId=${OrganizationId}`;
 
     //Creación de la petición AJAX para la creación de un usuario

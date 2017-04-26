@@ -13,7 +13,8 @@ const ListLicenses = ({
 	licenses,
 	orgId,
 	orgName,
-	expiresFormat }) => (
+	expiresFormat,
+	sensorsFormat }) => (
 		<div>
 	    <div className="row">
 	    	<div className="col-md-10">
@@ -28,8 +29,9 @@ const ListLicenses = ({
 				<BootstrapTable data={licenses} >
 					<TableHeaderColumn dataField="id" hidden isKey={true}> Id </TableHeaderColumn>
 					<TableHeaderColumn dataField="license_uuid"> Id license </TableHeaderColumn>
-					<TableHeaderColumn dataField="limit_bytes" > Limit bytes </TableHeaderColumn>
+					<TableHeaderColumn dataField="limit_bytes" width="90" > Limit bytes </TableHeaderColumn>
 					<TableHeaderColumn dataField="expires_at" > Expires at </TableHeaderColumn>
+					<TableHeaderColumn dataField="sensors" dataFormat={sensorsFormat}> Sensors </TableHeaderColumn>
 				</BootstrapTable>
 			</div>
  		</div>
@@ -38,6 +40,7 @@ const ListLicenses = ({
 //Haciendo uso de propTypes se comprueban que todos los parámetros son recibidos correctamente
 ListLicenses.propTypes = {
 	licenses: PropTypes.array.isRequired,
+	sensorsFormat: PropTypes.func.isRequired,
 	orgName: PropTypes.string.isRequired,
 	orgId: PropTypes.string.isRequired
 }
