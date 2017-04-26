@@ -217,7 +217,7 @@ describe('Create license Test', function() {
                 try{
                   res.should.have.status(400);
                   res.body.should.have.property('success').eql(false);
-                  res.body.should.have.property('message').eql('Please provide sensors');
+                  res.body.should.have.property('message').eql('Please provide sensors ');
                   licenses.length.should.eql(4);
                   done();
                 } catch (e) {
