@@ -724,7 +724,7 @@ router.get('/organizations/:id/users', (req, res) => {
     })
   });
 
-router.post('/license', (req, res) => {
+router.post('/licenses', (req, res) => {
   const validationResult = validateCreateLicenseForm(req.body);
   if (!validationResult.success) {
     return res.status(400).json({
