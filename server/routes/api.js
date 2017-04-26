@@ -780,7 +780,7 @@ router.post('/license', (req, res) => {
     })
   });
 
-router.get('/license/new', (req, res) => {
+router.get('/licenses/new', (req, res) => {
   models.User.findOne({
         where: {
             id: req.userId
@@ -812,7 +812,7 @@ router.get('/license/new', (req, res) => {
     })
   });
   
-  router.get('/license/extend', (req, res) => {
+  router.get('/licenses/extend', (req, res) => {
   models.User.findOne({
         where: {
             id: req.userId

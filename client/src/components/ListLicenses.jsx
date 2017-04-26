@@ -8,6 +8,8 @@ Componente encargado de mostrar una tabla con las licencias recibidas por parám
 Recibe los siguientes parámetros:
 	1) licenses: Lista de licencias a listar.
 	2) orgName: Nombre de la organización a la que pertenecen las licencias que se están mostrando.
+	3) orgId: Identificador de la organización para saber qué tipo de licencia hay que crear y a qué organización pertence (admin
+	4) expiresFormat: Función encargada de mostrar el número de días restantes hasta la expiración de la licencia
 */
 const ListLicenses = ({
 	licenses,

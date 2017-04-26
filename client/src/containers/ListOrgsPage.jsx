@@ -78,7 +78,7 @@ class ListOrgsPage extends Component {
       return (<div>
             <Link style={{color:"red"}} 
             onClick={() => {
-              if(confirm('Are you sure to remove the organization ' + row.name + " (" + row.email + "). This will remove all user references to this organization"  )){
+              if(confirm('Are you sure to remove the organization ' + row.name + " (" + row.email + "). This will remove ALL licenses of this organizations"  )){
                 //Utilizando ajax, en el constructor pedimos la lista de usuarios registrados
                 const xhr = new XMLHttpRequest();
                 xhr.open('delete', '/api/organizations/' + row.id);
