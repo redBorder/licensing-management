@@ -12,7 +12,8 @@ Recibe los siguientes parámetros:
 const ListLicenses = ({
 	licenses,
 	orgId,
-	orgName, }) => (
+	orgName,
+	expiresFormat }) => (
 		<div>
 	    <div className="row">
 	    	<div className="col-md-10">

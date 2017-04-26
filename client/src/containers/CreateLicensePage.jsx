@@ -18,6 +18,9 @@ class CreateLicensePage extends Component {
       "preventDuplicates": true, //Para prevenir que aparezcan toast duplicados
       "newestOnTop": true //Los nuevos aparecerán encima
     }
+    //Por defecto, la fecha de expiración es un mes para las licencias nuevas
+    const intialDate = new Date();
+    intialDate.setMonth(intialDate.getMonth() + 1);
     // Configuramos los estados iniciales
     this.state = {
       errors: {
@@ -30,19 +33,19 @@ class CreateLicensePage extends Component {
         }
       },
       license: {
-        expires_at: '',
-        limit_bytes: '',
+        expires_at: intialDate,
+        limit_bytes: '0',
         sensors: {
-          IPS: '',
-          Flow: '',
-          Social: ''
+          IPS: '0',
+          Flow: '0',
+          Social: '0'
         },
         OrganizationId: this.props.params.OrgId,
         UserId: this.props.params.UserId
       }
     };
 
-    this.changeDate = this.changeDate.bind(this);
+    this.changeSensors = this.changeSensors.bind(this);
     this.processForm = this.processForm.bind(this);
     this.changeLicense = this.changeLicense.bind(this);
   }
@@ -55,6 +58,7 @@ class CreateLicensePage extends Component {
   processForm(event) {
     //Prevenimos el envío del formulario vacío y por defecto
     event.preventDefault();
+    console.log(this.state.license);
     //Creamos una cadena de carácteres par enviar en el método post los parámetros introducidos en el formulario
     const expires_at = encodeURIComponent(this.state.license.expires_at);
     const limit_bytes = encodeURIComponent(this.state.license.limit_bytes);
@@ -98,14 +102,13 @@ class CreateLicensePage extends Component {
     });
     //Enviamos la petición 
     xhr.send(formData);
-
   }
 
-  changeDate(date){
+  changeSensors(event){
     // Obtenemos el valor actual del usuario almacenado en el estado
     const license = this.state.license;
     
-    license.expires_at = date;
+    license.sensors[event.target.name] = event.target.value;
     this.setState({
       license
     })
@@ -117,37 +120,22 @@ class CreateLicensePage extends Component {
    * @parametros {objeto} event - Objeto event de JavaScript
    */
   changeLicense(event) {
-
     // Obtenemos el valor actual del usuario almacenado en el estado
     const license = this.state.license;
-    if(event.target.name=="limit_bytes"){
-      // Tomamos nombre del campo del formulario que se está editando
-      const field = event.target.name;
+    const field = event.target.name;
+    if(event.target.name=="expires_at"){
+      //Manejamos la fecha para sumarle el numero de dias recibido
+      const newDate = new Date();
+      newDate.setMonth(newDate.getMonth() + parseInt(event.target.value, 10));
+      license.expires_at=newDate;
+    }
+    else{
       license[field] = event.target.value;
+    }
       //finalmente almacenamos el nuevo estado del usuario
-    }
-    else {//sensores
-      license.sensors[event.target.name]= event.target.value;
-        // Los campos de los sensores no pueden estar vacío
-      if(this.state.license.sensors[event.target.name].length!=0)
-        this.state.errors.sensors[event.target.name]="success";
-      else
-        this.state.errors.sensors[event.target.name]="error"
-    }
     this.setState({
         license
       });
-
-
-    //Esto es para validar el formulario visualmente, solo para el usuario
-
-    // El campo limit bytes no puede estar vacío
-    if(this.state.license.limit_bytes.length!=0)
-      this.state.errors.limit_bytes="success";
-    else
-      this.state.errors.limit_bytes="error"
-
-    
 
   }
 
@@ -160,7 +148,7 @@ class CreateLicensePage extends Component {
       <CreateLicenseForm
         onSubmit={this.processForm}
         onChange={this.changeLicense}
-        onChangeDate={this.changeDate}
+        onChangeSensors={this.changeSensors}
         errors={this.state.errors}
         license={this.state.license}
       />

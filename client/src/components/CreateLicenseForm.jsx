@@ -1,7 +1,6 @@
 import React from 'react';
 import {Form, FormControl, FormGroup, Col, ControlLabel, Checkbox, Button, FeedBack} from 'react-bootstrap';
 import PropTypes  from 'prop-types';
-import DatePicker from "react-bootstrap-date-picker";
 /* Componente CreateLicenseForm encargado de crear el formulario para la creación de un usuario.
 Recibirá los siguientes parámetros:
   1) onSubmit: Función llamada al presionar el boton 'submit' del formulario.
@@ -15,7 +14,7 @@ Recibirá los siguientes parámetros:
 const CreateLicenseForm = ({
   onSubmit,
   onChange,
-  onChangeDate,
+  onChangeSensors,
   errors,
   license
 }) => (
@@ -30,7 +29,12 @@ const CreateLicenseForm = ({
           Expires date
         </Col>
         <Col sm={10}>
-          <DatePicker id="expires_at" value={license.expires_at} onChange={onChangeDate}/>
+          <FormControl name="expires_at" componentClass="select" onChange={onChange}>
+            <option value={1} key={"1"} > 1 month</option>
+            <option value={3} key={"2"}> 3 months</option>
+            <option value={6} key={"3"}> 6 months</option>
+            <option value={12} key={"4"}> 1 year</option>
+          </FormControl>
         </Col>
       </FormGroup>
 
@@ -39,7 +43,13 @@ const CreateLicenseForm = ({
           Limit bytes
         </Col>
         <Col sm={10}>
-          <FormControl name="limit_bytes" type="integer" placeholder="Limit bytes" onChange={onChange} value={license.limit_bytes}/>
+          <FormControl name="limit_bytes"  componentClass="select" onChange={onChange} value={license.limit_bytes}>
+            {
+              [...Array(10000).keys()].map((i) => {
+                return <option value={i} key={i}>{i + " bytes"}</option>
+              })
+            }
+          </FormControl>
           <FormControl.Feedback />
         </Col>
       </FormGroup>
@@ -49,27 +59,45 @@ const CreateLicenseForm = ({
           Sensors IPS
         </Col>
         <Col sm={10}>
-          <FormControl name="IPS" type="integer" placeholder="Sensors IPS" onChange={onChange} value={license.sensors.IPS}/>
+          <FormControl name="IPS"  componentClass="select" onChange={onChangeSensors} value={license.IPS}>
+            {
+              [...Array(1000).keys()].map((i) => {
+                return <option value={i} key={i}> {i}</option>
+              })
+            }
+          </FormControl>
           <FormControl.Feedback />
         </Col>
       </FormGroup>
 
-      <FormGroup controlId="Flow" validationState={errors.sensors.Flow=="" ? null : errors.sensors.Flow}>
+     <FormGroup controlId="Flow" validationState={errors.sensors.Flow=="" ? null : errors.sensors.Flow}>
         <Col componentClass={ControlLabel} sm={2}>
           Sensors Flow
         </Col>
         <Col sm={10}>
-          <FormControl name="Flow" type="integer" placeholder="Sensor Flow" onChange={onChange} value={license.sensors.Flow}/>
+          <FormControl name="Flow"  componentClass="select" onChange={onChangeSensors} value={license.Flow}>
+            {
+              [...Array(1000).keys()].map((i) => {
+                return <option value={i} key={i}> {i}</option>
+              })
+            }
+          </FormControl>
           <FormControl.Feedback />
         </Col>
       </FormGroup>
 
-      <FormGroup controlId="Social" validationState={errors.sensors.Social=="" ? null : errors.sensors.Social}>
+     <FormGroup controlId="Social" validationState={errors.sensors.Social=="" ? null : errors.sensors.Social}>
         <Col componentClass={ControlLabel} sm={2}>
-          Sensor Social
+          Sensors Social
         </Col>
         <Col sm={10}>
-          <FormControl name="Social" type="integer" placeholder="Sensor Social" onChange={onChange} value={license.sensors.Social}/>
+          <FormControl name="Social"  componentClass="select" onChange={onChangeSensors} value={license.Social}>
+            {
+              [...Array(1000).keys()].map((i) => {
+                return <option value={i} key={i}> {i}</option>
+              })
+            }
+          </FormControl>
           <FormControl.Feedback />
         </Col>
       </FormGroup>
@@ -89,7 +117,7 @@ const CreateLicenseForm = ({
 CreateLicenseForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
-  onChangeDate: PropTypes.func.isRequired,
+  onChangeSensors: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired,
   license: PropTypes.object.isRequired
 };
