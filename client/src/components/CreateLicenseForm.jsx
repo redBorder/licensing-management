@@ -16,9 +16,10 @@ const CreateLicenseForm = ({
   onChange,
   onChangeSensors,
   errors,
-  license
-}) => (
-  <div>
+  license,
+  sensors
+}) => 
+  (<div>
     <div className="row">
       <h2 className="text-center" style={{color:"blue"}}> Create license form </h2>
       <br></br>
@@ -53,54 +54,28 @@ const CreateLicenseForm = ({
           <FormControl.Feedback />
         </Col>
       </FormGroup>
-
-      <FormGroup controlId="IPS" validationState={errors.sensors.IPS=="" ? null : errors.sensors.IPS}>
-        <Col componentClass={ControlLabel} sm={2}>
-          Sensors IPS
-        </Col>
-        <Col sm={10}>
-          <FormControl name="IPS"  componentClass="select" onChange={onChangeSensors} value={license.IPS}>
-            {
-              [...Array(1000).keys()].map((i) => {
-                return <option value={i} key={i}> {i}</option>
-              })
-            }
-          </FormControl>
-          <FormControl.Feedback />
-        </Col>
-      </FormGroup>
-
-     <FormGroup controlId="Flow" validationState={errors.sensors.Flow=="" ? null : errors.sensors.Flow}>
-        <Col componentClass={ControlLabel} sm={2}>
-          Sensors Flow
-        </Col>
-        <Col sm={10}>
-          <FormControl name="Flow"  componentClass="select" onChange={onChangeSensors} value={license.Flow}>
-            {
-              [...Array(1000).keys()].map((i) => {
-                return <option value={i} key={i}> {i}</option>
-              })
-            }
-          </FormControl>
-          <FormControl.Feedback />
-        </Col>
-      </FormGroup>
-
-     <FormGroup controlId="Social" validationState={errors.sensors.Social=="" ? null : errors.sensors.Social}>
-        <Col componentClass={ControlLabel} sm={2}>
-          Sensors Social
-        </Col>
-        <Col sm={10}>
-          <FormControl name="Social"  componentClass="select" onChange={onChangeSensors} value={license.Social}>
-            {
-              [...Array(1000).keys()].map((i) => {
-                return <option value={i} key={i}> {i}</option>
-              })
-            }
-          </FormControl>
-          <FormControl.Feedback />
-        </Col>
-      </FormGroup>
+      {
+      sensors.map(function(sensor,key){
+        
+        return (<div key={key}>
+          <FormGroup controlId={sensor} validationState={errors.sensors[sensor]=="" ? null : errors.sensors[sensor]}>
+            <Col componentClass={ControlLabel} sm={2}>
+              Sensors {sensor}
+            </Col>
+            <Col sm={10}>
+              <FormControl name={sensor}  componentClass="select" onChange={onChangeSensors} value={license[sensor]}>
+                {
+                  [...Array(300).keys()].map((i) => {
+                    return <option value={i} key={i}> {i}</option>
+                  })
+                }
+              </FormControl>
+              <FormControl.Feedback />
+            </Col>
+          </FormGroup>
+          </div>)
+      })
+      }
 
       <FormGroup>
         <Col smOffset={2} sm={10}>
@@ -119,7 +94,8 @@ CreateLicenseForm.propTypes = {
   onChange: PropTypes.func.isRequired,
   onChangeSensors: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired,
-  license: PropTypes.object.isRequired
+  license: PropTypes.object.isRequired,
+  sensors: PropTypes.array.isRequired
 };
 
 export default CreateLicenseForm;

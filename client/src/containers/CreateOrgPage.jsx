@@ -24,18 +24,20 @@ class CreateOrgPage extends Component {
       errors: {
         name:'',
         email:'',
-        cluster_id:''
+        cluster_id:'',
+        sensors: ''
       },
       //Inicialmente no existe ninguna organización
       org: {
         email: '',
         name: '',
         cluster_id: '',
+        sensors: ''
       }
     }
     //Utilización de bind para poder llamar a estas funciones dentro de la propia clase CreateOrgPage 
     this.processForm = this.processForm.bind(this);
-    this.changeUser = this.changeUser.bind(this);
+    this.changeOrg = this.changeOrg.bind(this);
   }
 
   /**
@@ -50,7 +52,8 @@ class CreateOrgPage extends Component {
     const cluster_id = encodeURIComponent(this.state.org.cluster_id);
     const name = encodeURIComponent(this.state.org.name);
     const email = encodeURIComponent(this.state.org.email);
-    const formData = `name=${name}&email=${email}&cluster_id=${cluster_id}`;
+    const sensors = encodeURIComponent(this.state.org.sensors);
+    const formData = `name=${name}&email=${email}&cluster_id=${cluster_id}&sensors=${sensors}`;
 
     // Creación de la peticion AJAX correspondiente a la creación de una organización
     const xhr = new XMLHttpRequest();
@@ -92,7 +95,7 @@ class CreateOrgPage extends Component {
    *
    * @parametros {objeto} event - Objeto event de JavaScript
    */
-  changeUser(event) {
+  changeOrg(event) {
     //El objeto de la organización a cambiar será el nombre del campo del formulario que se está cambiando
     const field = event.target.name;
     const org = this.state.org;
@@ -127,7 +130,7 @@ class CreateOrgPage extends Component {
     return (
       <CreateOrgForm
         onSubmit={this.processForm}
-        onChange={this.changeUser}
+        onChange={this.changeOrg}
         errors={this.state.errors}
         org={this.state.org}
         />

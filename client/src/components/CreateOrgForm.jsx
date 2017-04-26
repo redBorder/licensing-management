@@ -50,11 +50,22 @@ const CreateOrgForm = ({
           Cluster id
         </Col>
         <Col sm={10}>
-          <FormControl name ="cluster_id" type="cluster_id" placeholder="Cluster id" onChange={onChange} value={org.cluster_id}/>
+          <FormControl name ="cluster_id" type="name" placeholder="Cluster id" onChange={onChange} value={org.cluster_id}/>
           <FormControl.Feedback />
         </Col>
       </FormGroup>
-      
+
+      <FormGroup controlId="sensors" validationState={errors.cluster_id=="" ? null : errors.cluster_id} >
+        <Col componentClass={ControlLabel} sm={2}>
+          List sensors
+        </Col>
+        <Col sm={10}>
+          <FormControl name ="sensors" type="name" placeholder="Sensor1;Sensor2;Sensor3..." onChange={onChange} value={org.sensors}/>
+          <FormControl.Feedback />
+        </Col>
+      </FormGroup>
+
+
       <FormGroup>
         <Col smOffset={2} sm={10}>
           <Button type="submit">

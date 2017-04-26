@@ -13,6 +13,7 @@ import EditUserPage from './containers/EditUserPage.jsx';
 import EditOrgPage from './containers/EditOrgPage.jsx';
 import ListOrgsPage from './containers/ListOrgsPage.jsx';
 import ListLicensesPage from './containers/ListLicensesPage.jsx';
+import ExtendLicensePage from './containers/ExtendLicensePage.jsx';
 import Auth from './modules/Auth';
 
 const routes = {
@@ -89,6 +90,10 @@ const routes = {
       path: '/listOrgs',
       component: ListOrgsPage
     },
+    {
+      path: '/extendLicense/:LicenseId',
+      component: ExtendLicensePage
+    }
   ]
 };
 
