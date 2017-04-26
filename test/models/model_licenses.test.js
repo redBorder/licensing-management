@@ -100,9 +100,10 @@ it("Shouldn't create one Licenses. OrganizationId doesn't exists", function(done
 
   it("Shouldn't create Licenses. UserId not exists", function(done) {
 	  const NewOrganization = models.Organization.build({
-		  cluster_id: "1ed52e37-51af-4d34-b814-13a7e9b5c389",
-		  name: "Organizacion",
-		  email: "org@cor.com"
+		cluster_id: "1ed52e37-51af-4d34-b814-13a7e9b5c389",
+		name: "Organizacion",
+		email: "org@cor.com",
+		sensors: "IPS;Flow;Social"
 			});
 
 	  	NewOrganization.save().
@@ -154,7 +155,8 @@ it("Should create Licenses. UserId and OrganizationId exist", function(done) {
 	  	const NewOrganization = models.Organization.build({
 			  cluster_id: "1ed52e37-51af-4d34-b814-13a7e9b5c389",
 			  name: "Organizacion",
-			  email: "org@cor.com"
+			  email: "org@cor.com",
+				sensors: "IPS;Flow;Social"
 			});
 
 	  	NewOrganization.save().

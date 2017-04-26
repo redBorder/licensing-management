@@ -33,6 +33,13 @@ module.exports = function(sequelize) {
                 isEmail: { msg: "Email should be a correct email" },
                 notEmpty: {msg: "Field email shouldn't be empty'"},
             }
+        },
+        sensors: {
+            type: DataTypes.STRING, //Lista de sensores separados por ;
+            allowNull: false,
+            validate: {
+                notEmpty: {msg: "Field sensors shouldn't be empty'"},
+            }
         }
         
     },

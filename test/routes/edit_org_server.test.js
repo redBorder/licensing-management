@@ -37,7 +37,8 @@ describe('Edit organization Test', function() {
         const name  = "Cambiado";
         const email = "Cambiado@redborder.com";
         const cluster_id = "Cluster id";
-        const formData = `email=${email}&name=${name}&cluster_id=${cluster_id}`;
+        const sensors = "IPS;Flow;Social";
+        const formData = `email=${email}&name=${name}&cluster_id=${cluster_id}&sensors=${sensors}`;
         chai.request(server)
           .put('/api/organizations/12df8176-0813-49d1-8767-92f4d89f1c11')
           .set('Authorization', `bearer ${res.body.token}`)
@@ -75,7 +76,8 @@ describe('Edit organization Test', function() {
         const name  = "Cambiado";
         const email = "Cambiado@redborder.com";
         const cluster_id = "Cluster id";
-        const formData = `email=${email}&name=${name}&cluster_id=${cluster_id}`;
+        const sensors = "IPS;Flow;Social";
+        const formData = `email=${email}&name=${name}&cluster_id=${cluster_id}&sensors=${sensors}`;
         chai.request(server)
           .put('/api/organizations/12df8176-0813-49d1-8767-92f4d89f1a18')
           .set('Authorization', `bearer ${res.body.token}`)
@@ -104,7 +106,8 @@ describe('Edit organization Test', function() {
         const name  = "Cambiado";
         const email = "Cambiado@redborder.com";
         const cluster_id = "Cluster id";
-        const formData = `email=${email}&name=${name}&cluster_id=${cluster_id}`;
+        const sensors = "IPS;Flow;Social";
+        const formData = `email=${email}&name=${name}&cluster_id=${cluster_id}&sensors=${sensors}`;
         chai.request(server)
           .put('/api/organizations/12df8176-0813-49d1-8767-92f4d89f1c11')
           .set('Authorization', `bearer ${res.body.token}`)
@@ -134,15 +137,16 @@ describe('Edit organization Test', function() {
   it('Should return a 400 bad request. Login ok, admin user but email duplicated', function(done) {
   const email = encodeURIComponent("admin@redborder.com");
   const password = encodeURIComponent("adminadmin");
-  const organization = `email=${email}&password=${password}`;
+  const user = `email=${email}&password=${password}`;
    chai.request(server)
       .post('/auth/login') //Before test, log in
-      .send(organization)
+      .send(user)
       .end((err, res) => {
         const name  = "Cambiado";
         const email = "org2@cor.com";
         const cluster_id = "Cluster id";
-        const formData = `email=${email}&name=${name}&cluster_id=${cluster_id}`;
+        const sensors = "IPS;Flow;Social";
+        const formData = `email=${email}&name=${name}&cluster_id=${cluster_id}&sensors=${sensors}`;
         chai.request(server)
           .put('/api/organizations/12df8176-0813-49d1-8767-92f4d89f1c11')
           .set('Authorization', `bearer ${res.body.token}`)

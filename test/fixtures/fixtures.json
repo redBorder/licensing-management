@@ -5,7 +5,8 @@
             "id" : "12df8176-0813-49d1-8767-92f4d89f1c11",
             "name": "Organizacion con usuarios",
             "cluster_id": "12df8176-0813-49d1-8867-77f4d89f1c11",
-            "email": "org1@cor.com"
+            "email": "org1@cor.com",
+            "sensors": "IPS;Flow;Social"
         }
     },
     {
@@ -13,7 +14,8 @@
         "data": {
             "cluster_id": "12df8176-0813-49d1-8867-77f4d89f1c11",
             "name": "Organizacion sin usuarios",
-            "email": "org2@cor.com"
+            "email": "org2@cor.com",
+            "sensors": "IPS;Flow;Social"
         }
     },
     {
@@ -22,7 +24,9 @@
             "id" : "12df8176-0813-49d1-8767-92f4d89f1c15",
             "name": "Organizacion con licencias",
             "cluster_id": "12df8176-0813-49d1-8867-77f4d89f1c11",
-            "email": "org_licenses@cor.com"
+            "email": "org_licenses@cor.com",
+            "sensors": "IPS;Flow;Social"
+
         }
     },
     {
@@ -30,7 +34,8 @@
         "data": {
             "name": "Organizacion sin licencias",
             "cluster_id": "12df8176-0813-49d1-8867-77f4d89f1c33",
-            "email": "org_no_licenses@cor.com"
+            "email": "org_no_licenses@cor.com",
+            "sensors": "IPS;Flow;Social"
         }
     }, 
     {

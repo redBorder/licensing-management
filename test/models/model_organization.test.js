@@ -31,7 +31,8 @@ describe('Model Organization', function() {
   	const NewOrganization = models.Organization.build({
   		  cluster_id: "12df8176-0813-49d1-8867-77f4d89f1c11",
 		  name: "Organizacion",
-		  email: "org@cor.com"
+		  email: "org@cor.com",
+		  sensors: "IPS;Flow;Social"
 		});
   	NewOrganization.save().then(function(NewOrganization) {
 			models.Organization.findAll({where: {}})
@@ -54,7 +55,8 @@ describe('Model Organization', function() {
   	const NewOrganization = models.Organization.build({
   		  cluster_id: "12df8176-0813-49d1-8867-77f4d89f1c11",
 		  name: "Organizacion",
-		  email: "email_erroneo.email"
+		  email: "email_erroneo.email",
+		  sensors: "IPS;Flow;Social"
 		});
   	NewOrganization.save().then(function(NewOrganization) {
 			models.Organization.findAll({where: {}})
@@ -84,7 +86,8 @@ describe('Model Organization', function() {
   	const NewOrganization = models.Organization.build({
   		  cluster_id: "12df8176-0813-49d1-8867-77f4d89f1c11",
 		  name: "",
-		  email: "org@cor.com"
+		  email: "org@cor.com",
+		  sensors: "IPS;Flow;Social"
 		});
   	NewOrganization.save().then(function(NewOrganization) {
 			models.Organization.findAll({where: {}})
@@ -114,7 +117,8 @@ describe('Model Organization', function() {
   	const NewOrganization = models.Organization.build({
   		  cluster_id: "",
 		  name: "Name",
-		  email: "org@cor.com"
+		  email: "org@cor.com",
+		  sensors: "IPS;Flow;Social"
 		});
   	NewOrganization.save().then(function(NewOrganization) {
 			models.Organization.findAll({where: {}})
@@ -144,7 +148,8 @@ describe('Model Organization', function() {
   	const NewOrganization = models.Organization.build({
   		  cluster_id: "12df8176-0813-49d1-8867-77f4d89f1c11",
 		  name: "David",
-		  email: ""
+		  email: "",
+		  sensors: "IPS;Flow;Social"
 		});
   	NewOrganization.save().then(function(NewOrganization) {
 			models.Organization.findAll({where: {}})
@@ -170,12 +175,43 @@ describe('Model Organization', function() {
         	});
 	  });
 
+  it("Shouldn't create Organization. Sensors empty", function(done) {
+  	const NewOrganization = models.Organization.build({
+  		  cluster_id: "12df8176-0813-49d1-8867-77f4d89f1c11",
+		  name: "David",
+		  email: "email@prueba.com",
+		  sensors: ""
+		});
+  	NewOrganization.save().then(function(NewOrganization) {
+			models.Organization.findAll({where: {}})
+  			.then(function(Organizations){
+  				try{
+					assert.equal(Organizations.length, 0);
+					assert.notEqual(err, null);
+				}catch (e){
+					return done(e);
+				}
+				return done();
+		  	}, function(err){
+				return done(err);
+			})
+		}, function(err){
+			try{
+			assert.notEqual(err,null);
+			assert.equal(err.message, "Validation error: Field sensors shouldn\'t be empty\'"); 
+			}catch (e){
+					return done(e);
+				}
+         	return done(!err); //Ha de haber error, si no lo hay el test no pasa
+        	});
+	  });
 
 	it("Should find Organization created by email", function(done) {
   	const NewOrganization = models.Organization.build({
   		  cluster_id: "12df8176-0813-49d1-8867-77f4d89f1c11",
 		  name: "Organizacion",
-		  email: "org@cor.com"
+		  email: "org@cor.com",
+			sensors: "IPS;Flow;Social"
 		});
   	NewOrganization.save().then(function(NewOrganization) {
   		models.Organization.findByEmail("org@cor.com", function(err, Found_org){
@@ -199,7 +235,8 @@ describe('Model Organization', function() {
   	const NewOrganization = models.Organization.build({
   		  cluster_id: "12df8176-0813-49d1-8867-77f4d89f1c11",
 		  name: "Organizacion",
-		  email: "org@cor.com"
+		  email: "org@cor.com",
+			sensors: "IPS;Flow;Social"
 		});
   	NewOrganization.save().then(function(NewOrganization) {
   		models.Organization.findByEmail("org@cor.com", function(err, Found_org){

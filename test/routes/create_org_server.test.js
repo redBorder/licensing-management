@@ -37,7 +37,8 @@ describe('Create organization Test', function() {
         const name  = encodeURIComponent("Org test");
         const cluster_id  = encodeURIComponent("cluster id");
         const email = encodeURIComponent("org@prueba.com");
-        const formData = `name=${name}&email=${email}&cluster_id=${cluster_id}`;
+        const sensors = encodeURIComponent("IPS;Flow;Social");
+        const formData = `name=${name}&email=${email}&cluster_id=${cluster_id}&sensors=${sensors}`;
          chai.request(server)
            .post('/api/organizations')
            .set('Authorization', `bearer ${res.body.token}`)

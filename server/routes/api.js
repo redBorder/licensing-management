@@ -423,7 +423,8 @@ router.post('/organizations', (req, res) => {
           const NewOrganization = models.Organization.build({
             cluster_id: req.body.cluster_id.trim(),
             name: req.body.name.trim(),
-            email: req.body.email.trim()
+            email: req.body.email.trim(),
+            sensors: req.body.sensors.trim()
           });
           NewOrganization.save().then(function(NewOrganization) {
             return res.status(200).json({
@@ -547,6 +548,7 @@ router.put('/organizations/:id', (req, res) => {
             org_edit.name=req.body.name;
             org_edit.email=req.body.email;
             org_edit.cluster_id=req.body.cluster_id;
+            org_edit.sensors=req.body.sensors;
             org_edit.save()
             .then(function(org_save){
               return res.status(200).json({
