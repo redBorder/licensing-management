@@ -41,6 +41,7 @@
     {
         "model": "User",
         "data": {
+            "id" : "12df8176-0813-49d1-8767-92f4d89f1a01",
             "name": "Admin",
             "email": "admin@redborder.com",
             "hashed_password": "sha1$53b53d83$1$d0ac537f69356fcd7e23f81fcbb1924df7d9d7f8",
@@ -96,6 +97,18 @@
             "license_uuid" : "12df8176-0813-49d1-8767-92f4d89f1def",             
             "expires_at": "2020-01-01",
             "OrganizationId" : "12df8176-0813-49d1-8767-92f4d89f1c15",
+            "UserId" : "12df8176-0813-49d1-8767-92f4d89f1a81",
+            "sensors": "{\\'IPS\\':100,\\'Flow\\':200,\\'Social\\':300}",
+            "limit_bytes" : "100"
+        }
+    },
+    {
+        "model": "License",
+        "data": {
+            "id" : "12df8176-0813-49d1-8767-92f4d89faaaa",
+            "license_uuid" : "12df8176-0813-49d1-8767-92f4d89f1def",             
+            "expires_at": "2020-01-01",
+            "OrganizationId" : "12df8176-0813-49d1-8767-92f4d89f1c11",
             "UserId" : "12df8176-0813-49d1-8767-92f4d89f1a81",
             "sensors": "{\\'IPS\\':100,\\'Flow\\':200,\\'Social\\':300}",
             "limit_bytes" : "100"

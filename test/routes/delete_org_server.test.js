@@ -79,7 +79,7 @@ describe('Remove Organization Test', function() {
                   res.body.should.have.property('success').eql(true);
                   res.body.should.have.property('message').eql('Organization Organizacion con licencias (org_licenses@cor.com) delete correctly');
                   Orgs.length.should.eql(3);
-                  licenses.length.should.eql(0);
+                  licenses.length.should.eql(1);
                   done();
                    } catch(e){
                     done(e);
