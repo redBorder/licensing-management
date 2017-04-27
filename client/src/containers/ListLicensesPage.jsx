@@ -98,11 +98,8 @@ class ListLicensesPage extends Component {
                 if (xhr.status === 200) {
                   // Si se ha recibido un 200 ok, notificamos con un mensaje que se ha creado correctamente el usuario
                   toastr.success("Download file...");
-                  console.log(xhr);
                   const blob = new Blob([xhr.response], {type: "text/plain;charset=utf-8"});
                   FileSaver.saveAs(blob, cell + ".lib");
-                  console.log(xhr); 
-                  console.log(blob); 
 
                 } else if (xhr.status === 404){
                   //Si obtenemos un error 404 es que esa licencia no existe, lo notificamos con un toast de error

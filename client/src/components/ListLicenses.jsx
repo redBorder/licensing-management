@@ -33,11 +33,11 @@ const ListLicenses = ({
 				<BootstrapTable data={licenses} >
 					<TableHeaderColumn dataField="id" hidden isKey={true}> Id </TableHeaderColumn>
 					<TableHeaderColumn dataField="license_uuid"> Id license </TableHeaderColumn>
-					<TableHeaderColumn dataField="limit_bytes" width="110" > Limit bytes </TableHeaderColumn>
+					<TableHeaderColumn dataField="limit_bytes" width="100" > Limit bytes </TableHeaderColumn>
 					<TableHeaderColumn dataField="expires_at" dataFormat={expiresFormat} > Expires time </TableHeaderColumn>
 					<TableHeaderColumn dataField="sensors" dataFormat={sensorsFormat}> Sensors </TableHeaderColumn>
-					<TableHeaderColumn dataField="id" dataFormat={extendFormat} dataAlign='center' width="120"> Extend license </TableHeaderColumn>
-					<TableHeaderColumn dataField="id" dataFormat={downloadFormat} dataAlign='center' width="120"> Download license </TableHeaderColumn>
+					<TableHeaderColumn dataField="id" dataFormat={extendFormat} dataAlign='center' width="90"> Extend </TableHeaderColumn>
+					<TableHeaderColumn dataField="id" dataFormat={downloadFormat} dataAlign='center' width="90"> Download </TableHeaderColumn>
 				</BootstrapTable>
 			</div>
  		</div>

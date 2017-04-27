@@ -7,6 +7,12 @@ const email = require('../../config/config.json')[MODE_RUN].email;
 const nodemailer = require('nodemailer');
 const path = require('path');
 const mime = require('mime');
+const fs = require('fs');
+const NodeRSA = require('node-rsa');
+
+//Clave privada para la firma
+const private_key = require('../private.key.json');
+const key = new NodeRSA(private_key);
 
 //Incializamos sequelize
 const sequelize = require('../db').sequelize;
@@ -846,6 +852,14 @@ router.get('/licenses/new', (req, res) => {
     })
   });
 
+
+  // safeURLBase64Encode :: string -> toString
+  const safeURLBase64Encode = (data) =>
+    new Buffer(data)
+      .toString('base64')
+      .replace(/\//g, '_')
+      .replace(/\+/g, '-');
+
   router.get('/licenses/download', (req, res) => {
     console.log("entra");
     models.User.findOne({
@@ -865,8 +879,39 @@ router.get('/licenses/new', (req, res) => {
         }
         else
         {
-          const file = __dirname + '/../licenses/' + req.query.LicenseId + '.lib';
-          res.download(file);
+          //Tenemos que comprobar si la licencia existe y si no existe generarla de nuevo...
+          const file = __dirname + '/../licenses/' + req.query.LicenseId + '.lic';
+          if (fs.existsSync(file)) {
+            res.download(file);
+          }
+          else {
+            models.Organization.findOne({
+              where: {
+                id: license.OrganizationId
+              }
+            }).then(function(organization){
+              const license_json = {
+                info: {
+                  id: license.id,
+                  cluster_id: organization.cluster_id,
+                  expires_at: license.expires_at.getTime()/1000,
+                  limit_bytes: license.limit_bytes,
+                  sensors: JSON.parse(JSON.parse(license.sensors)),
+                  createdAt: license.createdAt.toISOString()
+                }
+              }
+
+              license_json.encoded_info = safeURLBase64Encode(JSON.stringify(license_json.info));
+              //Firmado de la licencia
+              license_json.signature = safeURLBase64Encode(key.sign(license_json.encoded_info));
+              fs.writeFile(file, JSON.stringify(license_json, null, 4), function(err) {
+                if(err) {
+                    return console.log(err);
+                }
+                res.download(file);
+              }); 
+            })
+          }
         }
       });
     });
