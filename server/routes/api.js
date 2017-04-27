@@ -770,7 +770,6 @@ router.post('/licenses', (req, res) => {
               message: 'License created correctly'
             });
           }, function(err){ 
-            console.log(err);
             return res.status(400).json({
               success: false,
               message: 'Error creating license.<br></br> The sensors and limit bytes must be numbers'
