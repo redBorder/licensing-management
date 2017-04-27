@@ -77,7 +77,7 @@ class ListLicensesPage extends Component {
   extendFormat(cell, row){
     return (
       <Link to={"/extendLicense/" + cell} 
-      className="glyphicon glyphicon-refresh" 
+      className="glyphicon glyphicon-plus" 
       style={{color:"green"}}>
       </Link>
       );
