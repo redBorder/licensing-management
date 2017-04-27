@@ -25,8 +25,8 @@ class ExtendLicensePage extends Component {
         limit_bytes: '',
         sensors: {
         },
-        OrganizationId: this.props.params.OrgId,
-        UserId: this.props.params.UserId
+        OrganizationId: '',
+        UserId: ''
       },
       month_extend: '1' //Inicialmente modificamos solo un mes
     };
@@ -40,7 +40,7 @@ class ExtendLicensePage extends Component {
     //Utilizando ajax, pedimos los tipos de sensores disponibles para la organización que queremos crear
     const xhr = new XMLHttpRequest();
     //Abrimos una conexión get
-    xhr.open('get', '/api/licenses/extend?LicenseId=' + this.props.params.LicenseId); 
+    xhr.open('get', '/api/licenses/extend?LicenseId=' + this.props.params.LicenseId + "&OrganizationId=" + this.props.params.OrgId); 
     // Configuramos el token para la autorización
     xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
     // La respuesta se espera que sea un JSON
@@ -72,8 +72,8 @@ class ExtendLicensePage extends Component {
   processForm(event) {
     //Prevenimos el envío del formulario vacío y por defecto
     event.preventDefault();
-    //Justo antes de enviar los datos le sumamos a la fecha de expiracion los meses añadidos
-    const new_expires = new Date(this.state.license.expires_at);
+    //Justo antes de enviar los datos le sumamos a la fecha de expiracion los meses añadidos. Si la licencia a expirado, le sumamos la ampliación a partir del día de hoy
+    const new_expires = new Date(this.state.license.expires_at) < new Date() ? new Date() : new Date(this.state.license.expires_at);
     new_expires.setMonth(new_expires.getMonth() + parseInt(this.state.month_extend));
     //Creamos una cadena de carácteres par enviar en el método post todos los parámetros (aunque solo cambia la fecha de expiración)
     const expires_at = encodeURIComponent(new_expires);

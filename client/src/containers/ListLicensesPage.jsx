@@ -76,7 +76,7 @@ class ListLicensesPage extends Component {
 
   extendFormat(cell, row){
     return (
-      <Link to={"/extendLicense/" + cell} 
+      <Link to={"/extendLicense/" + cell + "/" + row.OrganizationId} 
       className="glyphicon glyphicon-plus" 
       style={{color:"green"}}>
       </Link>
@@ -85,10 +85,9 @@ class ListLicensesPage extends Component {
 
   expiresFormat(cell, row){
     const expires_time = new Date(cell);
-    console.log(expires_time);
     const expires_period_days = Math.round((expires_time - new Date())/(24*60*60*1000)); //horas*minutos*segundos*milisegundos de un dia
     if(expires_period_days<0)
-      return ( <div style={{color:"red"}}>Expires {-expires_period_days} days ago</div>)
+      return ( <div style={{'color':"red", 'font-weight':"bold"}}>¡¡Expires {-expires_period_days} days ago!!</div>)
     else if(expires_period_days<7)
       return ( <div style={{color:"red"}}>{expires_period_days} days remaining</div>)
     else if (expires_period_days<15)
