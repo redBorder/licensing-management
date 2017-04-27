@@ -5,7 +5,8 @@ const passport = require('passport');
 const MODE_RUN = process.env.MODE_RUN || "development"
 const email = require('../../config/config.json')[MODE_RUN].email;
 const nodemailer = require('nodemailer');
-
+const path = require('path');
+const mime = require('mime');
 
 //Incializamos sequelize
 const sequelize = require('../db').sequelize;
@@ -817,30 +818,58 @@ router.get('/licenses/new', (req, res) => {
             id: req.userId
         }
     }).then(function(user){
-      //Si la licencia que se quiere crear no es para la organización a la que pertenecemos... no podemos
-      if(user.OrganizationId != req.query.OrganizationId && user.role != "admin"){
-        return res.status(401).json({
+      models.License.findOne({
+        where: { id: req.query.LicenseId}
+      }).then(function(license) {
+        //Si la licencia que se quiere crear no es para la organización a la que pertenecemos... no podemos
+        if(user.OrganizationId != license.OrganizationId && user.role != "admin")
+        {
+          return res.status(401).json({
             success: false,
             message: "You don't have permissions",
           });
-      }
-      else
-      {
-        models.License.findOne({
-          where: { id: req.query.LicenseId}
-        }).then(function(license) {
+        }
+        else
+        {
           license.sensors = JSON.parse(JSON.parse(license.sensors));
           return res.status(200).json({
             success: true,
             license: license
-          });
-        }, function(err){ 
-          return res.status(400).json({
-            success: false,
-            message: 'Error, this license not exists'
-          });
+            });
+        }
+      }, function(err){ 
+        return res.status(400).json({
+          success: false,
+          message: 'Error, this license not exists'
         });
-      }
+      });
     })
   });
+
+  router.get('/licenses/download', (req, res) => {
+    console.log("entra");
+    models.User.findOne({
+        where: {
+            id: req.userId
+        }
+    }).then(function(user){
+      models.License.findOne({where: {
+        id: req.query.LicenseId
+      }}).then(function(license){
+        //Si la licencia que se quiere descargar no es para la organización a la que pertenecemos o no somos administradores... no podemos
+        if(user.OrganizationId != license.OrganizationId && user.role != "admin"){
+          return res.status(401).json({
+              success: false,
+              message: "You don't have permissions",
+            });
+        }
+        else
+        {
+          const file = __dirname + '/../licenses/' + req.query.LicenseId + '.lib';
+          res.download(file);
+        }
+      });
+    });
+  });  
+
 module.exports = router;

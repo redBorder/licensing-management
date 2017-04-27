@@ -17,6 +17,7 @@ const ListLicenses = ({
 	orgName,
 	expiresFormat,
 	sensorsFormat,
+	downloadFormat,
 	extendFormat }) => (
 		<div>
 	    <div className="row">
@@ -36,6 +37,7 @@ const ListLicenses = ({
 					<TableHeaderColumn dataField="expires_at" dataFormat={expiresFormat} > Expires time </TableHeaderColumn>
 					<TableHeaderColumn dataField="sensors" dataFormat={sensorsFormat}> Sensors </TableHeaderColumn>
 					<TableHeaderColumn dataField="id" dataFormat={extendFormat} dataAlign='center' width="120"> Extend license </TableHeaderColumn>
+					<TableHeaderColumn dataField="id" dataFormat={downloadFormat} dataAlign='center' width="120"> Download license </TableHeaderColumn>
 				</BootstrapTable>
 			</div>
  		</div>
@@ -46,6 +48,7 @@ ListLicenses.propTypes = {
 	licenses: PropTypes.array.isRequired,
 	sensorsFormat: PropTypes.func.isRequired,
 	extendFormat: PropTypes.func.isRequired,
+	downloadFormat: PropTypes.func.isRequired,
 	expiresFormat: PropTypes.func.isRequired,
 	orgName: PropTypes.string.isRequired,
 	orgId: PropTypes.string.isRequired

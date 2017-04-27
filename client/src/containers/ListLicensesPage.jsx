@@ -4,6 +4,7 @@ import ListLicenses from '../components/ListLicenses.jsx'
 import Auth from '../modules/Auth';
 import { Link } from "react-router";
 import toastr from 'toastr';
+import FileSaver from 'file-saver';
 
 class ListLicensesPage extends Component {
   constructor() {
@@ -23,6 +24,7 @@ class ListLicensesPage extends Component {
     
     this.expiresFormat=this.expiresFormat.bind(this);
     this.extendFormat=this.extendFormat.bind(this);
+    this.downloadFormat=this.downloadFormat.bind(this);
     this.sensorsFormat=this.sensorsFormat.bind(this);
     this.handleSelectPage=this.handleSelectPage.bind(this);
   }
@@ -76,18 +78,51 @@ class ListLicensesPage extends Component {
 
   extendFormat(cell, row){
     return (
-      <Link to={"/extendLicense/" + cell + "/" + row.OrganizationId} 
+      <Link to={"/extendLicense/" + cell } 
       className="glyphicon glyphicon-plus" 
       style={{color:"green"}}>
       </Link>
       );
   }
 
+  downloadFormat(cell, row){
+      return (<div>
+            <Link style={{color:"green"}} 
+            onClick={() => {
+              const xhr = new XMLHttpRequest();
+              xhr.open('GET', "/api/licenses/download?LicenseId=" + cell);
+              //Configuramos el token que identifica al usuario que está realizando la petición
+              xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
+              xhr.overrideMimeType('text/plain; charset=x-user-defined');
+              xhr.addEventListener('load', () => {
+                if (xhr.status === 200) {
+                  // Si se ha recibido un 200 ok, notificamos con un mensaje que se ha creado correctamente el usuario
+                  toastr.success("Download file...");
+                  console.log(xhr);
+                  const blob = new Blob([xhr.response], {type: "text/plain;charset=utf-8"});
+                  FileSaver.saveAs(blob, cell + ".lib");
+                  console.log(xhr); 
+                  console.log(blob); 
+
+                } else if (xhr.status === 404){
+                  //Si obtenemos un error 404 es que esa licencia no existe, lo notificamos con un toast de error
+                  toastr.error("Error. <br></br> License not found!")
+                }else{
+                  // En caso de fallo mostramos el mensaje de error recibido del servidor
+                  {xhr.response.message && toastr.error(xhr.response.message)}
+                }
+              });
+              xhr.send();
+            }}
+            className="glyphicon glyphicon-download-alt"></Link> 
+         </div>);
+  }
+
   expiresFormat(cell, row){
     const expires_time = new Date(cell);
     const expires_period_days = Math.round((expires_time - new Date())/(24*60*60*1000)); //horas*minutos*segundos*milisegundos de un dia
     if(expires_period_days<0)
-      return ( <div style={{'color':"red", 'font-weight':"bold"}}>¡¡Expires {-expires_period_days} days ago!!</div>)
+      return ( <div style={{'color':"red", 'fontWeight':"bold"}}>¡¡Expires {-expires_period_days} days ago!!</div>)
     else if(expires_period_days<7)
       return ( <div style={{color:"red"}}>{expires_period_days} days remaining</div>)
     else if (expires_period_days<15)
@@ -109,7 +144,7 @@ class ListLicensesPage extends Component {
     return (
       <div className="container">
         <div>
-          <ListLicenses orgName={this.state.orgName} extendFormat={this.extendFormat} expiresFormat={this.expiresFormat} licenses={this.state.licenses} orgId={this.props.params.id} sensorsFormat={this.sensorsFormat}/>
+          <ListLicenses orgName={this.state.orgName} extendFormat={this.extendFormat} downloadFormat={this.downloadFormat} expiresFormat={this.expiresFormat} licenses={this.state.licenses} orgId={this.props.params.id} sensorsFormat={this.sensorsFormat}/>
         </div>
         {
         this.state.number_licenses > 10 ? 

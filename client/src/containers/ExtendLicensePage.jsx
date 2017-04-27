@@ -40,7 +40,7 @@ class ExtendLicensePage extends Component {
     //Utilizando ajax, pedimos los tipos de sensores disponibles para la organización que queremos crear
     const xhr = new XMLHttpRequest();
     //Abrimos una conexión get
-    xhr.open('get', '/api/licenses/extend?LicenseId=' + this.props.params.LicenseId + "&OrganizationId=" + this.props.params.OrgId); 
+    xhr.open('get', '/api/licenses/extend?LicenseId=' + this.props.params.LicenseId ); 
     // Configuramos el token para la autorización
     xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
     // La respuesta se espera que sea un JSON
@@ -57,7 +57,7 @@ class ExtendLicensePage extends Component {
 
       } else {
         // En caso de fallo, mediante un toast informamos del mensaje de error
-          {xhr.response.message && toastr.error(xhr.response.message)}
+      
         }
     });
     //Enviamos la petición

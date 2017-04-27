@@ -91,7 +91,7 @@ const routes = {
       component: ListOrgsPage
     },
     {
-      path: '/extendLicense/:LicenseId/:OrgId',
+      path: '/extendLicense/:LicenseId',
       component: ExtendLicensePage
     }
   ]
