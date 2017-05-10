@@ -19,7 +19,7 @@ const CreateUserForm = ({
 }) => (
   <div>
     <div className="row">
-      <h2 className="text-center" style={{color:"blue"}}> Create user form </h2>
+      <h2 className="text-center" style={{color:"blue"}}> New user </h2>
       <br></br>
     </div>
     <Form horizontal onSubmit={onSubmit}>

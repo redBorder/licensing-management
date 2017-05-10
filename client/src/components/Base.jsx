@@ -49,11 +49,13 @@ const Base = ({children}) => (
           </div>
           ) : (
             <div>
+              {Auth.hasOrganization() ? (
               <ul className="nav navbar-nav" >
                 <li>
                   <Link to={"/listLicenses/" + localStorage.getItem('userProfileOrg') + "/" + encodeURIComponent("my organization")}> My licenses </Link>
                 </li>
               </ul>
+              ) : null }
               <ul className="nav navbar-nav navbar-right">
                 <li>
                   <Link to="/changeProfile"><span className="glyphicon glyphicon-user"></span> My Profile</Link>

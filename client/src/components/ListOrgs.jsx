@@ -41,12 +41,6 @@ const ListOrgs = ({
 					<TableHeaderColumn dataField="id" dataFormat={removeOrgFormat} dataAlign="center" width="90"> Remove </TableHeaderColumn>
 				</BootstrapTable>
 			</div>
-			<div className="row">
-				<div className="col-md-2 text-right" >
-
-					<button className="btn btn-secondary text-right"><Link style={{color:"white"}} to={"/listUsers/null/" +  encodeURIComponent("No Organization")}>User without organization </Link></button>
-		   		</div>
-			</div>
 	 	</div>
  	);
 

@@ -19,7 +19,7 @@ const EditOrgForm = ({
   <div>
 
     <div className="row">
-      <h2 className="text-center" style={{color:"blue"}}> Edit organization form </h2>
+      <h2 className="text-center" style={{color:"blue"}}> Edit organization </h2>
       <br></br>
     </div>
     <Form horizontal onSubmit={onSubmit}>

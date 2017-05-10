@@ -18,7 +18,7 @@ const ForgotForm = ({
   <div>
 
     <div className="row">
-      <h2 className="text-center" style={{color:"blue"}}> Forgot password form </h2>
+      <h2 className="text-center" style={{color:"blue"}}> Forgot password </h2>
       <br></br>
     </div>
     <Form horizontal onSubmit={onSubmit}>

@@ -20,7 +20,7 @@ const EditUserForm = ({
   <div>
 
     <div className="row">
-      <h2 className="text-center" style={{color:"blue"}}> Edit user form </h2>
+      <h2 className="text-center" style={{color:"blue"}}> Edit user </h2>
       <br></br>
     </div>
 

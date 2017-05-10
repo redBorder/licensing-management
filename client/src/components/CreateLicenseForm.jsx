@@ -21,7 +21,7 @@ const CreateLicenseForm = ({
 }) => 
   (<div>
     <div className="row">
-      <h2 className="text-center" style={{color:"blue"}}> Create license form </h2>
+      <h2 className="text-center" style={{color:"blue"}}> New license </h2>
       <br></br>
     </div>
     <Form horizontal onSubmit={onSubmit}>
@@ -29,7 +29,7 @@ const CreateLicenseForm = ({
         <Col componentClass={ControlLabel} sm={2}>
           Expires date
         </Col>
-        <Col sm={10}>
+        <Col sm={5}>
           <FormControl name="expires_at" componentClass="select" onChange={onChange}>
             <option value={1} key={"1"} > 1 month</option>
             <option value={3} key={"2"}> 3 months</option>
@@ -44,14 +44,7 @@ const CreateLicenseForm = ({
           Limit bytes
         </Col>
         <Col sm={10}>
-          <FormControl name="limit_bytes"  componentClass="select" onChange={onChange} value={license.limit_bytes}>
-            {
-              [...Array(10000).keys()].map((i) => {
-                return <option value={i} key={i}>{i + " bytes"}</option>
-              })
-            }
-          </FormControl>
-          <FormControl.Feedback />
+          <input className="col-sm-5" name="limit_bytes" onChange={onChange} value={license.limit_bytes} type="number" min="0" step="8" max="4096"/>
         </Col>
       </FormGroup>
       {
@@ -63,14 +56,7 @@ const CreateLicenseForm = ({
               Sensors {sensor}
             </Col>
             <Col sm={10}>
-              <FormControl name={sensor}  componentClass="select" onChange={onChangeSensors} value={license[sensor]}>
-                {
-                  [...Array(300).keys()].map((i) => {
-                    return <option value={i} key={i}> {i}</option>
-                  })
-                }
-              </FormControl>
-              <FormControl.Feedback />
+              <input className="col-sm-5" name={sensor} onChange={onChangeSensors} value={license[sensor]} type="number" min="0" max="100" defaultValue="0"/>
             </Col>
           </FormGroup>
           </div>)

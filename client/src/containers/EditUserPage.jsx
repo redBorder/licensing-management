@@ -55,9 +55,10 @@ class EditUserPage extends Component {
           user: {
             name: xhr.response.user.name,
             email: xhr.response.user.email,
-            organization: xhr.response.user.organizationId || "No" //Si no tiene organización se pondrá "No" 
+            organization: xhr.response.user.OrganizationId || "No" //Si no tiene organización se pondrá "No" 
           }
        });
+        console.log(this.state.user);
       } else {
         // failure
         // change the component state
@@ -102,6 +103,8 @@ class EditUserPage extends Component {
         this.setState({
           errors: {},
         });
+        //Redirigimos al inicio
+        this.context.router.replace('/');
       } else {
         // failure
         // change the component state

@@ -892,8 +892,8 @@ router.get('/licenses/new', (req, res) => {
             }).then(function(organization){
               const license_json = {
                 info: {
-                  id: license.id,
-                  cluster_id: organization.cluster_id,
+                  uuid: license.id,
+                  cluster_uuid: organization.cluster_id,
                   expires_at: license.expires_at.getTime()/1000,
                   limit_bytes: license.limit_bytes,
                   sensors: JSON.parse(JSON.parse(license.sensors)),
@@ -904,7 +904,8 @@ router.get('/licenses/new', (req, res) => {
               license_json.encoded_info = safeURLBase64Encode(JSON.stringify(license_json.info));
               //Firmado de la licencia
               license_json.signature = safeURLBase64Encode(key.sign(license_json.encoded_info));
-              fs.writeFile(file, JSON.stringify(license_json, null, 4), function(err) {
+              //Base 64 del JSON antes de guardar la licencia
+              fs.writeFile(file, safeURLBase64Encode(JSON.stringify(license_json)), function(err) {
                 if(err) {
                     return console.log(err);
                 }

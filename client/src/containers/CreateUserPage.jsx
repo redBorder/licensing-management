@@ -106,7 +106,8 @@ class CreateUserPage extends Component {
         this.setState({
           errors: {}
         });
-
+        //Redirigimos al listado de usuarios
+        this.context.router.replace('/listUsers/all/all');
       } else {
         // En caso de fallo mostramos el mensaje de error recibido del servidor
         {xhr.response.message && toastr.error(xhr.response.message)}

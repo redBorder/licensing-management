@@ -117,7 +117,8 @@ class CreateLicensePage extends Component {
             }
           }
         });
-
+        //Redirigimos al inicio
+        this.context.router.replace('/');
       } else {
         // En caso de fallo mostramos el mensaje de error recibido del servidor
         {xhr.response.message && toastr.error(xhr.response.message)}

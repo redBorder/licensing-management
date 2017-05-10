@@ -16,7 +16,7 @@ const ExtendLicenseForm = ({
 }) => 
   (<div>
     <div className="row">
-      <h2 className="text-center" style={{color:"blue"}}> Extend license form </h2>
+      <h2 className="text-center" style={{color:"blue"}}> Extend license </h2>
       <br></br>
     </div>
     <Form horizontal onSubmit={onSubmit}>

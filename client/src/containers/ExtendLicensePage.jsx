@@ -99,7 +99,8 @@ class ExtendLicensePage extends Component {
       if (xhr.status === 200) {
         // Si se ha recibido un 200 ok, notificamos con un mensaje que se ha creado correctamente el usuario
         {xhr.response.message && toastr.success(xhr.response.message)} //Contendrá el mensaje recibido
-
+        //Redirigimos al inicio
+        this.context.router.replace('/');
       } else {
         // En caso de fallo mostramos el mensaje de error recibido del servidor
         {xhr.response.message && toastr.error(xhr.response.message)}

@@ -77,7 +77,8 @@ class CreateOrgPage extends Component {
           Este toast mostrará el mensaje recibido en la respuesta
         */
         {xhr.response.message && toastr.success(xhr.response.message)}
-
+        //Redirigimos al listado de organizaciones
+        this.context.router.replace('/listOrgs');
       } else {
         /*
           En caso de fallo  

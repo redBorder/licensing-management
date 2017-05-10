@@ -109,6 +109,8 @@ class EditOrgPage extends Component {
           errors: {},
           organization: xhr.response.org
         });
+        //Redirigimos al inicio
+        this.context.router.replace('/');
       } else {
         // En caso de error
         // Cambiamos el estado del componente
