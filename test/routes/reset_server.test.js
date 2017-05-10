@@ -26,25 +26,6 @@ describe('Reset Password Test', function() {
     })
   });
 
-  it('Should return a 200 Ok message. Correct Passwords', function(done) {   
-   const confir_password = encodeURIComponent("adminNUEVA");
-   const password = encodeURIComponent("adminNUEVA");
-   const data = `password=${password}&confir_password=${confir_password}`; 
-   chai.request(server)
-       .post('/auth/reset/TESTTOKEN')
-       .send(data)
-       .end((err, res) => {
-        try{
-          res.should.have.status(200);
-          res.body.should.have.property('success').eql(true);
-          res.body.should.have.property('message').eql('An e-mail has been sent to admin@redborder.com with confirmation. The password has been changed');
-          done();
-        } catch(e){
-          done(e);
-        }
-       });
-    });
-
   it('Should return a 400 Bad Request. Passwords different', function(done) {   
    const confir_password = encodeURIComponent("adminDISTINTA");
    const password = encodeURIComponent("adminNUEVA");
@@ -57,6 +38,25 @@ describe('Reset Password Test', function() {
           res.should.have.status(400);
           res.body.should.have.property('success').eql(false);
           res.body.should.have.property('message').eql('Password must be equal');
+          done();
+        } catch(e){
+          done(e);
+        }
+       });
+    });
+
+    it('Should return a 200 Ok message. Correct Passwords', function(done) {   
+   const confir_password = encodeURIComponent("adminNUEVA");
+   const password = encodeURIComponent("adminNUEVA");
+   const data = `password=${password}&confir_password=${confir_password}`; 
+   chai.request(server)
+       .post('/auth/reset/TESTTOKEN')
+       .send(data)
+       .end((err, res) => {
+        try{
+          res.should.have.status(200);
+          res.body.should.have.property('success').eql(true);
+          res.body.should.have.property('message').eql('An e-mail has been sent to admin@redborder.com with confirmation. The password has been changed');
           done();
         } catch(e){
           done(e);
@@ -86,25 +86,6 @@ describe('Reset Password Test', function() {
   it('Should return a 400 Bad Request. Passwords too long', function(done) {  
    const confir_password = encodeURIComponent("1234567890123456");
    const password = encodeURIComponent("1234567890123456");
-   const data = `password=${password}&confir_password=${confir_password}`; 
-   chai.request(server)
-       .post('/auth/reset/TESTTOKEN')
-       .send(data)
-       .end((err, res) => {
-        try{
-          res.should.have.status(400);
-          res.body.should.have.property('success').eql(false);
-          res.body.should.have.property('message').eql('Password should be between 8 and 15 alphanumeric characters.');
-          done();
-        } catch(e){
-          done(e);
-        }
-       });
-    });
-
-  it('Should return a 400 Bad Request. Empty passwords', function(done) {   
-   const confir_password = encodeURIComponent("");
-   const password = encodeURIComponent("");
    const data = `password=${password}&confir_password=${confir_password}`; 
    chai.request(server)
        .post('/auth/reset/TESTTOKEN')
@@ -153,4 +134,25 @@ describe('Reset Password Test', function() {
         });
       });
     });
+
+  it('Should return a 400 Bad Request. Empty passwords', function(done) {   
+   const confir_password = encodeURIComponent("");
+   const password = encodeURIComponent("");
+   const data = `password=${password}&confir_password=${confir_password}`; 
+   chai.request(server)
+       .post('/auth/reset/TESTTOKEN')
+       .send(data)
+       .end((err, res) => {
+        try{
+          res.should.have.status(400);
+          res.body.should.have.property('success').eql(false);
+          res.body.should.have.property('message').eql('Password should be between 8 and 15 alphanumeric characters.');
+          done();
+        } catch(e){
+          done(e);
+        }
+       });
+    });
+
+
 });
