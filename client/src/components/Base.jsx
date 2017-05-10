@@ -39,7 +39,7 @@ const Base = ({children}) => (
             <div>
               <ul className="nav navbar-nav navbar-right" >
                 <li>
-                  <Link to="/changeProfile"><span className="glyphicon glyphicon-user"></span> My Profile</Link>
+                  <Link to="/user/edit"><span className="glyphicon glyphicon-user"></span> My Profile</Link>
                 </li>
                 <li>
                   <Link to="/logout"><span className="glyphicon glyphicon-log-out"></span> Log out</Link>
@@ -58,7 +58,7 @@ const Base = ({children}) => (
               ) : null }
               <ul className="nav navbar-nav navbar-right">
                 <li>
-                  <Link to="/changeProfile"><span className="glyphicon glyphicon-user"></span> My Profile</Link>
+                  <Link to="/user/edit"><span className="glyphicon glyphicon-user"></span> My Profile</Link>
                 </li>
                 <li>
                   <Link to="/logout"><span className="glyphicon glyphicon-log-out"></span> Log out</Link>

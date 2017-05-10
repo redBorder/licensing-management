@@ -67,7 +67,7 @@ class ListOrgsPage extends Component {
 
   editOrgFormat(cell, row){
       return (<div>
-           <Link to={"/editOrgAdmins/" + 
+           <Link to={"/organization/edit/" + 
           row.id } 
           className="glyphicon glyphicon-edit" 
           style={{color:"green"}} ></Link>

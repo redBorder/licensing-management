@@ -121,7 +121,7 @@ class ListUsersPage extends Component {
           {
             row.id!=localStorage.getItem('userProfileId') 
           ?
-            <Link to={"/editUserAdmins/" + 
+            <Link to={"/user/edit/" + 
             row.id} 
             className="glyphicon glyphicon-edit" 
             style={{color:"green"}} ></Link>

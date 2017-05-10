@@ -25,7 +25,7 @@ const ListOrgs = ({
 		    	</div>
 		    	<div className="col-md-2">
 
-					<button className="btn btn-primary text-right"><Link style={{color:"white"}} to="/createOrg">Create new organization </Link></button>
+					<button className="btn btn-primary text-right"><Link style={{color:"white"}} to="/organization/new">Create new organization </Link></button>
 			   	</div>
 		   	</div>
 		   	<div className="row">

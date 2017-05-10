@@ -28,11 +28,12 @@ class CreateOrgPage extends Component {
         sensors: ''
       },
       //Inicialmente no existe ninguna organización
+      //Los sensores por defecto para cualquier organización serán IPS, Flow y Social.
       org: {
         email: '',
         name: '',
         cluster_id: '',
-        sensors: ''
+        sensors: 'IPS,event;Flow,flow;Social,social'
       }
     }
     //Utilización de bind para poder llamar a estas funciones dentro de la propia clase CreateOrgPage 

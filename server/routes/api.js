@@ -861,7 +861,6 @@ router.get('/licenses/new', (req, res) => {
       .replace(/\+/g, '-');
 
   router.get('/licenses/download', (req, res) => {
-    console.log("entra");
     models.User.findOne({
         where: {
             id: req.userId
@@ -894,7 +893,7 @@ router.get('/licenses/new', (req, res) => {
                 info: {
                   uuid: license.id,
                   cluster_uuid: organization.cluster_id,
-                  expires_at: license.expires_at.getTime()/1000,
+                  expire_at: license.expires_at.getTime()/1000,
                   limit_bytes: license.limit_bytes,
                   sensors: JSON.parse(JSON.parse(license.sensors)),
                   createdAt: license.createdAt.toISOString()
@@ -905,6 +904,7 @@ router.get('/licenses/new', (req, res) => {
               //Firmado de la licencia
               license_json.signature = safeURLBase64Encode(key.sign(license_json.encoded_info));
               //Base 64 del JSON antes de guardar la licencia
+              console.log(JSON.stringify(license_json));
               fs.writeFile(file, safeURLBase64Encode(JSON.stringify(license_json)), function(err) {
                 if(err) {
                     return console.log(err);

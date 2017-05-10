@@ -27,7 +27,7 @@ const ListUsers = ({
 	    			}
 	    		</div>
 	    		<div className="col-md-2" >
-					<button className="btn btn-primary text-right"><Link style={{color:"white"}} to="/createUser">Create new user </Link></button>
+					<button className="btn btn-primary text-right"><Link style={{color:"white"}} to="/user/new">Create new user </Link></button>
 		   		</div>
 	   		</div>
 	   		<div className="row">

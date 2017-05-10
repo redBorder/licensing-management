@@ -10,7 +10,6 @@ Recibirá los siguientes parámetros:
   5) organizations: Lista de las organizaciones disponibles.
 */
 
-//EN UN FUTURO HAY QUE HACER QUE SE COMPRUEBE CUANTOS SENSORES HAY PARA ESTA ORGANIZACIÓN DEFINIDOS
 const CreateLicenseForm = ({
   onSubmit,
   onChange,
@@ -44,7 +43,7 @@ const CreateLicenseForm = ({
           Limit bytes
         </Col>
         <Col sm={10}>
-          <input className="col-sm-5" name="limit_bytes" onChange={onChange} value={license.limit_bytes} type="number" min="0" step="8" max="4096"/>
+          <input className="col-sm-5" name="limit_bytes" onChange={onChange} value={license.limit_bytes} type="number" min="0" max="4096" />
         </Col>
       </FormGroup>
       {
@@ -53,17 +52,17 @@ const CreateLicenseForm = ({
         return (<div key={key}>
           <FormGroup controlId={sensor} validationState={errors.sensors[sensor]=="" ? null : errors.sensors[sensor]}>
             <Col componentClass={ControlLabel} sm={2}>
-              Sensors {sensor}
+              Sensors {sensor.split(",")[0]}
             </Col>
             <Col sm={10}>
-              <input className="col-sm-5" name={sensor} onChange={onChangeSensors} value={license[sensor]} type="number" min="0" max="100" defaultValue="0"/>
+              <input className="col-sm-5" name={sensor.split(",")[1]} onChange={onChangeSensors} value={license[sensor]} type="number" min="0" max="100" defaultValue="0"/>
             </Col>
           </FormGroup>
           </div>)
       })
       }
 
-      <FormGroup>
+      <FormGroup> 
         <Col smOffset={2} sm={10}>
           <Button type="submit">
             Create license

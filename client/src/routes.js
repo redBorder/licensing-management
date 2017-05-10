@@ -55,19 +55,19 @@ const routes = {
       component: NewPasswordPage
     },
     {
-      path: '/changeProfile',
+      path: '/user/edit',
       component: ProfilePage
     },
     {
-      path: '/createUser',
+      path: '/user/new',
       component: CreateUserPage
     },
     {
-      path: '/createOrg',
+      path: '/organization/new',
       component: CreateOrgPage
     },
     {
-      path: '/createLicense/:UserId/:OrgId',
+      path: '/license/new/:UserId/:OrgId',
       component: CreateLicensePage
     },
     {
@@ -79,11 +79,11 @@ const routes = {
       component: ListLicensesPage
     },
     {
-      path: '/editUserAdmins/:id',
+      path: '/user/edit/:id',
       component: EditUserPage
     },
     {
-      path: '/editOrgAdmins/:id',
+      path: '/organization/edit/:id',
       component: EditOrgPage
     },
     {

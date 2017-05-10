@@ -37,7 +37,7 @@ class CreateLicensePage extends Component {
         OrganizationId: this.props.params.OrgId,
         UserId: this.props.params.UserId
       },
-      sensors: ''
+      sensors: ""
     };
 
     this.changeSensors = this.changeSensors.bind(this);
@@ -62,11 +62,11 @@ class CreateLicensePage extends Component {
         // Cambiamos el estado, eliminando los errores y almancenando las organizaciones
         //Una vez sabemos qué sensores hay, configuramos sus valores iniciales a 0
         xhr.response.sensors.split(';').map(sensor => {
-          this.state.license.sensors[sensor] = '0';
+          this.state.license.sensors[sensor.split(",")[1]] = '0';
         });
         this.setState({
           error: "",
-          sensors: xhr.response.sensors,
+          sensors: xhr.response.sensors
         });
       } else {
         // En caso de fallo, mediante un toast informamos del mensaje de error
@@ -129,10 +129,9 @@ class CreateLicensePage extends Component {
   }
 
   changeSensors(event){
-    // Obtenemos el valor actual del usuario almacenado en el estado
     const license = this.state.license;
     
-    license.sensors[event.target.name] = event.target.value;
+    license.sensors[event.target.name] = parseInt(event.target.value, 10);
     this.setState({
       license
     })

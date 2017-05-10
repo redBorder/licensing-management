@@ -25,7 +25,7 @@ const ListLicenses = ({
 	    			<h1 className="text-left" style={{color:"brown"}} > Licenses of {orgName} </h1>
 	    		</div>
 	    		<div className="col-md-2" >
-					<button className="btn btn-primary text-right"><Link style={{color:"white"}} to={"/createLicense/" + localStorage.getItem('userProfileId') + "/" +  orgId } >Create new license </Link></button>
+					<button className="btn btn-primary text-right"><Link style={{color:"white"}} to={"/license/new" + localStorage.getItem('userProfileId') + "/" +  orgId } >Create new license </Link></button>
 		   		</div>
 	   		</div>
 	   		<div className="row">
