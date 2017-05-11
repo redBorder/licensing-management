@@ -49,19 +49,6 @@ module.exports = function(sequelize) {
             email: function(email){
                 this.setDataValue('email', email.toLowerCase());
             }
-        },
-        classMethods: {
-            findByEmail: function(email, done){
-                this.findOne({
-                    where: {
-                        email: email.toLowerCase()
-                    }
-                }).then(function(Organization){
-                    return done(null,Organization);
-                    }, function(err){
-                        return done(err);
-                    })
-            }
         }
     });
     return Organization;
