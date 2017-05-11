@@ -84,7 +84,11 @@ class ProfilePage extends Component {
         // change the current URL to /
         this.context.router.replace('/login');
 
-      } else {
+      } else if(xhr.status === 404){
+        //No authorizated deauthenticateUser
+        this.context.router.replace('/logout');
+      }
+       else {
         // failure
 
         // change the component state

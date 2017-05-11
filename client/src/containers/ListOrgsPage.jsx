@@ -4,6 +4,8 @@ import ListOrgs from '../components/ListOrgs.jsx'
 import Auth from '../modules/Auth';
 import { Link } from 'react-router';
 import toastr from 'toastr';
+import PropTypes  from 'prop-types';
+
 
 class ListOrgsPage extends Component {
   constructor() {
@@ -45,6 +47,9 @@ class ListOrgsPage extends Component {
           organizations: xhr.response.orgs,
           number_orgs: xhr.response.number_orgs
         });
+      } else if(xhr.status === 404){
+        //No authorizated deauthenticateUser
+        this.context.router.replace('/logout');
       } else {
         // failure
         {xhr.response.message && toastr.error(xhr.response.message)}
@@ -91,6 +96,9 @@ class ListOrgsPage extends Component {
                     localStorage.setItem('successRemoveOrg', xhr.response.message);
                     //Recargamos la página para que recargue la lista de usuarios
                     window.location.reload();
+                  } else if(xhr.status === 404){        
+                      //No authorizated deauthenticateUser
+                      this.context.router.replace('/logout');
                   } else {
                     // failure
                     {xhr.response.message && toastr.error(xhr.response.message)}
@@ -143,5 +151,9 @@ class ListOrgsPage extends Component {
         )
   }
 }
+//Comprobamos que se está haciendo uso de react-router
+ListOrgsPage.contextTypes = {
+  router: PropTypes.object.isRequired
+};
 
 export default ListOrgsPage;

@@ -68,7 +68,10 @@ class CreateLicensePage extends Component {
           error: "",
           sensors: xhr.response.sensors
         });
-      } else {
+      } else if(xhr.status === 404){
+        //No authorizated deauthenticateUser
+        this.context.router.replace('/logout');
+      }else {
         // En caso de fallo, mediante un toast informamos del mensaje de error
           {xhr.response.message && toastr.error(xhr.response.message)}
         }
@@ -119,6 +122,9 @@ class CreateLicensePage extends Component {
         });
         //Redirigimos al inicio
         this.context.router.replace('/');
+      } else if(xhr.status === 404){
+        //No authorizated deauthenticateUser
+        this.context.router.replace('/logout');
       } else {
         // En caso de fallo mostramos el mensaje de error recibido del servidor
         {xhr.response.message && toastr.error(xhr.response.message)}

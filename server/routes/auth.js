@@ -79,24 +79,29 @@ router.post('/forgot', function(req, res, next) {
       });
     },
     function(token, done) {
-      models.User.findByEmail(req.body.email, function(err, user) {
-        if (!user) {
-          return res.status(400).json({
-          success: false,
-          message: "No user registered with this email!"
+      models.User.findOne({
+                    where: {
+                        email: req.body.email
+                    }
+                })
+        .then(function(user, err){
+          if (!user) {
+            return res.status(400).json({
+            success: false,
+            message: "No user registered with this email!"
+            });
+          }
+
+          //Se ha creado anteriormente un token aleatorio
+          user.resetPasswordToken = token;
+          user.resetPasswordExpires = Date.now() + 3600000; // 1 hour 
+
+          user.save().then(function(user) {
+            done(err, token, user);
+            }, function(err){
+               done(err, token, user);
           });
-        }
-
-        //Se ha creado anteriormente un token aleatorio
-        user.resetPasswordToken = token;
-        user.resetPasswordExpires = Date.now() + 3600000; // 1 hour 
-
-        user.save().then(function(user) {
-          done(err, token, user);
-          }, function(err){
-             done(err, token, user);
-        });
-      });
+       });
     },
     function(token, user, done) {
     const smtpTransport = nodemailer.createTransport({

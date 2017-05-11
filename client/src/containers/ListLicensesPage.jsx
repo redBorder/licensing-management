@@ -5,6 +5,8 @@ import Auth from '../modules/Auth';
 import { Link } from "react-router";
 import toastr from 'toastr';
 import FileSaver from 'file-saver';
+import PropTypes  from 'prop-types';
+
 
 class ListLicensesPage extends Component {
   constructor() {
@@ -53,6 +55,9 @@ class ListLicensesPage extends Component {
           number_licenses: xhr.response.number_licenses, 
         });
 
+      } else if(xhr.status === 404){
+        //No authorizated deauthenticateUser
+        this.context.router.replace('/logout');
       } else {
         // failure
         {
@@ -165,6 +170,9 @@ class ListLicensesPage extends Component {
         )
   }
 }
-
+//Comprobamos que se está haciendo uso de react-router
+ListLicensesPage.contextTypes = {
+  router: PropTypes.object.isRequired
+};
 
 export default ListLicensesPage;

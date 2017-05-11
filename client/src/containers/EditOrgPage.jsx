@@ -60,6 +60,9 @@ class EditOrgPage extends Component {
             cluster_id: xhr.response.org.cluster_id 
           }
        });
+      } else if(xhr.status === 404){
+        //No authorizated deauthenticateUser
+        this.context.router.replace('/logout');
       } else {
         // En caso de error
         // Cambiamos el componente de error
@@ -111,6 +114,9 @@ class EditOrgPage extends Component {
         });
         //Redirigimos al inicio
         this.context.router.replace('/');
+      } else if(xhr.status === 404){
+        //No authorizated deauthenticateUser
+        this.context.router.replace('/logout');
       } else {
         // En caso de error
         // Cambiamos el estado del componente

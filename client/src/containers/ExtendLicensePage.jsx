@@ -55,9 +55,12 @@ class ExtendLicensePage extends Component {
           license: xhr.response.license
         });
 
-      } else {
+      } else if(xhr.status === 404){
+        //No authorizated deauthenticateUser
+        this.context.router.replace('/logout');
+      }else {
         // En caso de fallo, mediante un toast informamos del mensaje de error
-      
+        {xhr.response.message && toastr.error(xhr.response.message)}
         }
     });
     //Enviamos la petición

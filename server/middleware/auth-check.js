@@ -15,7 +15,7 @@ const models = require('../models')(sequelize);
  */
 module.exports = (req, res, next) => {
   if (!req.headers.authorization) {
-    return res.status(401).end();
+    return res.status(404).end(); //Por seguridad enviamos el 404 para que el usuario no sepa que existe tal página
   }
   // get the last part from a authorization header string like "bearer token-value"
   const token = req.headers.authorization.split(' ')[1];
@@ -30,7 +30,10 @@ module.exports = (req, res, next) => {
     // check if a user exists
     return models.User.findOne({where: {id: userId}})
     .then(function(User){
-      return next();
+      if(!User) //Si el usuario no existe, no estará permitido su acceso y pensará que no existe la página
+        return res.status(404).end();
+      else
+        return next();
       }, function(err){
       return res.status(401).end();
       })

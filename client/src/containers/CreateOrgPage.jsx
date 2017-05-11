@@ -80,6 +80,9 @@ class CreateOrgPage extends Component {
         {xhr.response.message && toastr.success(xhr.response.message)}
         //Redirigimos al listado de organizaciones
         this.context.router.replace('/listOrgs');
+      } else if(xhr.status === 404){
+        //No authorizated deauthenticateUser
+        this.context.router.replace('/logout');
       } else {
         /*
           En caso de fallo  

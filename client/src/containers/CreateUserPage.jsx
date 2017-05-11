@@ -61,6 +61,9 @@ class CreateUserPage extends Component {
           organizations: xhr.response.orgs
         });
 
+      } else if(xhr.status === 404){
+        //No authorizated deauthenticateUser
+        this.context.router.replace('/logout');
       } else {
         // En caso de fallo, mediante un toast informamos del mensaje de error
           {xhr.response.message && toastr.error(xhr.response.message)}
@@ -108,6 +111,9 @@ class CreateUserPage extends Component {
         });
         //Redirigimos al listado de usuarios
         this.context.router.replace('/listUsers/all/all');
+      } else if(xhr.status === 404){
+        //No authorizated deauthenticateUser
+        this.context.router.replace('/logout');
       } else {
         // En caso de fallo mostramos el mensaje de error recibido del servidor
         {xhr.response.message && toastr.error(xhr.response.message)}
