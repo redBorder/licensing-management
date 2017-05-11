@@ -214,7 +214,9 @@ describe('Model Organization', function() {
 			sensors: "IPS;Flow;Social"
 		});
   	NewOrganization.save().then(function(NewOrganization) {
-  		models.Organization.findByEmail("org@cor.com", function(err, Found_org){
+  		models.Organization.findOne({where: {
+  			email: "org@cor.com"}
+  		}).then(function(Found_org, err){
   			if(!err){
 	  			try{
 				  	assert.notEqual(Found_org, null);
@@ -239,7 +241,9 @@ describe('Model Organization', function() {
 			sensors: "IPS;Flow;Social"
 		});
   	NewOrganization.save().then(function(NewOrganization) {
-  		models.Organization.findByEmail("org@cor.com", function(err, Found_org){
+  		models.Organization.findOne({ where: {
+  			email: "org@cor.com"}
+  		}).then(function(Found_org, err){
 	  			try{
 	  				assert.equal(NewOrganization.getDataValue("name"),"Organizacion");
 	  				assert.equal(NewOrganization.getDataValue("email"),"org@cor.com");

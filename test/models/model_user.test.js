@@ -246,7 +246,10 @@ describe('Model User', function() {
 		  role: "normal"
 		});
   	NewUser.save().then(function(NewUser) {
-  		models.User.findByEmail("DAVID@prueba.com", function(err, Found_User){
+  		models.User.findOne({
+  			where: {
+  				email: "DAVID@prueba.com"}
+  			}).then(function(Found_User, err){
   			if(!err){
 	  			try{
 				  	assert.notEqual(Found_User, null);
@@ -271,7 +274,9 @@ describe('Model User', function() {
 		  role: "normal"
 		});
   	NewUser.save().then(function(NewUser) {
-  		models.User.findByEmail("DAVID@prueba.com", function(err, Found_User){
+  		models.User.findOne({where: {
+  			email: "DAVID@prueba.com"}
+  			}).then(function(Found_User, err){
 	  			try{
 	  				assert.equal(NewUser.getDataValue("name"),"David");
 	  				assert.equal(NewUser.getDataValue("email"),"david@prueba.com");
@@ -344,7 +349,9 @@ describe('Model User', function() {
 		  role: "normal"
 		});
   	NewUser.save().then(function() {
-  		models.User.findByEmail("DAVID@prueba.com", function(err, Found_User){
+  		models.User.findOne({where: 
+  			{email:"DAVID@prueba.com"}
+  		}).then(function(Found_User, err){
 	  				Found_User.changePassword("0987654321", "1234567890");
 	  				Found_User.update(Found_User).then(function(Change_User){
 	  					try{
