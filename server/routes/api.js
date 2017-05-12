@@ -31,7 +31,7 @@ function validateCreateLicenseForm(payload) {
   let isFormValid = true;
   let message = '';
 
-  if (!payload || typeof payload.expires_at !== 'string' || payload.expires_at.trim().length === 0) {
+  if (!payload || typeof payload.duration !== 'string' || payload.duration.trim().length === 0) {
     isFormValid = false;
     message = 'Please provide the expires date ';
   }
@@ -719,7 +719,7 @@ router.get('/organizations/:id/users', (req, res) => {
             },
             limit: 10,
             offset: 10*(req.query.page-1),
-            order: 'expires_at'
+            order: [['enabled'],['expires_at']]
         }).then(function(result){
               return res.status(200).json({
                 success: true,
@@ -753,10 +753,11 @@ router.post('/licenses', (req, res) => {
       }
       else
       {
-          //Si no se le ha pasado el license_uuid significa que estamos modificando una, en caso contrario se creará una con un license_uuid aleatorio
+          //Si no se le ha pasado el license_uuid significa que estamos extendiendo una licencia, en ese caso el tiempo de expiración tambien existirá.
             const NewLicense =  req.body.license_uuid ? models.License.build({
+              expires_at: req.body.expires_at,
               license_uuid: req.body.license_uuid,
-              expires_at: req.body.expires_at.trim(),
+              duration: req.body.duration.trim(),
               limit_bytes: req.body.limit_bytes.trim(),
               OrganizationId: req.body.OrganizationId.trim(),
               UserId: user.id,
@@ -764,7 +765,7 @@ router.post('/licenses', (req, res) => {
             })
             :
              models.License.build({
-              expires_at: req.body.expires_at.trim(),
+              duration: req.body.duration.trim(),
               limit_bytes: req.body.limit_bytes.trim(),
               OrganizationId: req.body.OrganizationId.trim(),
               UserId: user.id,
@@ -827,13 +828,19 @@ router.get('/licenses/new', (req, res) => {
       models.License.findOne({
         where: { id: req.query.LicenseId}
       }).then(function(license) {
-        //Si la licencia que se quiere crear no es para la organización a la que pertenecemos... no podemos
+        //Si la licencia que se quiere extender no es para la organización a la que pertenecemos o no somos admin... no podemos
         if(user.OrganizationId != license.OrganizationId && user.role != "admin")
         {
           return res.status(401).json({
             success: false,
             message: "You don't have permissions",
           });
+        }
+        else if(!license.enabled){
+          return res.status(401).json({
+              success: false,
+              message: "This license is pending of activation",
+            });
         }
         else
         {
@@ -876,6 +883,12 @@ router.get('/licenses/new', (req, res) => {
               message: "You don't have permissions",
             });
         }
+        else if(!license.enabled){
+          return res.status(401).json({
+              success: false,
+              message: "This license is pending of activation",
+            });
+        }
         else
         {
           //Tenemos que comprobar si la licencia existe y si no existe generarla de nuevo...
@@ -904,7 +917,6 @@ router.get('/licenses/new', (req, res) => {
               //Firmado de la licencia
               license_json.signature = safeURLBase64Encode(key.sign(license_json.encoded_info));
               //Base 64 del JSON antes de guardar la licencia
-              console.log(JSON.stringify(license_json));
               fs.writeFile(file, safeURLBase64Encode(JSON.stringify(license_json)), function(err) {
                 if(err) {
                     return console.log(err);
@@ -917,5 +929,78 @@ router.get('/licenses/new', (req, res) => {
       });
     });
   });  
+
+  router.put('/licenses/activate/:id', (req, res) => {
+  models.User.findOne({
+        where: {
+            id: req.userId
+        }
+    }).then(function(user){
+      if(user.role != "admin"){
+        return res.status(401).json({
+            success: false,
+            message: "You don't have permissions",
+          });
+      }
+      else
+      {
+          models.License.findOne({
+            where: {
+              id: req.params.id
+            }
+          }).then(function(license_activate){
+            if(!license_activate)
+              return res.status(400).json({
+                success: false,
+                message: "License doesn't exists"
+              })
+            //Cambiamos el tiempo de expiración y la marcamos como activada
+            //Si la duración es negativa significa que es una extensión y por tanto el tiempo de expiración ya está configurado
+            if(license_activate.duration>0){
+              const now = new Date();
+              const expires_time = now.setMonth(now.getMonth() + license_activate.duration);
+              license_activate.expires_at=expires_time;
+            }
+            license_activate.enabled=true;
+            license_activate.save()
+            .then(function(license_saved){
+              models.Organization.findOne({
+                where:{
+                  id: license_saved.OrganizationId
+                }
+              })
+              .then(function(org){
+                const smtpTransport = nodemailer.createTransport({
+                service: process.env.EMAIL_SERVER || email.server,
+                auth: {
+                  user: process.env.EMAIL_USER || email.email,
+                  pass: process.env.EMAIL_PASSWORD || email.password
+                  }
+                });
+                const mailOptions = {
+                  to: org.email,
+                  subject: "Your license has been activated",
+                  text: 'Hello,\n\n' +
+                    'Your license ' + license_saved.license_uuid + " has been activated until " + license_saved.expires_at + ".\n You can use this license since right now.\n Thank you!"
+                };
+                smtpTransport.sendMail(mailOptions,function(err) {
+                  res.status(200).json({
+                    success: true,
+                    message: "License " + license_saved.id + " activated correctly",
+                    license: license_saved
+                  }) 
+                });
+              }) 
+            }).catch(function (err) {
+              return res.status(400).json({
+              success: false,
+              message: "Error to activate license " + license_activate.id
+              })
+            });
+          })
+      }
+    })
+  });
+
 
 module.exports = router;

@@ -39,12 +39,12 @@ describe('Create license Test', function() {
           Social:200,
           IPS:300
         }
-        const expires_at = encodeURIComponent(new Date());
+        const duration = encodeURIComponent(6);
         const limit_bytes = encodeURIComponent(2000);
         const OrganizationId = encodeURIComponent("12df8176-0813-49d1-8767-92f4d89f1c11");
         const UserId = encodeURIComponent("12df8176-0813-49d1-8767-92f4d89f1a01");
         const sensors = JSON.stringify(sensors_object);
-        const formData = `sensors=${sensors}&expires_at=${expires_at}&UserId=${UserId}&limit_bytes=${limit_bytes}&OrganizationId=${OrganizationId}`;
+        const formData = `sensors=${sensors}&duration=${duration}&UserId=${UserId}&limit_bytes=${limit_bytes}&OrganizationId=${OrganizationId}`;
          chai.request(server)
            .post('/api/licenses')
            .set('Authorization', `bearer ${res.body.token}`)
@@ -81,12 +81,12 @@ describe('Create license Test', function() {
           Social:200,
           IPS:300
         }
-        const expires_at = encodeURIComponent(new Date());
+        const duration = encodeURIComponent(12);
         const limit_bytes = encodeURIComponent(2000);
         const OrganizationId = encodeURIComponent("12df8176-0813-49d1-8767-92f4d89f1c11");
         const UserId = encodeURIComponent("12df8176-0813-49d1-8767-92f4d89f1a81");
         const sensors = JSON.stringify(sensors_object);
-        const formData = `sensors=${sensors}&expires_at=${expires_at}&UserId=${UserId}&limit_bytes=${limit_bytes}&OrganizationId=${OrganizationId}`;
+        const formData = `sensors=${sensors}&duration=${duration}&UserId=${UserId}&limit_bytes=${limit_bytes}&OrganizationId=${OrganizationId}`;
          chai.request(server)
            .post('/api/licenses')
            .set('Authorization', `bearer ${res.body.token}`)
@@ -123,12 +123,12 @@ describe('Create license Test', function() {
           Social:200,
           IPS:300
         }
-        const expires_at = encodeURIComponent(new Date());
+        const duration = encodeURIComponent(12);
         const limit_bytes = encodeURIComponent(2000);
         const OrganizationId = encodeURIComponent("12df8176-0813-49d1-8767-92f4d89f1c15");
         const UserId = encodeURIComponent("12df8176-0813-49d1-8767-92f4d89f1a81");
         const sensors = JSON.stringify(sensors_object);
-        const formData = `sensors=${sensors}&expires_at=${expires_at}&UserId=${UserId}&limit_bytes=${limit_bytes}&OrganizationId=${OrganizationId}`;
+        const formData = `sensors=${sensors}&duration=${duration}&UserId=${UserId}&limit_bytes=${limit_bytes}&OrganizationId=${OrganizationId}`;
          chai.request(server)
            .post('/api/licenses')
            .set('Authorization', `bearer ${res.body.token}`)
@@ -165,12 +165,12 @@ describe('Create license Test', function() {
           Social:200,
           IPS:300
         }
-        const expires_at = encodeURIComponent(new Date());
+        const duration = encodeURIComponent(2);
         const limit_bytes = encodeURIComponent("erroneo");
         const OrganizationId = encodeURIComponent("12df8176-0813-49d1-8767-92f4d89f1c11");
         const UserId = encodeURIComponent("12df8176-0813-49d1-8767-92f4d89f1a81");
         const sensors = JSON.stringify(sensors_object);
-        const formData = `sensors=${sensors}&expires_at=${expires_at}&UserId=${UserId}&limit_bytes=${limit_bytes}&OrganizationId=${OrganizationId}`;
+        const formData = `sensors=${sensors}&duration=${duration}&UserId=${UserId}&limit_bytes=${limit_bytes}&OrganizationId=${OrganizationId}`;
          chai.request(server)
            .post('/api/licenses')
            .set('Authorization', `bearer ${res.body.token}`)
@@ -202,11 +202,11 @@ describe('Create license Test', function() {
        .post('/auth/login') //Before test, log in
        .send(user)
        .end((err, res) => {
-        const expires_at = encodeURIComponent(new Date());
+        const duration = encodeURIComponent(2);
         const limit_bytes = encodeURIComponent("erroneo");
         const OrganizationId = encodeURIComponent("12df8176-0813-49d1-8767-92f4d89f1c11");
         const UserId = encodeURIComponent("12df8176-0813-49d1-8767-92f4d89f1a81");
-        const formData = `expires_at=${expires_at}&UserId=${UserId}&limit_bytes=${limit_bytes}&OrganizationId=${OrganizationId}`;
+        const formData = `duration=${duration}&UserId=${UserId}&limit_bytes=${limit_bytes}&OrganizationId=${OrganizationId}`;
          chai.request(server)
            .post('/api/licenses')
            .set('Authorization', `bearer ${res.body.token}`)

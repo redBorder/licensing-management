@@ -35,7 +35,7 @@ describe('Model Licenses', function() {
   	}
   	const NewLicenses = models.License.build({
   		license_uuid: "1ed52e37-51af-4d34-b814-13a7e9b5c389",
- 			expires_at: new Date(),
+ 			duration: 6,
 			limit_bytes: 1000,
 			UserId : "12df8176-0813-49d1-8767-92f4d89f1ccc",
 			sensors: JSON.stringify(sensors_no_json)
@@ -70,7 +70,7 @@ it("Shouldn't create one Licenses. OrganizationId doesn't exists", function(done
   	}
   	const NewLicenses = models.License.build({
   		license_uuid: "1ed52e37-51af-4d34-b814-13a7e9b5c389",
-			expires_at: new Date(),
+			duration: 6,
 			limit_bytes: 1000,
 			UserId : "12df8176-0813-49d1-8767-92f4d89f1ccc",
 			OrganizationId : "22df8176-0812-59d1-8767-92f4d89f1ccc",
@@ -120,7 +120,7 @@ it("Shouldn't create one Licenses. OrganizationId doesn't exists", function(done
 			  	const NewLicenses = models.License.build({
 			  		license_uuid: "1ed52e37-51af-4d34-b814-13a7e9b5c389",
 						cluster_id: "1ed52e37-51af-4d34-b814-13a7e9b5c389",
-						expires_at: new Date(),
+						duration: 6,
 						limit_bytes: 1000,
 						UserId : "12df8176-0813-49d1-8767-92f4d89f1ccc",
 						OrganizationId : Organization.id,
@@ -184,7 +184,7 @@ it("Should create Licenses. UserId and OrganizationId exist", function(done) {
 				  	}
 				  	const NewLicenses = models.License.build({
 				  		license_uuid: "1ed52e37-51af-4d34-b814-13a7e9b5c389",
-							expires_at: new Date(),
+							duration: 6,
 							limit_bytes: 1000,
 							UserId : User.id,
 							OrganizationId : Organization.id,
@@ -199,6 +199,8 @@ it("Should create Licenses. UserId and OrganizationId exist", function(done) {
 								assert.equal(Licenses[0].limit_bytes,1000);
 								assert.equal(Licenses[0].UserId,User.id);
 								assert.equal(Licenses[0].OrganizationId,Organization.id);
+								assert.equal(Licenses[0].duration,6);
+								assert.equal(Licenses[0].enabled, false);
 							}catch (e){
 								return done(e);
 							}
@@ -207,12 +209,7 @@ it("Should create Licenses. UserId and OrganizationId exist", function(done) {
 							return done(err);
 							})
 						}, function(err){ 
-						try{
-						assert.equal(err.message, "notNull Violation: UserId cannot be null");
-						}catch (e){
-							return done(e);
-						}
-			         return done(!err);
+			         return done(err);
 			      });
 					});
 				});

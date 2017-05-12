@@ -18,19 +18,16 @@ class CreateLicensePage extends Component {
       "preventDuplicates": true, //Para prevenir que aparezcan toast duplicados
       "newestOnTop": true //Los nuevos aparecerán encima
     }
-    //Por defecto, la fecha de expiración es un mes para las licencias nuevas
-    const intialDate = new Date();
-    intialDate.setMonth(intialDate.getMonth() + 1);
     // Configuramos los estados iniciales
     this.state = {
       errors: {
-        expires_at: '',
+        duration: '',
         limit_bytes: '',
          sensors: {
         }
       },
       license: {
-        expires_at: intialDate,
+        duration: 1,
         limit_bytes: '0',
         sensors: {
         },
@@ -89,12 +86,12 @@ class CreateLicensePage extends Component {
     //Prevenimos el envío del formulario vacío y por defecto
     event.preventDefault();
     //Creamos una cadena de carácteres par enviar en el método post los parámetros introducidos en el formulario
-    const expires_at = encodeURIComponent(this.state.license.expires_at);
+    const duration = encodeURIComponent(this.state.license.duration);
     const limit_bytes = encodeURIComponent(this.state.license.limit_bytes);
     const OrganizationId = encodeURIComponent(this.state.license.OrganizationId);
     const UserId = encodeURIComponent(this.state.license.UserId);
     const sensors = JSON.stringify(this.state.license.sensors);
-    const formData = `sensors=${sensors}&expires_at=${expires_at}&UserId=${UserId}&limit_bytes=${limit_bytes}&OrganizationId=${OrganizationId}`;
+    const formData = `sensors=${sensors}&duration=${duration}&UserId=${UserId}&limit_bytes=${limit_bytes}&OrganizationId=${OrganizationId}`;
 
     //Creación de la petición AJAX para la creación de un usuario
     const xhr = new XMLHttpRequest();
@@ -114,7 +111,7 @@ class CreateLicensePage extends Component {
         // Cambiamos los valores de los errores en el estado del componente para indicar que no hay errores
         this.setState({
           errors: {
-            expires_at: '',
+            duration: '',
             limit_bytes: '',
             sensors: {
             }
@@ -152,11 +149,9 @@ class CreateLicensePage extends Component {
     // Obtenemos el valor actual del usuario almacenado en el estado
     const license = this.state.license;
     const field = event.target.name;
-    if(event.target.name=="expires_at"){
-      //Manejamos la fecha para sumarle el numero de dias recibido
-      const newDate = new Date();
-      newDate.setMonth(newDate.getMonth() + parseInt(event.target.value, 10));
-      license.expires_at=newDate;
+    if(event.target.name=="duration"){
+      //Auntamos los meses de duración de la licencia
+      license.duration=parseInt(event.target.value, 10);
     }
     else{
       license[field] = event.target.value;
