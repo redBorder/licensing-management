@@ -23,8 +23,9 @@ module.exports = new PassportLocalStrategy({
     email: email.trim().toLowerCase(),
     password: password.trim()
   };
-  // find a user by email address
-  return models.User.findByEmail(userData.email, function(err, Found_User){
+  return models.User.findOne({where:{
+    email: userData.email}})
+  .then(function(Found_User, err){
         if(err || !Found_User){
             const error = new Error('Incorrect email or password');
             error.name = 'IncorrectCredentialsError';
@@ -41,7 +42,8 @@ module.exports = new PassportLocalStrategy({
               const data = {
                 name: Found_User.name,
                 role: Found_User.role,
-                id: Found_User.id
+                id: Found_User.id,
+                OrganizationId: Found_User.OrganizationId
               };
               return done(null, token, data);
             }

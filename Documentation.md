@@ -192,12 +192,6 @@ Por otro lado se han creado los siguientes métodos de instancia:
 		-New_password: Nueva contraseña a almacenar.
 	Esta función devuelve true o false en función de que sea o no correcta la contraseña actual y se haya, o no, podido cambiar.
 
-En cuanto a los métodos de clase se han creado los siguientes:
-1) findByEmail, funcion asíncrona encargada de buscar un usuario por su email.
-	Esta función acepta como parámetros lso siguientes campos:
-		-email: Email con el que buscar el usuario.
-		-done: Función de CallBack la cual tendrá dos parámetros, el primero es el error y el segundo es el usuario encontrado.
-
 
 
 Test del modelo User
@@ -240,12 +234,6 @@ En el directorio /server/models existe el fichero organization.js el cual define
 
 En este fichero se definen todos los campos de una organizacion (id, nombre y email) y se comprueban las restricciones (que no estén vacíos, que sean válidos...).
 Además se definine el método setter email para almacenar siempre el email en minúsuculas.
-
-En cuanto a los métodos de clase se han creado los siguientes:
-1) findByEmail, funcion asíncrona encargada de buscar una organización por su email.
-	Esta función acepta como parámetros lso siguientes campos:
-		-email: Email con el que buscar la organización.
-		-done: Función de CallBack la cual tendrá dos parámetros, el primero es el error y el segundo es la organización encontrada.
 
 
 

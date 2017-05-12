@@ -5,13 +5,62 @@ const passport = require('passport');
 const MODE_RUN = process.env.MODE_RUN || "development"
 const email = require('../../config/config.json')[MODE_RUN].email;
 const nodemailer = require('nodemailer');
+const path = require('path');
+const mime = require('mime');
+const fs = require('fs');
+const NodeRSA = require('node-rsa');
 
+//Clave privada para la firma
+const private_key = require('../private.key.json');
+const key = new NodeRSA(private_key);
 
 //Incializamos sequelize
 const sequelize = require('../db').sequelize;
 
 //Cargamos los modelos
 const models = require('../models')(sequelize);
+
+/**
+ * Validate the create license form
+ *
+ * @param {object} payload - the HTTP body message
+ * @returns {object} The result of validation. Object contains a boolean validation result
+ *                   and a global message for the whole form.
+ */
+function validateCreateLicenseForm(payload) {
+  let isFormValid = true;
+  let message = '';
+
+  if (!payload || typeof payload.expires_at !== 'string' || payload.expires_at.trim().length === 0) {
+    isFormValid = false;
+    message = 'Please provide the expires date ';
+  }
+
+  if (!payload || typeof payload.limit_bytes !== 'string' || payload.limit_bytes.trim().length === 0) {
+    isFormValid = false;
+    message = message != "" ? message + 'and please provide a limit bytes correct ' : "Please provide a limit bytes correct ";
+
+  }
+  if (!payload || typeof payload.sensors !== 'string') {
+    isFormValid = false;
+    message = message != "" ? message + 'and please provide sensors ' : "Please provide sensors ";
+
+  }
+  else{
+      const sensors_object = JSON.parse(payload.sensors);
+      for(const sensor in sensors_object){
+          if(sensors_object[sensor].length == 0){
+            isFormValid = false
+            message = message != "" ? message + 'and please provide a number of sensor ' + sensor + " " : 'Please provide a number of sensor ' + sensor
+          }
+        }
+  }
+
+  return {
+    success: isFormValid,
+    message
+  };
+}
 
 /**
  * Validate the create user form
@@ -381,7 +430,8 @@ router.post('/organizations', (req, res) => {
           const NewOrganization = models.Organization.build({
             cluster_id: req.body.cluster_id.trim(),
             name: req.body.name.trim(),
-            email: req.body.email.trim()
+            email: req.body.email.trim(),
+            sensors: req.body.sensors.trim()
           });
           NewOrganization.save().then(function(NewOrganization) {
             return res.status(200).json({
@@ -505,6 +555,7 @@ router.put('/organizations/:id', (req, res) => {
             org_edit.name=req.body.name;
             org_edit.email=req.body.email;
             org_edit.cluster_id=req.body.cluster_id;
+            org_edit.sensors=req.body.sensors;
             org_edit.save()
             .then(function(org_save){
               return res.status(200).json({
@@ -526,7 +577,6 @@ router.put('/organizations/:id', (req, res) => {
 
 //Metodo get al que se llama al crear un usuario. Devuelve la lista de organizaciones disponibles
 router.get('/users/new', (req, res) => {
-  console.log("entra");
   models.User.findOne({
         where: {
             id: req.userId
@@ -645,6 +695,227 @@ router.get('/organizations/:id/users', (req, res) => {
           })
       }
     })
-});
+  });
+
+  //Devuelve las licencias que pertenecen a una organización.
+  //Solo pueden acceder a él usuarios administradores y que pertenezcan a la organización que mostrará las licencias
+  router.get('/organizations/:id/licenses', (req, res) => {
+  models.User.findOne({
+        where: {
+            id: req.userId
+        }
+    }).then(function(user){
+      if(user.role != "admin" && user.OrganizationId != req.params.id ){
+        return res.status(401).json({
+            success: false,
+            message: "You don't have permissions",
+          });
+      }
+      else
+      {
+          models.License.findAndCount({
+            where : {
+              OrganizationId: req.params.id
+            },
+            limit: 10,
+            offset: 10*(req.query.page-1),
+            order: 'expires_at'
+        }).then(function(result){
+              return res.status(200).json({
+                success: true,
+                licenses: result.rows,
+                number_licenses: result.count
+              })
+          })
+      }
+    })
+  });
+
+router.post('/licenses', (req, res) => {
+  const validationResult = validateCreateLicenseForm(req.body);
+  if (!validationResult.success) {
+    return res.status(400).json({
+      success: false,
+      message: validationResult.message,
+    });
+  }
+  models.User.findOne({
+        where: {
+            id: req.userId
+        }
+    }).then(function(user){
+      //Si la licencia que se quiere crear no es para la organización a la que pertenecemos... no podemos
+      if(user.OrganizationId != req.body.OrganizationId && user.role != "admin"){
+        return res.status(401).json({
+            success: false,
+            message: "You don't have permissions",
+          });
+      }
+      else
+      {
+          //Si no se le ha pasado el license_uuid significa que estamos modificando una, en caso contrario se creará una con un license_uuid aleatorio
+            const NewLicense =  req.body.license_uuid ? models.License.build({
+              license_uuid: req.body.license_uuid,
+              expires_at: req.body.expires_at.trim(),
+              limit_bytes: req.body.limit_bytes.trim(),
+              OrganizationId: req.body.OrganizationId.trim(),
+              UserId: user.id,
+              sensors: req.body.sensors 
+            })
+            :
+             models.License.build({
+              expires_at: req.body.expires_at.trim(),
+              limit_bytes: req.body.limit_bytes.trim(),
+              OrganizationId: req.body.OrganizationId.trim(),
+              UserId: user.id,
+              sensors: req.body.sensors 
+            })
+
+          NewLicense.save().then(function(NewLicense) {
+            return res.status(200).json({
+              success: true,
+              message: 'License created correctly'
+            });
+          }, function(err){ 
+            return res.status(400).json({
+              success: false,
+              message: 'Error creating license.<br></br> The sensors and limit bytes must be numbers'
+            });
+        });
+      }
+    })
+  });
+
+router.get('/licenses/new', (req, res) => {
+  models.User.findOne({
+        where: {
+            id: req.userId
+        }
+    }).then(function(user){
+      //Si la licencia que se quiere crear no es para la organización a la que pertenecemos... no podemos
+      if(user.OrganizationId != req.query.OrganizationId && user.role != "admin"){
+        return res.status(401).json({
+            success: false,
+            message: "You don't have permissions",
+          });
+      }
+      else
+      {
+        models.Organization.findOne({
+          where: { id: req.query.OrganizationId}
+        }).then(function(organization) {
+          return res.status(200).json({
+            success: true,
+            sensors: organization.sensors
+          });
+        }, function(err){ 
+          return res.status(400).json({
+            success: false,
+            message: 'Error, this organization id not exists'
+          });
+        });
+      }
+    })
+  });
+  
+  router.get('/licenses/extend', (req, res) => {
+  models.User.findOne({
+        where: {
+            id: req.userId
+        }
+    }).then(function(user){
+      models.License.findOne({
+        where: { id: req.query.LicenseId}
+      }).then(function(license) {
+        //Si la licencia que se quiere crear no es para la organización a la que pertenecemos... no podemos
+        if(user.OrganizationId != license.OrganizationId && user.role != "admin")
+        {
+          return res.status(401).json({
+            success: false,
+            message: "You don't have permissions",
+          });
+        }
+        else
+        {
+          license.sensors = JSON.parse(JSON.parse(license.sensors));
+          return res.status(200).json({
+            success: true,
+            license: license
+            });
+        }
+      }, function(err){ 
+        return res.status(400).json({
+          success: false,
+          message: 'Error, this license not exists'
+        });
+      });
+    })
+  });
+
+
+  // safeURLBase64Encode :: string -> toString
+  const safeURLBase64Encode = (data) =>
+    new Buffer(data)
+      .toString('base64')
+      .replace(/\//g, '_')
+      .replace(/\+/g, '-');
+
+  router.get('/licenses/download', (req, res) => {
+    models.User.findOne({
+        where: {
+            id: req.userId
+        }
+    }).then(function(user){
+      models.License.findOne({where: {
+        id: req.query.LicenseId
+      }}).then(function(license){
+        //Si la licencia que se quiere descargar no es para la organización a la que pertenecemos o no somos administradores... no podemos
+        if(user.OrganizationId != license.OrganizationId && user.role != "admin"){
+          return res.status(401).json({
+              success: false,
+              message: "You don't have permissions",
+            });
+        }
+        else
+        {
+          //Tenemos que comprobar si la licencia existe y si no existe generarla de nuevo...
+          const file = __dirname + '/../licenses/' + req.query.LicenseId + '.lic';
+          if (fs.existsSync(file)) {
+            res.download(file);
+          }
+          else {
+            models.Organization.findOne({
+              where: {
+                id: license.OrganizationId
+              }
+            }).then(function(organization){
+              const license_json = {
+                info: {
+                  uuid: license.id,
+                  cluster_uuid: organization.cluster_id,
+                  expire_at: license.expires_at.getTime()/1000,
+                  limit_bytes: license.limit_bytes,
+                  sensors: JSON.parse(JSON.parse(license.sensors)),
+                  createdAt: license.createdAt.toISOString()
+                }
+              }
+
+              license_json.encoded_info = safeURLBase64Encode(JSON.stringify(license_json.info));
+              //Firmado de la licencia
+              license_json.signature = safeURLBase64Encode(key.sign(license_json.encoded_info));
+              //Base 64 del JSON antes de guardar la licencia
+              console.log(JSON.stringify(license_json));
+              fs.writeFile(file, safeURLBase64Encode(JSON.stringify(license_json)), function(err) {
+                if(err) {
+                    return console.log(err);
+                }
+                res.download(file);
+              }); 
+            })
+          }
+        }
+      });
+    });
+  });  
 
 module.exports = router;

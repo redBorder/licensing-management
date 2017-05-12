@@ -4,6 +4,8 @@ import ListOrgs from '../components/ListOrgs.jsx'
 import Auth from '../modules/Auth';
 import { Link } from 'react-router';
 import toastr from 'toastr';
+import PropTypes  from 'prop-types';
+
 
 class ListOrgsPage extends Component {
   constructor() {
@@ -45,6 +47,9 @@ class ListOrgsPage extends Component {
           organizations: xhr.response.orgs,
           number_orgs: xhr.response.number_orgs
         });
+      } else if(xhr.status === 404){
+        //No authorizated deauthenticateUser
+        this.context.router.replace('/logout');
       } else {
         // failure
         {xhr.response.message && toastr.error(xhr.response.message)}
@@ -56,9 +61,18 @@ class ListOrgsPage extends Component {
 
   //Manejadores de la tabla
 
+  listLicensesFormat(cell, row){
+      return (<div>
+           <Link to={"/listLicenses/" + 
+          row.id + "/" + encodeURIComponent(row.name)} 
+          className="glyphicon glyphicon-folder-open" 
+          style={{color:"green"}} ></Link>
+         </div>);
+  }
+
   editOrgFormat(cell, row){
       return (<div>
-           <Link to={"/editOrgAdmins/" + 
+           <Link to={"/organization/edit/" + 
           row.id } 
           className="glyphicon glyphicon-edit" 
           style={{color:"green"}} ></Link>
@@ -69,7 +83,7 @@ class ListOrgsPage extends Component {
       return (<div>
             <Link style={{color:"red"}} 
             onClick={() => {
-              if(confirm('Are you sure to remove the organization ' + row.name + " (" + row.email + "). This will remove all user references to this organization"  )){
+              if(confirm('Are you sure to remove the organization ' + row.name + " (" + row.email + "). This will remove ALL licenses of this organizations"  )){
                 //Utilizando ajax, en el constructor pedimos la lista de usuarios registrados
                 const xhr = new XMLHttpRequest();
                 xhr.open('delete', '/api/organizations/' + row.id);
@@ -82,6 +96,9 @@ class ListOrgsPage extends Component {
                     localStorage.setItem('successRemoveOrg', xhr.response.message);
                     //Recargamos la página para que recargue la lista de usuarios
                     window.location.reload();
+                  } else if(xhr.status === 404){        
+                      //No authorizated deauthenticateUser
+                      this.context.router.replace('/logout');
                   } else {
                     // failure
                     {xhr.response.message && toastr.error(xhr.response.message)}
@@ -110,7 +127,7 @@ class ListOrgsPage extends Component {
     return (
       <div className="container">
         <div>
-          <ListOrgs organizations={this.state.organizations} removeOrgFormat={this.removeOrgFormat} editOrgFormat={this.editOrgFormat} countUsersFormat={this.countUsersFormat}/>
+          <ListOrgs organizations={this.state.organizations} removeOrgFormat={this.removeOrgFormat} editOrgFormat={this.editOrgFormat} countUsersFormat={this.countUsersFormat} listLicensesFormat={this.listLicensesFormat}/>
         </div>
         {
           this.state.number_orgs > 10 ? 
@@ -134,5 +151,9 @@ class ListOrgsPage extends Component {
         )
   }
 }
+//Comprobamos que se está haciendo uso de react-router
+ListOrgsPage.contextTypes = {
+  router: PropTypes.object.isRequired
+};
 
 export default ListOrgsPage;

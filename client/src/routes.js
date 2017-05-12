@@ -7,10 +7,13 @@ import NewPasswordPage from './containers/NewPasswordPage.jsx';
 import ProfilePage from './containers/ProfilePage.jsx';
 import CreateUserPage from './containers/CreateUserPage.jsx';
 import CreateOrgPage from './containers/CreateOrgPage.jsx';
+import CreateLicensePage from './containers/CreateLicensePage.jsx';
 import ListUsersPage from './containers/ListUsersPage.jsx';
 import EditUserPage from './containers/EditUserPage.jsx';
 import EditOrgPage from './containers/EditOrgPage.jsx';
 import ListOrgsPage from './containers/ListOrgsPage.jsx';
+import ListLicensesPage from './containers/ListLicensesPage.jsx';
+import ExtendLicensePage from './containers/ExtendLicensePage.jsx';
 import Auth from './modules/Auth';
 
 const routes = {
@@ -52,33 +55,45 @@ const routes = {
       component: NewPasswordPage
     },
     {
-      path: '/changeProfile',
+      path: '/user/edit',
       component: ProfilePage
     },
     {
-      path: '/createUser',
+      path: '/user/new',
       component: CreateUserPage
     },
     {
-      path: '/createOrg',
+      path: '/organization/new',
       component: CreateOrgPage
+    },
+    {
+      path: '/license/new/:UserId/:OrgId',
+      component: CreateLicensePage
     },
     {
       path: '/listUsers/:id/:orgName',
       component: ListUsersPage
     },
     {
-      path: '/editUserAdmins/:id',
+      path: '/listLicenses/:id/:orgName',
+      component: ListLicensesPage
+    },
+    {
+      path: '/user/edit/:id',
       component: EditUserPage
     },
     {
-      path: '/editOrgAdmins/:id',
+      path: '/organization/edit/:id',
       component: EditOrgPage
     },
     {
       path: '/listOrgs',
       component: ListOrgsPage
     },
+    {
+      path: '/extendLicense/:LicenseId',
+      component: ExtendLicensePage
+    }
   ]
 };
 

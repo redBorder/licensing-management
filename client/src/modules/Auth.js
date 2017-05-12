@@ -45,6 +45,16 @@ class Auth {
   static isAdmin() {
     return localStorage.getItem('userProfileRole')=="admin" ? true : false;
   }
+
+   /**
+   * Check if a user belong to a organization.
+   *
+   * @returns {true}
+   */
+
+  static hasOrganization() {
+    return localStorage.getItem('userProfileOrg')=="null" ? false : true;
+  }
 }
 
 export default Auth;

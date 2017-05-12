@@ -62,6 +62,7 @@ class LoginPage extends Component {
         {xhr.response.message && toastr.success(xhr.response.message)}
         // set a user profile items
         localStorage.setItem('userProfileId', xhr.response.user.id);
+        localStorage.setItem('userProfileOrg', xhr.response.user.OrganizationId);
         localStorage.setItem('userProfileName', xhr.response.user.name);
         localStorage.setItem('userProfileEmail', xhr.response.user.email);
         localStorage.setItem('userProfileRole', xhr.response.user.role);

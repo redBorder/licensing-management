@@ -1,32 +1,21 @@
 import React, { Component } from 'react';
 import Auth from '../modules/Auth';
 import Dashboard from '../components/Dashboard.jsx';
-import toastr from 'toastr';
 
 
 class DashboardPage extends Component {
 
   /**
-   * Class constructor.
+   * Clase constructora.
    */
   constructor(props) {
     super(props);
-    toastr.options={
-      "closeButton": true,
-      "preventDuplicates": true,
-      "newestOnTop": true
-    }
+    //Obtenemos el nombre y el email almacenados de forma local
     const name = localStorage.getItem('userProfileName');
     const email = localStorage.getItem('userProfileEmail');
-
-    this.state = {
-      secretData: name + ' (' + email + ') is autorizated to see this page'
-   };
-
-    {this.state.secretData && toastr.success(this.state.secretData) }
   }
   /**
-   * Render the component.
+   * Instanciamos un componente de tipo Dashboard.
    */
   render() {
     return (<Dashboard/>);

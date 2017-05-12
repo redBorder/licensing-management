@@ -3,7 +3,13 @@ import {Panel, Form, FormControl, FormGroup, Col, HelpBlock, ControlLabel, Check
 import { Link } from 'react-router';
 import PropTypes  from 'prop-types';
 
-
+/* Componente ProfileForm encargado de crear el formulario para el cambio del perfil de un usuario.
+Recibirá los siguientes parámetros:
+  1) onSubmit: Función llamada al presionar el boton 'submit' del formulario.
+  2) onChange: Función encargada de manejar los cambios en los campos de entrada de texto del formulario.
+  3) errors: Objeto utilizado para la validación visual del formulario. 
+  4) user: Objeto que contendrá el usuario con los nuevos cambios.
+*/
 const ProfileForm = ({
   onSubmit,
   onChange,
@@ -80,6 +86,7 @@ const ProfileForm = ({
   </div>
 );
 
+//Haciendo uso de propTypes se comprueban que todos los parámetros son recibidos correctamente
 ProfileForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,

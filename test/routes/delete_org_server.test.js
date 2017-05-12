@@ -56,6 +56,44 @@ describe('Remove Organization Test', function() {
         });
       })
     });
+  
+  it('Should return a 200 Ok message. Login ok, admin and remove Organization WITH licenses and these licenses', function(done) {
+  const email = encodeURIComponent("admin@redborder.com");
+  const password = encodeURIComponent("adminadmin");
+  const org = `email=${email}&password=${password}`;
+  chai.request(server)
+    .post('/auth/login') //Before test, log in
+    .send(org)
+    .end((err, res) => {
+      chai.request(server)
+        .delete('/api/organizations/12df8176-0813-49d1-8767-92f4d89f1c15')
+        .set('Authorization', `bearer ${res.body.token}`)
+        .send()
+        .end((err, res) => {
+          models.Organization.findAll({where: {}})
+          .then(function(Orgs){
+            models.License.findAll({where: {}})
+              .then(function(licenses){
+                try{
+                  res.should.have.status(200);
+                  res.body.should.have.property('success').eql(true);
+                  res.body.should.have.property('message').eql('Organization Organizacion con licencias (org_licenses@cor.com) delete correctly');
+                  Orgs.length.should.eql(3);
+                  licenses.length.should.eql(1);
+                  done();
+                   } catch(e){
+                    done(e);
+                  }   
+                }, function(err){
+                done(err);
+            });                
+          }, function(err){
+             done(err);
+          })                
+        });
+    })
+  });
+
 
   it('Should return a 401 not autorizated. Login ok but normal Organization', function(done) {
   const email = encodeURIComponent("normal@redborder.com");

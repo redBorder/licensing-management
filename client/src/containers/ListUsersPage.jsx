@@ -4,6 +4,8 @@ import ListUsers from '../components/ListUsers.jsx'
 import Auth from '../modules/Auth';
 import { Link } from "react-router";
 import toastr from 'toastr';
+import PropTypes  from 'prop-types';
+
 
 class ListUsersPage extends Component {
   constructor() {
@@ -20,6 +22,8 @@ class ListUsersPage extends Component {
       number_users: '',
       orgName: ''
     }
+
+
     this.handleSelectPage=this.handleSelectPage.bind(this);
     //Obtenemos el mensaje si hemos eliminado un usuario correctamente, lo notificamos y eliminamos
     localStorage.getItem('successRemoveUser') && toastr.success(localStorage.getItem('successRemoveUser')) && localStorage.removeItem('successRemoveUser')
@@ -50,6 +54,9 @@ class ListUsersPage extends Component {
           number_users: xhr.response.number_users
         });
 
+      } else if(xhr.status === 404){
+        //No authorizated deauthenticateUser
+        this.context.router.replace('/logout');
       } else {
         // failure
         {
@@ -58,7 +65,7 @@ class ListUsersPage extends Component {
     });
     xhr.send();
     }
-    else if(id="null"){
+    else if(id=="null"){
     //Utilizando ajax, en el constructor pedimos la lista de usuarios registrados
     // create an AJAX request
     const xhr = new XMLHttpRequest();
@@ -76,6 +83,9 @@ class ListUsersPage extends Component {
           number_users: xhr.response.number_users, 
         });
 
+      } else if(xhr.status === 404){
+        //No authorizated deauthenticateUser
+        this.context.router.replace('/logout');
       } else {
         // failure
         {
@@ -102,6 +112,9 @@ class ListUsersPage extends Component {
           number_users: xhr.response.number_users, 
         });
 
+      } else if(xhr.status === 404){
+        //No authorizated deauthenticateUser
+        this.context.router.replace('/logout');
       } else {
         // failure
         {
@@ -119,7 +132,7 @@ class ListUsersPage extends Component {
           {
             row.id!=localStorage.getItem('userProfileId') 
           ?
-            <Link to={"/editUserAdmins/" + 
+            <Link to={"/user/edit/" + 
             row.id} 
             className="glyphicon glyphicon-edit" 
             style={{color:"green"}} ></Link>
@@ -149,6 +162,9 @@ class ListUsersPage extends Component {
                     localStorage.setItem('successRemoveUser', xhr.response.message);
                     //Recargamos la página para que recargue la lista de usuarios
                     window.location.reload();
+                  } else if(xhr.status === 404){
+                    //No authorizated deauthenticateUser
+                    this.context.router.replace('/logout');
                   } else {
                     // failure
                     {xhr.response.message && toastr.error(xhr.response.message)}
@@ -164,7 +180,7 @@ class ListUsersPage extends Component {
 
   //Manejador para seleccionar la pagina a visualizar
   handleSelectPage(eventKey) {
-    this.loadUsers(eventKey)
+    this.loadUsers(eventKey, this.props.params.id)
     this.setState({
       activePage: eventKey,
     });
@@ -200,5 +216,9 @@ class ListUsersPage extends Component {
   }
 }
 
+//Comprobamos que se está haciendo uso de react-router
+ListUsersPage.contextTypes = {
+  router: PropTypes.object.isRequired
+};
 
 export default ListUsersPage;

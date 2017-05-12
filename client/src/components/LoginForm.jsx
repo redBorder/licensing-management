@@ -1,14 +1,20 @@
 import React from 'react';
-import {Panel, Form, FormControl, FormGroup, Col, HelpBlock, ControlLabel, Checkbox, Button, FeedBack} from 'react-bootstrap';
+import {Form, FormControl, FormGroup, Col, ControlLabel, Button, FeedBack} from 'react-bootstrap';
 import { Link } from 'react-router';
 import PropTypes  from 'prop-types';
 
+/* Componente LoginForm encargado de crear el formulario para el inicio de sesión
+Recibirá los siguientes parámetros:
+  1) onSubmit: Función llamada al presionar el boton 'submit' del formulario.
+  2) onChange: Función encargada de manejar los cambios en los campos de entrada de texto del formulario.
+  3) errors: Objeto utilizado para la validación visual del formulario. 
+  4) user: Objeto donde que contendrá el usuario que solicita el inicio de sesión
+*/
 const LoginForm = ({
   onSubmit,
   onChange,
   errors,
-  user,
-  successMessage
+  user
 }) => (
   <div className="container">
     <div className="row">
@@ -48,6 +54,7 @@ const LoginForm = ({
   </div>
 );
 
+//Haciendo uso de propTypes se comprueban que todos los parámetros son recibidos correctamente
 LoginForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,

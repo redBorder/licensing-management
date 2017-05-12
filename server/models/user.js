@@ -89,19 +89,6 @@ module.exports = function(sequelize) {
                 else
                     return false;
             }
-        },
-        classMethods: {
-            findByEmail: function(email, done){
-                this.findOne({
-                    where: {
-                        email: email.toLowerCase()
-                    }
-                }).then(function(User){
-                    return done(null,User);
-                    }, function(err){
-                        return done(err);
-                    })
-            }
         }
     });
     return User;
