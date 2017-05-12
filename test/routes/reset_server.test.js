@@ -130,6 +130,7 @@ describe('Reset Password Test', function() {
      .send(data)
      .end((err, res) => {
       try{
+        console.log(res);
         res.should.have.status(200);
         res.body.should.have.property('success').eql(true);
         res.body.should.have.property('message').eql('An e-mail has been sent to admin@redborder.com with confirmation. The password has been changed');

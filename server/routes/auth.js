@@ -192,6 +192,7 @@ router.post('/reset/:token', function(req, res) {
       });
     }
   ], function(err) {
+    console.log(err);
     res.redirect('/');
   });
 });
