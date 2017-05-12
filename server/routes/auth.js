@@ -145,6 +145,9 @@ router.post('/reset/:token', function(req, res) {
   }
   async.waterfall([
     function(done) {
+      console.log("Fecha:")
+      console.log(new Date());
+      console.log("REQUEST!!")
       console.log(req);
       models.User.findOne({
                     where: {
