@@ -122,6 +122,10 @@ describe('Reset Password Test', function() {
     });
 
   it('Should log in with new password', function(done) {   
+    models.User.findAll().then(function(users){
+      console.log("Usuarios");
+      console.log(users);
+    });
    const confir_password = encodeURIComponent("adminnueva");
    const password = encodeURIComponent("adminnueva");
    const data = `password=${password}&confir_password=${confir_password}`; 
@@ -130,7 +134,6 @@ describe('Reset Password Test', function() {
      .send(data)
      .end((err, res) => {
       try{
-        console.log(res);
         res.should.have.status(200);
         res.body.should.have.property('success').eql(true);
         res.body.should.have.property('message').eql('An e-mail has been sent to admin@redborder.com with confirmation. The password has been changed');

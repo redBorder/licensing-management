@@ -145,29 +145,25 @@ router.post('/reset/:token', function(req, res) {
   }
   async.waterfall([
     function(done) {
-      console.log("Fecha:")
-      console.log(new Date());
-      console.log(Date.now());
-      console.log("REQUEST!!")
-      console.log(req);
-      models.User.findAll({
+      models.User.findOne({
                     where: {
+                        resetPasswordToken: req.params.token,
+                        resetPasswordExpires: {$gt: Date.now()}
                     }
                 })
       .then(function(user, err){
-        console.log(user);
-        if (!user[0]) {
+        if (!user) {
           return res.status(400).json({
           success: false,
           message: "Password reset token is invalid or has expired."
           });
         }
 
-        user[0].password = req.body.password;
-        user[0].resetPasswordToken = null;
-        user[0].resetPasswordExpires = null;
+        user.password = req.body.password;
+        user.resetPasswordToken = null;
+        user.resetPasswordExpires = null;
 
-        user[0].save().then(function(user, err) {
+        user.save().then(function(user, err) {
             done(err, user);
           });
         });
@@ -196,7 +192,6 @@ router.post('/reset/:token', function(req, res) {
       });
     }
   ], function(err) {
-    console.log(err);
     res.redirect('/');
   });
 });
