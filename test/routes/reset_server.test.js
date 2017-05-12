@@ -27,10 +27,6 @@ describe('Reset Password Test', function() {
   });
 
   it('Should log in with new password', function(done) {   
-    models.User.findAll().then(function(users){
-      console.log("Usuarios");
-      console.log(users);
-    });
    const confir_password = encodeURIComponent("adminnueva");
    const password = encodeURIComponent("adminnueva");
    const data = `password=${password}&confir_password=${confir_password}`; 
