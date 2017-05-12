@@ -167,30 +167,30 @@ router.post('/reset/:token', function(req, res) {
         user[0].resetPasswordToken = null;
         user[0].resetPasswordExpires = null;
 
-        user[0].save().then(function(user[0], err) {
-            done(err, user[0]);
+        user[0].save().then(function(user, err) {
+            done(err, user);
           });
         });
     },
-    function(user[0], done) {
+    function(user, done) {
       const smtpTransport = nodemailer.createTransport({
           service: process.env.EMAIL_SERVER || email.server,
           auth: {
-            user[0]: process.env.EMAIL_USER || email.email,
+            user: process.env.EMAIL_USER || email.email,
             pass: process.env.EMAIL_PASSWORD || email.password
        }
       });
       var mailOptions = {
-        to: user[0].email.toLowerCase(),
+        to: user.email.toLowerCase(),
         from: 'passwordreset@demo.com',
         subject: 'Your password has been changed',
         text: 'Hello,\n\n' +
-          'This is a confirmation that the password for your account ' + user[0].email.toLowerCase() + ' has just been changed.\n'
+          'This is a confirmation that the password for your account ' + user.email.toLowerCase() + ' has just been changed.\n'
       };
       smtpTransport.sendMail(mailOptions,function(err) {
         res.status(200).json({
         success: true,
-        message: "An e-mail has been sent to " + user[0].email.toLowerCase() + " with confirmation. The password has been changed"
+        message: "An e-mail has been sent to " + user.email.toLowerCase() + " with confirmation. The password has been changed"
         });
         done(err, 'done');
       });
