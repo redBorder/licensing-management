@@ -31,7 +31,7 @@ describe('Reset Password Test', function() {
    const password = encodeURIComponent("adminNUEVA");
    const data = `password=${password}&confir_password=${confir_password}`; 
    chai.request(server)
-       .post('/auth/reset/TESTTOKEN')
+       .post('/auth/reset/testtoken')
        .send(data)
        .end((err, res) => {
         try{
@@ -50,7 +50,7 @@ describe('Reset Password Test', function() {
    const password = encodeURIComponent("adminNUEVA");
    const data = `password=${password}&confir_password=${confir_password}`; 
    chai.request(server)
-       .post('/auth/reset/TESTTOKEN')
+       .post('/auth/reset/testtoken')
        .send(data)
        .end((err, res) => {
         try{
@@ -69,7 +69,7 @@ describe('Reset Password Test', function() {
    const password = encodeURIComponent("admin");
    const data = `password=${password}&confir_password=${confir_password}`; 
    chai.request(server)
-       .post('/auth/reset/TESTTOKEN')
+       .post('/auth/reset/testtoken')
        .send(data)
        .end((err, res) => {
         try{
@@ -88,7 +88,7 @@ describe('Reset Password Test', function() {
    const password = encodeURIComponent("1234567890123456");
    const data = `password=${password}&confir_password=${confir_password}`; 
    chai.request(server)
-       .post('/auth/reset/TESTTOKEN')
+       .post('/auth/reset/testtoken')
        .send(data)
        .end((err, res) => {
         try{
@@ -107,7 +107,7 @@ describe('Reset Password Test', function() {
    const password = encodeURIComponent("");
    const data = `password=${password}&confir_password=${confir_password}`; 
    chai.request(server)
-       .post('/auth/reset/TESTTOKEN')
+       .post('/auth/reset/testtoken')
        .send(data)
        .end((err, res) => {
         try{
@@ -122,11 +122,11 @@ describe('Reset Password Test', function() {
     });
 
   it('Should log in with new password', function(done) {   
-   const confir_password = encodeURIComponent("adminNUEVA");
-   const password = encodeURIComponent("adminNUEVA");
+   const confir_password = encodeURIComponent("adminnueva");
+   const password = encodeURIComponent("adminnueva");
    const data = `password=${password}&confir_password=${confir_password}`; 
    chai.request(server)
-     .post('/auth/reset/TESTTOKEN')
+     .post('/auth/reset/testtoken')
      .send(data)
      .end((err, res) => {
       try{
