@@ -145,6 +145,7 @@ router.post('/reset/:token', function(req, res) {
   }
   async.waterfall([
     function(done) {
+      console.log(req);
       models.User.findOne({
                     where: {
                         resetPasswordToken: req.params.token,
