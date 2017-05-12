@@ -147,12 +147,13 @@ router.post('/reset/:token', function(req, res) {
     function(done) {
       console.log("Fecha:")
       console.log(new Date());
+      console.log(Date.now());
       console.log("REQUEST!!")
       console.log(req);
       models.User.findOne({
                     where: {
                         resetPasswordToken: req.params.token,
-                        resetPasswordExpires: {$gt: Date.now()}
+                        resetPasswordExpires: {$gt: new Date()}
                     }
                 })
       .then(function(user, err){
