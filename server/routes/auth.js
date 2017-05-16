@@ -2,6 +2,7 @@ const express = require('express');
 const passport = require('passport');
 const router = new express.Router();
 const nodemailer = require('nodemailer');
+const mockTransport = require('nodemailer-mock-transport');
 const async = require('async');
 const crypto = require('crypto');
 const MODE_RUN = process.env.MODE_RUN || "development"
@@ -12,6 +13,26 @@ const sequelize = require('../db').sequelize;
 
 //Cargamos los modelos
 const models = require('../models')(sequelize);
+
+//Configuramos el envío de emails
+const transportMock = mockTransport({ //Configuramos el mock para el envío de correos
+              service: process.env.EMAIL_SERVER || email.server,
+              auth: {
+                user: process.env.EMAIL_USER || email.email,
+                pass: process.env.EMAIL_PASSWORD || email.password
+              }
+            }); 
+const smtpTransport = MODE_RUN=="test" ? //Si estamos en modo test utilizamos el mock
+            nodemailer.createTransport(transportMock) 
+            :
+            nodemailer.createTransport({
+              service: process.env.EMAIL_SERVER || email.server,
+              auth: {
+                user: process.env.EMAIL_USER || email.email,
+                pass: process.env.EMAIL_PASSWORD || email.password
+              }
+            });
+       
 /**
  * Validate the NewPassword form
  *
@@ -104,13 +125,6 @@ router.post('/forgot', function(req, res, next) {
        });
     },
     function(token, user, done) {
-    const smtpTransport = nodemailer.createTransport({
-          service: process.env.EMAIL_SERVER || email.server,
-          auth: {
-            user: process.env.EMAIL_USER || email.email, 
-            pass: process.env.EMAIL_PASSWORD || email.password
-        }
-      });
       var mailOptions = {
         to: user.email.toLowerCase(),
         from: 'passwordreset@demo.com',
@@ -131,7 +145,6 @@ router.post('/forgot', function(req, res, next) {
     }
   ], function(err) {
     if (err) return next(err);
-    res.redirect('/');
   });
 });
 
@@ -169,13 +182,6 @@ router.post('/reset/:token', function(req, res) {
         });
     },
     function(user, done) {
-      const smtpTransport = nodemailer.createTransport({
-          service: process.env.EMAIL_SERVER || email.server,
-          auth: {
-            user: process.env.EMAIL_USER || email.email,
-            pass: process.env.EMAIL_PASSWORD || email.password
-       }
-      });
       var mailOptions = {
         to: user.email.toLowerCase(),
         from: 'passwordreset@demo.com',
@@ -192,7 +198,7 @@ router.post('/reset/:token', function(req, res) {
       });
     }
   ], function(err) {
-    res.redirect('/');
+    if (err) return next(err);
   });
 });
 

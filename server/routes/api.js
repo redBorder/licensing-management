@@ -5,6 +5,7 @@ const passport = require('passport');
 const MODE_RUN = process.env.MODE_RUN || "development"
 const email = require('../../config/config.json')[MODE_RUN].email;
 const nodemailer = require('nodemailer');
+const mockTransport = require('nodemailer-mock-transport');
 const path = require('path');
 const mime = require('mime');
 const fs = require('fs');
@@ -20,6 +21,24 @@ const sequelize = require('../db').sequelize;
 //Cargamos los modelos
 const models = require('../models')(sequelize);
 
+//Configuramos el envío de emails
+const transportMock = mockTransport({ //Configuramos el mock para el envío de correos
+              service: process.env.EMAIL_SERVER || email.server,
+              auth: {
+                user: process.env.EMAIL_USER || email.email,
+                pass: process.env.EMAIL_PASSWORD || email.password
+              }
+            }); 
+const smtpTransport = MODE_RUN=="test" ? //Si estamos en modo test utilizamos el mock
+            nodemailer.createTransport(transportMock) 
+            :
+            nodemailer.createTransport({
+              service: process.env.EMAIL_SERVER || email.server,
+              auth: {
+                user: process.env.EMAIL_USER || email.email,
+                pass: process.env.EMAIL_PASSWORD || email.password
+              }
+            });
 /**
  * Validate the create license form
  *
@@ -258,13 +277,6 @@ router.post('/users', (req, res, next) => {
                 });
               }
           }
-            const smtpTransport = nodemailer.createTransport({
-              service: process.env.EMAIL_SERVER || email.server,
-              auth: {
-                user: process.env.EMAIL_USER || email.email,
-                pass: process.env.EMAIL_PASSWORD || email.password
-              }
-            });
             const mailOptions = {
               to: req.body.email.toLowerCase(),
               from: 'userCreate@demo.com',
@@ -970,13 +982,6 @@ router.get('/licenses/new', (req, res) => {
                 }
               })
               .then(function(org){
-                const smtpTransport = nodemailer.createTransport({
-                service: process.env.EMAIL_SERVER || email.server,
-                auth: {
-                  user: process.env.EMAIL_USER || email.email,
-                  pass: process.env.EMAIL_PASSWORD || email.password
-                  }
-                });
                 const mailOptions = {
                   to: org.email,
                   subject: "Your license has been activated",
