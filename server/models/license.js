@@ -21,14 +21,17 @@ module.exports = function(sequelize) {
                 }
             }
         },
-        expires_at: {
-            type: DataTypes.DATE,
+        duration: {
+            type: DataTypes.INTEGER,
             allowNull: false, 
             validate: {
                 notEmpty: {
-                    msg: "Field expires_at shouldn't be empty"
+                    msg: "Field duration shouldn't be empty"
                 }
             }
+        },
+        expires_at: {
+            type: DataTypes.DATE,
         },
         sensors : {
             type: DataTypes.JSON,
@@ -45,7 +48,17 @@ module.exports = function(sequelize) {
                     msg: "Field limit bytes shouldn't be empty"
                 }
             }
-        }  
+        },
+        enabled : {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: false,
+            validate : {
+                notEmpty: {
+                    msg: "Field enabled shouldn't be empty"
+                }
+            }
+        }    
     });
     return License;
 }

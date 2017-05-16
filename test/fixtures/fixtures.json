@@ -46,7 +46,7 @@
             "email": "admin@redborder.com",
             "hashed_password": "sha1$53b53d83$1$d0ac537f69356fcd7e23f81fcbb1924df7d9d7f8",
             "role": "admin",
-            "resetPasswordToken": "TESTTOKEN",
+            "resetPasswordToken": "testtoken",
             "resetPasswordExpires" : "2100-01-01",
             "Organization" : {
                 "name" : "Organizacion con usuarios"
@@ -71,11 +71,13 @@
         "data": {
             "id" : "12df8176-0813-49d1-8767-92f4d89f1ccc",
             "license_uuid" : "12df8176-0813-49d1-8767-92f4d89f1abc",
-            "expires_at": "2018-01-01",
+            "expires_at": null,
+            "duration": "6",
             "OrganizationId" : "12df8176-0813-49d1-8767-92f4d89f1c15",
             "UserId" : "12df8176-0813-49d1-8767-92f4d89f1a81",
             "sensors": "{\\'IPS\\':100,\\'Flow\\':200,\\'Social\\':300}",
-            "limit_bytes" : "100"
+            "limit_bytes" : "100",
+            "enabled": "false"
         }
     },
     {
@@ -84,10 +86,12 @@
             "id" : "12df8176-0813-49d1-8767-92f4d89f1bbb",
             "license_uuid" : "12df8176-0813-49d1-8767-92f4d89f1abc",             
             "expires_at": "2019-01-01",
+            "duration": "6",
             "OrganizationId" : "12df8176-0813-49d1-8767-92f4d89f1c15",
             "UserId" : "12df8176-0813-49d1-8767-92f4d89f1a81",
             "sensors": "{\\'IPS\\':100,\\'Flow\\':200,\\'Social\\':300}",
-            "limit_bytes" : "100"
+            "limit_bytes" : "100",
+            "enabled": "true"
         }
     },
     {
@@ -96,10 +100,12 @@
             "id" : "12df8176-0813-49d1-8767-92f4d89f1aaa",
             "license_uuid" : "12df8176-0813-49d1-8767-92f4d89f1def",             
             "expires_at": "2020-01-01",
+            "duration": "-1",
             "OrganizationId" : "12df8176-0813-49d1-8767-92f4d89f1c15",
             "UserId" : "12df8176-0813-49d1-8767-92f4d89f1a81",
             "sensors": "{\\'IPS\\':100,\\'Flow\\':200,\\'Social\\':300}",
-            "limit_bytes" : "100"
+            "limit_bytes" : "100",
+            "enabled": "true"
         }
     },
     {
@@ -108,6 +114,7 @@
             "id" : "12df8176-0813-49d1-8767-92f4d89faaaa",
             "license_uuid" : "12df8176-0813-49d1-8767-92f4d89f1def",             
             "expires_at": "2020-01-01",
+            "duration": "6",
             "OrganizationId" : "12df8176-0813-49d1-8767-92f4d89f1c11",
             "UserId" : "12df8176-0813-49d1-8767-92f4d89f1a81",
             "sensors": "{\\'IPS\\':100,\\'Flow\\':200,\\'Social\\':300}",

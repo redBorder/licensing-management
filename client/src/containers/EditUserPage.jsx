@@ -58,7 +58,6 @@ class EditUserPage extends Component {
             organization: xhr.response.user.OrganizationId || "No" //Si no tiene organización se pondrá "No" 
           }
        });
-        console.log(this.state.user);
       } else {
         // failure
         // change the component state

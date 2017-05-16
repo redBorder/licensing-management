@@ -24,12 +24,12 @@ const CreateLicenseForm = ({
       <br></br>
     </div>
     <Form horizontal onSubmit={onSubmit}>
-      <FormGroup controlId="expires_at" validationState={errors.expires_at=="" ? null : errors.expires_at} >
+      <FormGroup controlId="duration" validationState={errors.duration=="" ? null : errors.duration} >
         <Col componentClass={ControlLabel} sm={2}>
           Expires date
         </Col>
         <Col sm={5}>
-          <FormControl name="expires_at" componentClass="select" onChange={onChange}>
+          <FormControl name="duration" componentClass="select" onChange={onChange}>
             <option value={1} key={"1"} > 1 month</option>
             <option value={3} key={"2"}> 3 months</option>
             <option value={6} key={"3"}> 6 months</option>

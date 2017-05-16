@@ -21,6 +21,7 @@ class ExtendLicensePage extends Component {
     // Configuramos los estados iniciales
     this.state = {
       license: {
+        duration: '1', //Inicialmente la extensión es de 1 mes
         expires_at: '',
         limit_bytes: '',
         sensors: {
@@ -28,10 +29,9 @@ class ExtendLicensePage extends Component {
         OrganizationId: '',
         UserId: ''
       },
-      month_extend: '1' //Inicialmente modificamos solo un mes
     };
 
-    this.changeExpiresTime = this.changeExpiresTime.bind(this);
+    this.changeDuration = this.changeDuration.bind(this);
     this.processForm = this.processForm.bind(this);
   }
 
@@ -77,15 +77,17 @@ class ExtendLicensePage extends Component {
     event.preventDefault();
     //Justo antes de enviar los datos le sumamos a la fecha de expiracion los meses añadidos. Si la licencia a expirado, le sumamos la ampliación a partir del día de hoy
     const new_expires = new Date(this.state.license.expires_at) < new Date() ? new Date() : new Date(this.state.license.expires_at);
-    new_expires.setMonth(new_expires.getMonth() + parseInt(this.state.month_extend));
+    new_expires.setMonth(new_expires.getMonth() + parseInt(this.state.license.duration));
+    console.log(new_expires);
     //Creamos una cadena de carácteres par enviar en el método post todos los parámetros (aunque solo cambia la fecha de expiración)
+    const duration = encodeURIComponent(-1); //Si el tiempo de extensión es -1 significa que es una extensión de licencia
     const expires_at = encodeURIComponent(new_expires);
     const license_uuid = encodeURIComponent(this.state.license.license_uuid);
     const limit_bytes = encodeURIComponent(this.state.license.limit_bytes);
     const OrganizationId = encodeURIComponent(this.state.license.OrganizationId);
     const UserId = encodeURIComponent(this.state.license.UserId);
     const sensors = JSON.stringify(this.state.license.sensors);
-    const formData = `license_uuid=${license_uuid}&sensors=${sensors}&expires_at=${expires_at}&UserId=${UserId}&limit_bytes=${limit_bytes}&OrganizationId=${OrganizationId}`;
+    const formData = `expires_at=${expires_at}&license_uuid=${license_uuid}&sensors=${sensors}&duration=${duration}&UserId=${UserId}&limit_bytes=${limit_bytes}&OrganizationId=${OrganizationId}`;
 
     //Creación de la petición AJAX para la creación de un usuario
     const xhr = new XMLHttpRequest();
@@ -113,14 +115,15 @@ class ExtendLicensePage extends Component {
     xhr.send(formData);
   }
 
-  changeExpiresTime(event){
+  changeDuration(event){
     // Obtenemos el valor actual del usuario almacenado en el estado
     const license = this.state.license;
     //modificamos el campo de expiración
-    if(event.target.name=="expires_at"){
+    if(event.target.name=="duration"){
+      license.duration = event.target.value;
       //Manejamos la fecha para sumarle el numero de meses recibido
       this.setState({
-        month_extend:event.target.value
+        license
       });
     } //En caso contrario no hacemos nada
   }
@@ -133,7 +136,7 @@ class ExtendLicensePage extends Component {
     return (
       <ExtendLicenseForm
         onSubmit={this.processForm}
-        onChange={this.changeExpiresTime}
+        onChange={this.changeDuration}
         license={this.state.license}
       />
     );

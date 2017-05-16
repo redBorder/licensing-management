@@ -20,12 +20,12 @@ const ExtendLicenseForm = ({
       <br></br>
     </div>
     <Form horizontal onSubmit={onSubmit}>
-      <FormGroup controlId="expires_at">
+      <FormGroup controlId="duration">
         <Col componentClass={ControlLabel} sm={2}>
-          Expires date
+          Extend for
         </Col>
         <Col sm={10}>
-          <FormControl name="expires_at" componentClass="select" onChange={onChange}>
+          <FormControl name="duration" componentClass="select" onChange={onChange}>
             <option value={1} key={"1"} > 1 month</option>
             <option value={3} key={"2"}> 3 months</option>
             <option value={6} key={"3"}> 6 months</option>
