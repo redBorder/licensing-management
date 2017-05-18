@@ -2,6 +2,8 @@ const assert = require('assert');
 const passwordHash = require('password-hash');
 //Incializamos sequelize
 const sequelize = require('../../server/db').sequelize;
+const connectDB = require('../../server/db').connectDB;
+
 //Cargamos los modelos
 const models = require('../../server/models')(sequelize);
 
@@ -11,7 +13,12 @@ describe('Model User', function() {
 	
   beforeEach(function(done){
 	  //Sincronizamos la base de datos
-	  sequelize.sync({force:true}).then(() => done());
+	  sequelize.sync({force:true}).then( () => {
+			return done();
+		}, (err) => {
+			console.log("Error connecting DB, retrying...");
+			setTimeout(connectDB, 5000);
+		})
   });
 
   it('Should create a empty models', function(done) {

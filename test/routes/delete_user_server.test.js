@@ -5,6 +5,7 @@ const should = chai.should();
 const sequelize_fixtures = require('sequelize-fixtures');
 //Incializamos sequelize
 const sequelize = require('../../server/db').sequelize;
+const connectDB = require('../../server/db').connectDB;
 
 //Cargamos los modelos
 const models = require('../../server/models')(sequelize);
@@ -19,11 +20,14 @@ describe('Remove user Test', function() {
 
   //Before each test we clean databse and load fixtures file.
   beforeEach(function(done){
-    //Sincronizamos la base de datos
-    sequelize.sync({force:true}).then(function(){
+        //Sincronizamos la base de datos
+    sequelize.sync({force:true}).then( () => {
       //Cargamos los datos necesarios
       sequelize_fixtures.loadFile('test/fixtures/fixtures.json', models)
             .then(() => done())
+    }, (err) => {
+      console.log("Error connecting DB, retrying...");
+      setTimeout(connectDB, 5000);
     })
   });
  it('Should return a 200 Ok message. Login ok, admin and remove user', function(done) {

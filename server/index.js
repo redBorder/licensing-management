@@ -5,49 +5,11 @@ const app = express();
 
 //Inicializamos sequelize
 const sequelize = require('./db').sequelize;
+const connectDB = require('./db').connectDB;
 
 //Cargamos los diferentes modelos
 const models = require('./models')(sequelize);
 
-const connectDB = () => {
-	if(process.env.MODE_RUN == "test"){
-		sequelize.sync({force:true}).then( () => {
-			console.log("Connected to DB");
-		}, (err) => {
-			console.log("Error connecting DB, retrying...");
-			setTimeout(connectDB, 5000);
-		})
-	}
-	else{
-		sequelize.sync().then(() => {
-			console.log("Connected to DB");
-			//If there aren't users, create one admin user by default in production mode...
-			models.User.findAll({where: {
-				role: "admin"
-			}})
-			.then((users) => {
-				if(users.length == 0){
-					const NewUser = models.User.build({
-					  name: "Admin",
-					  email: "admin@redborder.com", 
-					  password: "adminadmin",
-					  role: "admin"
-					})
-			  	NewUser.save().then(() => {
-			  		console.log("New default admin user created.");
-			  		console.log("	Email: admin@redborder.com");
-			  		console.log("	Password: adminadmin");
-			  		console.log("Please, change this user profile");
-			  	});
-			  }
-			})
-		}, (err) => {
-			//Sequelize error
-			console.log("Error connecting DB, retrying...")
-			setTimeout(connectDB, 5000);
-		});
-	}
-}
 
 
 
