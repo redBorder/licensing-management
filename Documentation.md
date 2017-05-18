@@ -634,6 +634,11 @@ Este fichero sólo se utilizará si las siguientes variables de entornos no est�
 9) EMAIL_USER: Correo electrónico desde el que enviar los correos electrónicos.
 10) EMAIL_PASSWORD: Contraseña del correo electrónico desde el que se enviarán los emails.
 
+Dockerización
+-------------
+Para la creación de la imagen de producción solamente hay que generarla con el comando "docker build . -t 'eiqueta'"
+
+Para la creación de los contenedores para la aplicación y la base de datos en desarrrollo hay que ejecutar "docker-compose up -d"
 
 
 
