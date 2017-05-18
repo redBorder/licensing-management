@@ -3,10 +3,8 @@ node_js:
     - "stable"
 services:
     - mysql
-sudo: true
-before_script:
-    - bash .travis.install-mysql-5.7.sh
+    - docker
 before_install:
-    - mysql -e 'CREATE DATABASE IF NOT EXISTS licenses_management_test;'
+    - docker run -e MYSQL_DATABASE=license_management -e MYSQL_ROOT_PASSWORD=admin -d -p 3306:3306 mysql:5.7 
 script:
-    - npm run test
+    - BD_NAME=license_management DB_PASSWORD=ADMIN npm run test
