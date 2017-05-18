@@ -6,4 +6,4 @@ services:
 before_install:
     - docker run -e MYSQL_DATABASE=license_management -e MYSQL_ROOT_PASSWORD=admin -d -p 3310:3306 mysql:5.7 
 script:
-    - BD_PORT=3310 BD_NAME=license_management DB_PASSWORD=ADMIN npm run test
+    - BD_PORT=3310 BD_NAME=license_management DB_PASSWORD=admin npm run test
