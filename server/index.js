@@ -9,35 +9,50 @@ const sequelize = require('./db').sequelize;
 //Cargamos los diferentes modelos
 const models = require('./models')(sequelize);
 
-//Sincronizamos los modelos a la base de datos
-if (process.env.MODE_RUN == "test"){
-	sequelize.sync({force:true});
-}else{
-	sequelize.sync()
-	.then(() =>{
-		//If there aren't users, create one admin user by default in production mode...
-		models.User.findAll({where: {
-			role: "admin"
-		}})
-		.then(function (users){
-			if(users.length == 0){
-				const NewUser = models.User.build({
-				  name: "Admin",
-				  email: "admin@redborder.com", 
-				  password: "adminadmin",
-				  role: "admin"
-				})
-		  	NewUser.save().then(function() {
-		  		console.log("New default admin user created.");
-		  		console.log("	Email: admin@redborder.com");
-		  		console.log("	Password: adminadmin");
-		  		console.log("Please, change this user profile");
-		  	});
-		  }
+const connectDB = () => {
+	if(process.env.MODE_RUN == "test"){
+		sequelize.sync({force:true}).then( () => {
+			console.log("Connected to DB");
+		}, (err) => {
+			console.log("Error connecting DB, retrying...");
+			setTimeout(connectDB, 5000);
 		})
-	})
+	}
+	else{
+		sequelize.sync().then(() => {
+			console.log("Connected to DB");
+			//If there aren't users, create one admin user by default in production mode...
+			models.User.findAll({where: {
+				role: "admin"
+			}})
+			.then((users) => {
+				if(users.length == 0){
+					const NewUser = models.User.build({
+					  name: "Admin",
+					  email: "admin@redborder.com", 
+					  password: "adminadmin",
+					  role: "admin"
+					})
+			  	NewUser.save().then(() => {
+			  		console.log("New default admin user created.");
+			  		console.log("	Email: admin@redborder.com");
+			  		console.log("	Password: adminadmin");
+			  		console.log("Please, change this user profile");
+			  	});
+			  }
+			})
+		}, (err) => {
+			//Sequelize error
+			console.log("Error connecting DB, retrying...")
+			setTimeout(connectDB, 5000);
+		});
+	}
 }
 
+
+
+//Lanzamos la conexión a la base de datos
+connectDB();
 
 // tell the app to look for static files in these directories
 app.use(express.static('./server/static/'));

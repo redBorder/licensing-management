@@ -2,7 +2,7 @@
 	"production":
 	{
 		"BD": "mysql",
-	  	"database": "licenses_management_production",
+	  	"database": "licenses_management",
 	  	"user": "root",
 	  	"password": "",
 	  	"port": "3306",

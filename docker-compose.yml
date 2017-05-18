@@ -3,22 +3,29 @@ services:
   db:
     image: mysql:5.7
     volumes:
-      - db_data:/usr/src/mysql
+      - db_data:/data/mysql
     environment:
-      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_ROOT_PASSWORD: redborderlicensepassworddb
       MYSQL_DATABASE: licenses_management
-      MYSQL_USER: root
-      MYSQL_PASSWORD: normal
+    ports:
+      - "3306:3306"
   web: 
+    volumes:
+      - .:/app_license
     depends_on:
       - db
     links:
       - db:db
-    build: .
+    build: 
+      context: .
+      dockerfile: dev.dockerfile
+    image: licenses_app_dev
     ports:
       - "3000:3000"
     environment:
-      DB_PASSWORD: admin
+      DB_PASSWORD: redborderlicensepassworddb
+      DB_PORT: 3306
       DB_HOST: db
+      DB_DATABASE: licenses_management
 volumes:
   db_data:
