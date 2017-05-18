@@ -14,11 +14,15 @@ const sequelize = new Sequelize(process.env.DB_NAME || DB_config.database,
         logging: (process.env.DB_LOG=="true" || DB_config.log =="true") ? console.log : false
 });
 
+//Cargamos los diferentes modelos
+const models = require('../models')(sequelize);
+
 const connectDB = () => {
 	if(process.env.MODE_RUN == "test"){
 		sequelize.sync({force:true}).then( () => {
 			console.log("Connected to DB");
 		}, (err) => {
+			console.log(err);
 			console.log("Error connecting DB, retrying...");
 			setTimeout(connectDB, 5000);
 		})

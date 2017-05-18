@@ -4,14 +4,7 @@ const bodyParser = require('body-parser');
 const app = express();
 
 //Inicializamos sequelize
-const sequelize = require('./db').sequelize;
 const connectDB = require('./db').connectDB;
-
-//Cargamos los diferentes modelos
-const models = require('./models')(sequelize);
-
-
-
 
 //Lanzamos la conexión a la base de datos
 connectDB();
