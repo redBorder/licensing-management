@@ -22,7 +22,6 @@ const connectDB = () => {
 		sequelize.sync({force:true}).then( () => {
 			console.log("Connected to DB");
 		}, (err) => {
-			console.log(err);
 			console.log("Error connecting DB, retrying...");
 			setTimeout(connectDB, 5000);
 		})
