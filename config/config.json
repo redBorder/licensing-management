@@ -10,9 +10,9 @@
 	  	"log": "false",
 	  	"jwtSecret": "Secret key to JWT",
 	  	"email": {
-	  		"server": "Gmail",
-		  	"email": "desarrollo.dsenas@gmail.com",
-		  	"password": "desarrollodsenas"
+	  		"server": "SendPulse",
+		  	"email": "EMAIL",
+		  	"password": "PASSWORD"
 		  }
 	},
 	"development":
@@ -26,9 +26,9 @@
 	  	"log": "true",
 	  	"jwtSecret": "Secret key to JWT",
 	  	"email": {
-	  		"server": "Gmail",	  		
-		  	"email": "desarrollo.dsenas@gmail.com",
-		  	"password": "desarrollodsenas"
+	  		"server": "SendPulse",
+		  	"email": "EMAIL",
+		  	"password": "PASSWORD"
 		  }
 	},
 	"test":
@@ -42,9 +42,9 @@
 	  	"log": "false",
 	  	"jwtSecret": "Secret key to JWT",
 	  	"email": {
-	  		"server": "Gmail",
-		  	"email": "desarrollo.dsenas@gmail.com",
-		  	"password": "desarrollodsenas"
+	  		"server": "SendPulse",
+		  	"email": "EMAIL",
+		  	"password": "PASSWORD"
 		  }
 	}
 }

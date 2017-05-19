@@ -127,7 +127,7 @@ router.post('/forgot', function(req, res, next) {
     function(token, user, done) {
       var mailOptions = {
         to: user.email.toLowerCase(),
-        from: 'passwordreset@demo.com',
+        from: 'davsensan@gmail.com',
         subject: 'Node.js Password Reset',
         text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
           'Please click on the following link before one hour, or paste this into your browser to complete the process:\n\n' +
@@ -184,7 +184,7 @@ router.post('/reset/:token', function(req, res) {
     function(user, done) {
       var mailOptions = {
         to: user.email.toLowerCase(),
-        from: 'passwordreset@demo.com',
+        from: 'davsensan@gmail.com',
         subject: 'Your password has been changed',
         text: 'Hello,\n\n' +
           'This is a confirmation that the password for your account ' + user.email.toLowerCase() + ' has just been changed.\n'

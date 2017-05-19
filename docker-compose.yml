@@ -27,5 +27,8 @@ services:
       DB_PORT: 3306
       DB_HOST: db
       DB_DATABASE: licenses_management
+      EMAIL_SERVER: SendPulse
+      EMAIL_USER: EMAIL!!-----!!!!
+      EMAIL_PASSWORD: PASSWORD!!----!!!!
 volumes:
   db_data:
