@@ -904,7 +904,7 @@ router.get('/licenses/new', (req, res) => {
         else
         {
           //Tenemos que comprobar si la licencia existe y si no existe generarla de nuevo...
-          const file = __dirname + '/../licenses/' + req.query.LicenseId + '.lic';
+          const file = __dirname + '/../../' + req.query.LicenseId + '.lic';
           if (fs.existsSync(file)) {
             res.download(file);
           }
