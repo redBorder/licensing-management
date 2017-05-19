@@ -1,3 +1,5 @@
+//En primer lugar ocultamos los console.logs para producción. 
+process.env.NODE_ENV=="production" ? console.log = function  () {} : null
 const express = require('express');
 const passport = require('passport');
 const bodyParser = require('body-parser');
