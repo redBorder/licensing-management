@@ -12,7 +12,7 @@ const fs = require('fs');
 const NodeRSA = require('node-rsa');
 
 //Clave privada para la firma
-const private_key = require('../private.key.json');
+const private_key = process.env.PRIVATE_KEY || require('../private.key.json');
 const key = new NodeRSA(private_key);
 
 //Incializamos sequelize
@@ -923,7 +923,7 @@ router.get('/licenses/new', (req, res) => {
               //Firmado de la licencia
               license_json.signature = safeURLBase64Encode(key.sign(license_json.encoded_info));
               res.writeHead(200, {'Content-Type': 'application/force-download','Content-disposition':'attachment; filename=' + req.query.LicenseId + '.lic'});
-              return res.end(JSON.stringify(license_json)); 
+              return res.end(safeURLBase64Encode(JSON.stringify(license_json))); 
             }, function(err){
               return res.status(404).json({
                 success: false,
