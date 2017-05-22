@@ -977,6 +977,7 @@ router.get('/licenses/new', (req, res) => {
               .then(function(org){
                 const mailOptions = {
                   to: org.email,
+                  from: 'davsensan@gmail.com',
                   subject: "Your license has been activated",
                   text: 'Hello,\n\n' +
                     'Your license ' + license_saved.license_uuid + " has been activated until " + license_saved.expires_at + ".\n You can use this license since right now.\n Thank you!"
