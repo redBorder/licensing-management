@@ -282,7 +282,7 @@ router.post('/users', (req, res, next) => {
               from: 'davsensan@gmail.com',
               subject: 'Your email has been registered in RedBorder licenses',
               text: 'Hello,\n\n' +
-                'You have been registered in RedBorder. Your email is ' + req.body.email.toLowerCase() + ' and your password is' + req.body.password + '.\n'
+                'You have been registered in RedBorder. Your email is ' + req.body.email.toLowerCase() + ' and your password is ' + req.body.password + '.\n'
                  + "Please, log in and change your password"
             };
             smtpTransport.sendMail(mailOptions,function(err) {
