@@ -125,7 +125,7 @@ Este fichero sólo se utilizará si las siguientes variables de entornos no est�
 8) EMAIL_SERVER: Servidor de correo electrónico desde el que se enviarán los emails.
 9) EMAIL_USER: Correo electrónico desde el que enviar los correos electrónicos.
 10) EMAIL_PASSWORD: Contraseña del correo electrónico desde el que se enviarán los emails.
-
+11) PRIVATE_KEY: Clave privada para el cifrado de las licencias.
 
 
 
