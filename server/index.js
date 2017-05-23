@@ -1,43 +1,15 @@
+//En primer lugar ocultamos los console.logs para producción. 
+process.env.NODE_ENV=="production" ? console.log = function  () {} : null
 const express = require('express');
 const passport = require('passport');
 const bodyParser = require('body-parser');
 const app = express();
 
 //Inicializamos sequelize
-const sequelize = require('./db').sequelize;
+const connectDB = require('./db').connectDB;
 
-//Cargamos los diferentes modelos
-const models = require('./models')(sequelize);
-
-//Sincronizamos los modelos a la base de datos
-if (process.env.MODE_RUN == "test"){
-	sequelize.sync({force:true});
-}else{
-	sequelize.sync()
-	.then(() =>{
-		//If there aren't users, create one admin user by default in production mode...
-		models.User.findAll({where: {
-			role: "admin"
-		}})
-		.then(function (users){
-			if(users.length == 0){
-				const NewUser = models.User.build({
-				  name: "Admin",
-				  email: "admin@redborder.com", 
-				  password: "adminadmin",
-				  role: "admin"
-				})
-		  	NewUser.save().then(function() {
-		  		console.log("New default admin user created.");
-		  		console.log("	Email: admin@redborder.com");
-		  		console.log("	Password: adminadmin");
-		  		console.log("Please, change this user profile");
-		  	});
-		  }
-		})
-	})
-}
-
+//Lanzamos la conexión a la base de datos
+connectDB();
 
 // tell the app to look for static files in these directories
 app.use(express.static('./server/static/'));

@@ -12,7 +12,7 @@ const fs = require('fs');
 const NodeRSA = require('node-rsa');
 
 //Clave privada para la firma
-const private_key = require('../private.key.json');
+const private_key = process.env.PRIVATE_KEY || require('../private.key.json');
 const key = new NodeRSA(private_key);
 
 //Incializamos sequelize
@@ -279,10 +279,10 @@ router.post('/users', (req, res, next) => {
           }
             const mailOptions = {
               to: req.body.email.toLowerCase(),
-              from: 'userCreate@demo.com',
+              from: 'davsensan@gmail.com',
               subject: 'Your email has been registered in RedBorder licenses',
               text: 'Hello,\n\n' +
-                'You have been registered RedBorder. Your email is ' + req.body.email.toLowerCase() + ' and your password ' + req.body.password + '.\n'
+                'You have been registered in RedBorder. Your email is ' + req.body.email.toLowerCase() + ' and your password is ' + req.body.password + '.\n'
                  + "Please, log in and change your password"
             };
             smtpTransport.sendMail(mailOptions,function(err) {
@@ -903,12 +903,6 @@ router.get('/licenses/new', (req, res) => {
         }
         else
         {
-          //Tenemos que comprobar si la licencia existe y si no existe generarla de nuevo...
-          const file = __dirname + '/../licenses/' + req.query.LicenseId + '.lic';
-          if (fs.existsSync(file)) {
-            res.download(file);
-          }
-          else {
             models.Organization.findOne({
               where: {
                 id: license.OrganizationId
@@ -928,15 +922,14 @@ router.get('/licenses/new', (req, res) => {
               license_json.encoded_info = safeURLBase64Encode(JSON.stringify(license_json.info));
               //Firmado de la licencia
               license_json.signature = safeURLBase64Encode(key.sign(license_json.encoded_info));
-              //Base 64 del JSON antes de guardar la licencia
-              fs.writeFile(file, safeURLBase64Encode(JSON.stringify(license_json)), function(err) {
-                if(err) {
-                    return console.log(err);
-                }
-                res.download(file);
-              }); 
-            })
-          }
+              res.writeHead(200, {'Content-Type': 'application/force-download','Content-disposition':'attachment; filename=' + req.query.LicenseId + '.lic'});
+              return res.end(safeURLBase64Encode(JSON.stringify(license_json))); 
+            }, function(err){
+              return res.status(404).json({
+                success: false,
+                message: "License not found!"
+              })
+          })
         }
       });
     });
@@ -984,6 +977,7 @@ router.get('/licenses/new', (req, res) => {
               .then(function(org){
                 const mailOptions = {
                   to: org.email,
+                  from: 'davsensan@gmail.com',
                   subject: "Your license has been activated",
                   text: 'Hello,\n\n' +
                     'Your license ' + license_saved.license_uuid + " has been activated until " + license_saved.expires_at + ".\n You can use this license since right now.\n Thank you!"

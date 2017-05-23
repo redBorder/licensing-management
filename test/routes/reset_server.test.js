@@ -5,6 +5,7 @@ const should = chai.should();
 const sequelize_fixtures = require('sequelize-fixtures');
 //Incializamos sequelize
 const sequelize = require('../../server/db').sequelize;
+const connectDB = require('../../server/db').connectDB;
 
 //Cargamos los modelos
 const models = require('../../server/models')(sequelize);
@@ -17,12 +18,15 @@ process.env.NODE_ENV ='test';
 describe('Reset Password Test', function() {
   
    before(function(done){
-    //Sincronizamos la base de datos y la limpiamos antes de realizar los test
-    sequelize.sync({force:true}).then(function(){
-    //Cargamos los datos necesarios
+        //Sincronizamos la base de datos
+    sequelize.sync({force:true}).then( () => {
+      //Cargamos los datos necesarios
       sequelize_fixtures.loadFile('test/fixtures/fixtures.json', models)
-      .then(() => done())
-    }); 
+            .then(() => done())
+    }, (err) => {
+      console.log("Error connecting DB, retrying...");
+      setTimeout(connectDB, 5000);
+    })
   });
 
 
