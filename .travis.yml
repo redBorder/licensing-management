@@ -6,7 +6,7 @@ services:
 before_install:
   - pip install --user codecov
 after_success:
-  - codecov --file coverage/lcov.info --disable search
+  - codecov 
 before_install:
     - docker run -e MYSQL_DATABASE=licenses_management_test -e MYSQL_ROOT_PASSWORD=root -d -p 3310:3306 mysql:5.7 
 script:
