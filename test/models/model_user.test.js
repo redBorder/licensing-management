@@ -17,7 +17,7 @@ describe('Model User', function() {
 			return done();
 		}, (err) => {
 			console.log("Error connecting DB, retrying...");
-			setTimeout(connectDB, 5000);
+			setTimeout(connectDB, 1000);
 		})
   });
 

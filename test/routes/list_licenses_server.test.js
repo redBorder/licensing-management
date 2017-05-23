@@ -27,7 +27,7 @@ describe('List licenses Test', function() {
             .then(() => done())
     }, (err) => {
       console.log("Error connecting DB, retrying...");
-      setTimeout(connectDB, 5000);
+      setTimeout(connectDB, 1000);
     })
   });
  it('Should return a 200 Ok message. Login ok, admin and list licenses of one organization', function(done) {
