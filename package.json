@@ -9,7 +9,8 @@
     "nodemon": "nodemon --use_strict ./server/index.js",
     "build:dev": "webpack -w",
     "build": "webpack",
-    "test": "export MODE_RUN='test' && node_modules/mocha/bin/mocha --compilers js:babel-core/register --recursive --timeout 5000"
+    "test": "export MODE_RUN='test' && node_modules/mocha/bin/mocha --compilers js:babel-core/register --recursive --timeout 5000",
+    "coverage": "export MODE_RUN='test' && istanbul cover _mocha -- --timeout 10000 test/**/*" 
   },
   "repository": {
     "type": "git",
@@ -54,6 +55,7 @@
     "assert": "^1.4.1",
     "chai": "^3.5.0",
     "chai-http": "^3.0.0",
+    "istanbul": "^0.4.5",
     "mocha": "^3.3.0",
     "nodemon": "^1.11.0",
     "npm-run-all": "^4.0.2",
