@@ -3,11 +3,10 @@ node_js:
     - "stable"
 services:
     - docker
-before_install:
-  - pip install --user codecov
 after_success:
-  - codecov 
+    - codecov 
 before_install:
+    - pip install --user codecov
     - docker run -e MYSQL_DATABASE=licenses_management_test -e MYSQL_ROOT_PASSWORD=root -d -p 3310:3306 mysql:5.7 
 script:
     - DB_PORT=3310 DB_PASSWORD=root npm run test
