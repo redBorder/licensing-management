@@ -62,7 +62,58 @@ function validateNewPasswordForm(payload) {
   };
 }
 
+/**
+ * Validate the Login form
+ *
+ * @param {object} payload - the HTTP body message
+ * @returns {object} The result of validation. Object contains a boolean validation result,
+ *                   errors tips, and a global message for the whole form.
+ */
+function validateLoginForm(payload) {
+  let isFormValid = true;
+  let message = '';
+
+  if (!payload || typeof payload.password !== 'string' || payload.password.trim().length == 0 || typeof payload.email !== "string" || payload.email.trim().length == 0)  {
+    isFormValid = false;
+    message = 'Please provide your credentials.';
+  }
+
+  return {
+    success: isFormValid,
+    message
+  };
+}
+
+/**
+ * Validate the Reset form
+ *
+ * @param {object} payload - the HTTP body message
+ * @returns {object} The result of validation. Object contains a boolean validation result,
+ *                   errors tips, and a global message for the whole form.
+ */
+function validateForgotForm(payload) {
+  let isFormValid = true;
+  let message = '';
+
+  if (!payload || typeof payload.email !== 'string' || payload.email.trim().length == 0 )  {
+    isFormValid = false;
+    message = 'Please provide your credentials.';
+  }
+
+  return {
+    success: isFormValid,
+    message
+  };
+}
+
 router.post('/login', (req, res, next) => {
+  const validationResult = validateLoginForm(req.body);
+  if (!validationResult.success) {
+    return res.status(400).json({
+      success: false,
+      message: validationResult.message,
+    });
+  }
   return passport.authenticate('local-login', (err, token, userData) => {
     if (err) {
       if (err.name === 'IncorrectCredentialsError') {
@@ -92,6 +143,13 @@ router.post('/login', (req, res, next) => {
 });
 
 router.post('/forgot', function(req, res, next) {
+  const validationResult = validateForgotForm(req.body);
+  if (!validationResult.success) {
+    return res.status(400).json({
+      success: false,
+      message: validationResult.message,
+    });
+  }
   async.waterfall([
     function(done) {
       crypto.randomBytes(20, function(err, buf) {
@@ -128,8 +186,8 @@ router.post('/forgot', function(req, res, next) {
       var mailOptions = {
         to: user.email.toLowerCase(),
         from: 'davsensan@gmail.com',
-        subject: 'Node.js Password Reset',
-        text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
+        subject: 'Redborder licensing management Password Reset',
+        text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account in licensing management of RedBorder.\n\n' +
           'Please click on the following link before one hour, or paste this into your browser to complete the process:\n\n' +
           'https://' + req.headers.host + '/#/reset/' + token + '\n\n' +
           'If you did not request this, please ignore this email and your password will remain unchanged.\n'
@@ -185,7 +243,7 @@ router.post('/reset/:token', function(req, res) {
       var mailOptions = {
         to: user.email.toLowerCase(),
         from: 'davsensan@gmail.com',
-        subject: 'Your password has been changed',
+        subject: 'Your password has been changed in licensing management of RedBorder',
         text: 'Hello,\n\n' +
           'This is a confirmation that the password for your account ' + user.email.toLowerCase() + ' has just been changed.\n'
       };

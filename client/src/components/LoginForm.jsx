@@ -27,7 +27,7 @@ const LoginForm = ({
           Email
         </Col>
         <Col sm={10}>
-          <FormControl name ="email" type="email" placeholder="Email" onChange={onChange} value={user.email}/>
+          <FormControl name ="email" type="email" placeholder="Email" required="true" onChange={onChange} value={user.email}/>
           <FormControl.Feedback />
         </Col>
       </FormGroup>
@@ -37,7 +37,7 @@ const LoginForm = ({
           Password
         </Col>
         <Col sm={10}>
-          <FormControl name="password" type="password" placeholder="Password" onChange={onChange} value={user.password}/>
+          <FormControl name="password" type="password" placeholder="Password"  required="true" onChange={onChange} value={user.password}/>
           <FormControl.Feedback />
         </Col>
       </FormGroup>

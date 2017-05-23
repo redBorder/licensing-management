@@ -29,7 +29,7 @@ const EditOrgForm = ({
           Name
         </Col>
         <Col sm={10}>
-          <FormControl name ="name" type="name" placeholder="Name" onChange={onChange} value={organization.name}/>
+          <FormControl name ="name" type="name" placeholder="Name" required="true" onChange={onChange} value={organization.name}/>
           <FormControl.Feedback />
         </Col>
       </FormGroup>
@@ -39,7 +39,7 @@ const EditOrgForm = ({
           Email
         </Col>
         <Col sm={10}>
-          <FormControl name ="email" type="email" placeholder="Email" onChange={onChange} value={organization.email}/>
+          <FormControl name ="email" type="email" placeholder="Email" required="true" onChange={onChange} value={organization.email}/>
           <FormControl.Feedback />
         </Col>
       </FormGroup>
@@ -49,7 +49,7 @@ const EditOrgForm = ({
           Cluster id
         </Col>
         <Col sm={10}>
-          <FormControl name ="cluster_id" type="cluster_id" placeholder="cluster_id" onChange={onChange} value={organization.cluster_id}/>
+          <FormControl name ="cluster_id" type="cluster_id" placeholder="cluster_id" required="true" onChange={onChange} value={organization.cluster_id}/>
           <FormControl.Feedback />
         </Col>
       </FormGroup>

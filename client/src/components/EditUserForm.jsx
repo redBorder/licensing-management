@@ -30,7 +30,7 @@ const EditUserForm = ({
           Name
         </Col>
         <Col sm={10}>
-          <FormControl name ="name" type="name" placeholder="Name" onChange={onChange} value={user.name}/>
+          <FormControl name ="name" type="name" placeholder="Name" required="true" onChange={onChange} value={user.name}/>
           <FormControl.Feedback />
         </Col>
       </FormGroup>
@@ -40,7 +40,7 @@ const EditUserForm = ({
           Email
         </Col>
         <Col sm={10}>
-          <FormControl name ="email" type="email" placeholder="Email" onChange={onChange} value={user.email}/>
+          <FormControl name ="email" type="email" placeholder="Email" required="true" onChange={onChange} value={user.email}/>
           <FormControl.Feedback />
         </Col>
       </FormGroup>

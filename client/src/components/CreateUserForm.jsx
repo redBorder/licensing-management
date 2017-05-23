@@ -28,7 +28,7 @@ const CreateUserForm = ({
           Name
         </Col>
         <Col sm={10}>
-          <FormControl name ="name" type="name" placeholder="Name" onChange={onChange} value={user.name}/>
+          <FormControl name ="name" type="name" placeholder="Name" required="true" onChange={onChange} value={user.name}/>
           <FormControl.Feedback />
         </Col>
       </FormGroup>
@@ -38,7 +38,7 @@ const CreateUserForm = ({
           Email
         </Col>
         <Col sm={10}>
-          <FormControl name ="email" type="email" placeholder="Email" onChange={onChange} value={user.email}/>
+          <FormControl name ="email" type="email" placeholder="Email" required="true" onChange={onChange} value={user.email}/>
           <FormControl.Feedback />
         </Col>
       </FormGroup>
@@ -48,7 +48,7 @@ const CreateUserForm = ({
           Password
         </Col>
         <Col sm={10}>
-          <FormControl name="password" type="password" placeholder="Password" onChange={onChange} value={user.password}/>
+          <FormControl name="password" type="password" placeholder="Password" required="true" onChange={onChange} value={user.password}/>
           <FormControl.Feedback />
         </Col>
       </FormGroup>
@@ -58,7 +58,7 @@ const CreateUserForm = ({
           Confirm Password
         </Col>
         <Col sm={10}>
-          <FormControl name="confir_password" type="password" placeholder="Confirm password" onChange={onChange} value={user.confirm_password}/>
+          <FormControl name="confir_password" type="password" placeholder="Confirm password"required="true" onChange={onChange} value={user.confirm_password}/>
           <FormControl.Feedback />
         </Col>
       </FormGroup>

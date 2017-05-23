@@ -28,7 +28,7 @@ const ForgotForm = ({
           Email
         </Col>
         <Col sm={10}>
-          <FormControl name ="email" type="email" placeholder="Email" onChange={onChange} value={user.email}/>
+          <FormControl name ="email" type="email" placeholder="Email" required="true" onChange={onChange} value={user.email}/>
           <FormControl.Feedback />
         </Col>
       </FormGroup>

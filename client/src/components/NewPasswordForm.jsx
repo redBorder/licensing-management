@@ -26,7 +26,7 @@ const NewPasswordForm = ({
           Password
         </Col>
         <Col sm={10}>
-          <FormControl name="password" type="password" placeholder="Password" onChange={onChange} value={user.password}/>
+          <FormControl name="password" type="password" placeholder="Password" required="true" onChange={onChange} value={user.password}/>
           <FormControl.Feedback />
         </Col>
       </FormGroup>
@@ -35,7 +35,7 @@ const NewPasswordForm = ({
           Confirm Password
         </Col>
         <Col sm={10}>
-          <FormControl name="confir_password" type="password" placeholder="Confirm Password" onChange={onChange} value={user.confir_password}/>
+          <FormControl name="confir_password" type="password" placeholder="Confirm Password" required="true" onChange={onChange} value={user.confir_password}/>
           <FormControl.Feedback />
         </Col>
       </FormGroup>

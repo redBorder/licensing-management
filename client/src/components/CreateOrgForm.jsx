@@ -30,7 +30,7 @@ const CreateOrgForm = ({
           Name
         </Col>
         <Col sm={10}>
-          <FormControl name ="name" type="name" placeholder="Organization name" onChange={onChange} value={org.name}/>
+          <FormControl name ="name" type="name" placeholder="Organization name" required="true" onChange={onChange} value={org.name}/>
           <FormControl.Feedback />
         </Col>
       </FormGroup>
@@ -40,7 +40,7 @@ const CreateOrgForm = ({
           Email
         </Col>
         <Col sm={10}>
-          <FormControl name ="email" type="email" placeholder="Organization email" onChange={onChange} value={org.email}/>
+          <FormControl name ="email" type="email" placeholder="Organization email" required="true" onChange={onChange} value={org.email}/>
           <FormControl.Feedback />
         </Col>
       </FormGroup>
@@ -50,7 +50,7 @@ const CreateOrgForm = ({
           Cluster uuid
         </Col>
         <Col sm={10}>
-          <FormControl name ="cluster_id" type="name" placeholder="Cluster uuid" onChange={onChange} value={org.cluster_id}/>
+          <FormControl name ="cluster_id" type="name" placeholder="Cluster uuid" required="true" onChange={onChange} value={org.cluster_id}/>
           <FormControl.Feedback />
         </Col>
       </FormGroup>
@@ -60,7 +60,7 @@ const CreateOrgForm = ({
           List sensors
         </Col>
         <Col sm={10}>
-          <FormControl name ="sensors" type="name" placeholder="Sensor1,id;Sensor2,id;Sensor3,id;..." onChange={onChange} value={org.sensors}/>
+          <FormControl name ="sensors" type="name" placeholder="Sensor1,id;Sensor2,id;Sensor3,id;..." required="true" onChange={onChange} value={org.sensors}/>
           <FormControl.Feedback />
         </Col>
       </FormGroup>

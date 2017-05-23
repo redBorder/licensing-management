@@ -27,7 +27,7 @@ const ProfileForm = ({
           Name
         </Col>
         <Col sm={10}>
-          <FormControl name ="name" placeholder="Name" onChange={onChange} value={user.name}/>
+          <FormControl name ="name" placeholder="Name" required="true" onChange={onChange} value={user.name}/>
           <FormControl.Feedback />
         </Col>
       </FormGroup>
@@ -37,7 +37,7 @@ const ProfileForm = ({
           Email
         </Col>
         <Col sm={10}>
-          <FormControl name ="email" type="email" placeholder="Email" onChange={onChange} value={user.email}/>
+          <FormControl name ="email" type="email" placeholder="Email" required="true" onChange={onChange} value={user.email}/>
           <FormControl.Feedback />
         </Col>
       </FormGroup>
@@ -69,7 +69,7 @@ const ProfileForm = ({
           Current Password
         </Col>
         <Col sm={10}>
-          <FormControl name="password" type="password" placeholder="Current Password" onChange={onChange} value={user.password}/>
+          <FormControl name="password" type="password" placeholder="Current Password" required="true" onChange={onChange} value={user.password}/>
           <HelpBlock>For your security, enter your current password</HelpBlock>
           <FormControl.Feedback />
         </Col>
